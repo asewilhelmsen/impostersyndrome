@@ -1,14 +1,19 @@
 import React from "react";
 import "./App.css";
-import { Typography } from "@mui/material";
+import { Routes, Route } from "react-router-dom";
+import Login from "./pages/Login";
+import Home from "./pages/Home";
+import StartActivity from "./pages/StartActivity";
+import Retro from "./pages/Retro";
 
 function App() {
   return (
-    <div className="App">
-      <Typography variant="h1" component="h2" color="text.primary">
-        Lets go MAAASTEEER!
-      </Typography>
-    </div>
+    <Routes>
+      <Route path="/" element={<Login />} />
+      <Route path="/home" element={<Home />} />
+      <Route path="/start" element={<StartActivity />} />
+      <Route path="/retro" element={<Retro />} />
+    </Routes>
   );
 }
 
