@@ -1,4 +1,4 @@
-import { FormEvent, useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { auth } from "../firebase/firebase_setup/firebase";
 import {
   createUserWithEmailAndPassword,
@@ -18,86 +18,12 @@ import {
 import { teamInfo } from "../constants";
 import startImg from "../forsidebilde.png";
 import wavyBackground from "../wavyBackground.svg";
-import handleTruthOrLie from "../firebase/handles/handleTruthOrLie";
-import getTruthOrLie from "../firebase/getData";
+import TruthOrLie from "../components/TruthOrLie";
 
-interface Data {
-  id: string;
-  truth1: string;
-  truth2: string;
-  lie: string;
-}
 const Login = () => {
   //Test for å skrive til database
   const [user, setUser] = useState(auth.currentUser);
-
   const [teamCode, setTeamCode] = useState("");
-
-  //Flyttes for å bruke der man skal ha truth or lies
-  const [name, setName] = useState("");
-  const [truth1, setTruth1] = useState("");
-  const [truth2, setTruth2] = useState("");
-  const [lie, setLie] = useState("");
-
-  //Foreløpig for truth or lie data
-  const [data, setData] = useState<Data[]>([]);
-
-  //Til å hente input verdiene fra statene og sende til databasen
-  const submitTruthOrLie = (e: FormEvent) => {
-    e.preventDefault();
-
-    let data = {
-      userId: user?.uid,
-      name: name,
-      submission: {
-        truth1: truth1,
-        truth2: truth2,
-        lie: lie,
-      },
-    };
-
-    handleTruthOrLie(data);
-
-    //Tømme staten etter at det er sendt
-    setName("");
-    setTruth1("");
-    setTruth2("");
-    setLie("");
-  };
-
-  //Oppdatere staten når det skrives inn i input feltet, kan sikkert løses bedre
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    switch (name) {
-      case "name":
-        setName(value);
-        break;
-      case "truth1":
-        setTruth1(value);
-        break;
-      case "truth2":
-        setTruth2(value);
-        break;
-      case "lie":
-        setLie(value);
-        break;
-      default:
-        break;
-    }
-  };
-
-  //Funskjon for å registerer nye team - bare hjelpefunskjon til oss som kan brukes om vi vil lage flere teams
-  const signUp = async () => {
-    try {
-      const email = "team3@team3.com"; // endre til det man vil sette
-      const password = "passord3";
-
-      //Firebase funksjon for authentisering
-      await createUserWithEmailAndPassword(auth, email, password);
-    } catch (error) {
-      console.error("Error signing up:", error);
-    }
-  };
 
   //Hjelpefunksjon som kobler teamkoden til "fake" email og passord
   const setLoginInfo = (teamCode: string) => {
@@ -115,23 +41,24 @@ const Login = () => {
     }
   };
 
+  //Funskjon for å registerer nye team - bare hjelpefunskjon til oss som kan brukes om vi vil lage flere teams
+  const signUp = async () => {
+    try {
+      const email = "team3@team3.com"; // endre til det man vil sette
+      const password = "passord3";
+
+      //Firebase funksjon for authentisering
+      await createUserWithEmailAndPassword(auth, email, password);
+    } catch (error) {
+      console.error("Error signing up:", error);
+    }
+  };
+
   //Funksjon for å logge ut
   const handleSignOut = async () => {
     try {
       await signOut(auth);
       setUser(null);
-    } catch (error) {
-      console.error("Error signing out:", error);
-    }
-  };
-
-  //For å hente truth or lie data
-  const getData = async () => {
-    try {
-      const dataFirestore = await getTruthOrLie();
-      if (dataFirestore) {
-        setData(dataFirestore);
-      }
     } catch (error) {
       console.error("Error signing out:", error);
     }
@@ -167,50 +94,7 @@ const Login = () => {
       {user ? (
         <>
           <button onClick={handleSignOut}>Sign Out</button>
-          <form onSubmit={submitTruthOrLie}>
-            <input
-              type="text"
-              value={name}
-              onChange={handleInputChange}
-              name="name"
-            />
-            <input
-              type="text"
-              value={truth1}
-              onChange={handleInputChange}
-              name="truth1"
-            />
-            <input
-              type="text"
-              value={truth2}
-              onChange={handleInputChange}
-              name="truth2"
-            />
-            <input
-              type="text"
-              value={lie}
-              onChange={handleInputChange}
-              name="lie"
-            />
-
-            <button type="submit">Save</button>
-          </form>
-          <div>
-            <button onClick={getData}>Get truth or lie</button>
-
-            {data ? (
-              <>
-                <h2>Data from Firestore:</h2>
-                <ul>
-                  {data.map((item: Data) => (
-                    <li key={item.id}>{JSON.stringify(item)}</li>
-                  ))}
-                </ul>
-              </>
-            ) : (
-              <div>NO data</div>
-            )}
-          </div>
+          <TruthOrLie user={user} />
         </>
       ) : (
         <>
