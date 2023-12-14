@@ -19,6 +19,7 @@ import { teamInfo } from "../constants";
 import startImg from "../forsidebilde.png";
 import wavyBackground from "../wavyBackground.svg";
 import TruthOrLie from "../components/TruthOrLie";
+import Home from "./Home";
 
 const Login = () => {
   //Test for å skrive til database
@@ -94,7 +95,7 @@ const Login = () => {
       {user ? (
         <>
           <button onClick={handleSignOut}>Sign Out</button>
-          <TruthOrLie user={user} />
+          <Home />
         </>
       ) : (
         <>
