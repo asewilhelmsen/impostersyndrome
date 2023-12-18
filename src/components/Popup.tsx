@@ -10,13 +10,12 @@ const Popup = () => {
       <Card sx={{ minWidth: 275, textAlign: "center" }}>
         <CardContent>
           <Typography variant="h5" component="div">
-            Title
+            Learn more about Imposter Syndrome?
           </Typography>
-          <Typography sx={{ mb: 1.5 }} color="text.secondary">
-            More info
-          </Typography>
+          <Typography sx={{ mb: 1.5 }} color="text.secondary"></Typography>
           <Typography variant="body2">
-            Some text. Add this by proping it fex
+            Are you curious about learning more about Impostor Syndrome?
+            Understanding Impostor Syndrome can be a key step in overcoming it.
           </Typography>
         </CardContent>
         <CardActions>
