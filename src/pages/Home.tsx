@@ -18,6 +18,9 @@ import bondBuilders from "../images/bondBuilders.svg";
 import bondBuilders_done from "../images/bondBuilders_done.svg";
 import dreamTeam from "../images/dreamTeam.svg";
 import dreamTeam_done from "../images/dreamTeam_done.svg";
+import RetroButton from "../components/RetroButton";
+import StartActivityButton from "../components/StartActivityButton";
+import TeambuildingButton from "../components/TeambuildingButton";
 
 const Home = ({ teamData }: { teamData: any }) => {
   const teamdata = teamData?.[0] || { id: "info", level: 0 };
@@ -66,10 +69,11 @@ const Home = ({ teamData }: { teamData: any }) => {
           rowSpacing={1}
           columnSpacing={{ xs: 1, sm: 2, md: 3 }}
         >
-          <Grid item xs={6} sx={{}}>
-            <Button>Start activity</Button>
-            <Button>Retrospective</Button>
-            <Button>Teambuilding activity</Button>
+          {/*Disse kunne sikkert vært lagd til et felles komponent men tenke de har litt ulike ting de skal uansett så husk å endre i alle om man endrer stil*/}
+          <Grid item xs={12} md={6}>
+            <StartActivityButton />
+            <RetroButton disabled={true} />
+            <TeambuildingButton disabled={true} />
           </Grid>
           <Grid item xs={6} sx={{}}>
             <Grid
