@@ -11,11 +11,17 @@ import wave from "../wave.svg";
 import { teamInfo } from "../constants";
 import Popup from "../components/Popup";
 import teamConnectors from "../images/teamConnectors.svg";
+import teamConnectors_done from "../images/teamConnectors_done.svg";
 import communicationExplorers from "../images/communicationExplorers.svg";
+import communicationExplorers_done from "../images/communicationExplorers_done.svg";
 import bondBuilders from "../images/bondBuilders.svg";
+import bondBuilders_done from "../images/bondBuilders_done.svg";
 import dreamTeam from "../images/dreamTeam.svg";
+import dreamTeam_done from "../images/dreamTeam_done.svg";
 
-const Home = () => {
+const Home = ({ teamData }: { teamData: any }) => {
+  const teamdata = teamData?.[0] || { id: "info", level: 0 };
+
   //Foreløpig for bakgrunnen
   const waveBackgroundStyle: React.CSSProperties = {
     position: "absolute",
@@ -75,14 +81,32 @@ const Home = () => {
               columnSpacing={{ xs: 1, sm: 2, md: 3 }}
             >
               <Grid item xs={12} sm={6} md={3} sx={{}}>
-                <img src={teamConnectors} alt="Level 1" style={imageStyle} />
                 <img
-                  src={communicationExplorers}
+                  src={
+                    teamdata?.level > 0 ? teamConnectors_done : teamConnectors
+                  }
+                  alt="Level 1"
+                  style={imageStyle}
+                />
+                <img
+                  src={
+                    teamdata?.level > 1
+                      ? communicationExplorers_done
+                      : communicationExplorers
+                  }
                   alt="Level 2"
                   style={imageStyle}
                 />
-                <img src={bondBuilders} alt="Level 3" style={imageStyle} />
-                <img src={dreamTeam} alt="Level 4" style={imageStyle} />
+                <img
+                  src={teamdata?.level > 2 ? bondBuilders_done : bondBuilders}
+                  alt="Level 3"
+                  style={imageStyle}
+                />
+                <img
+                  src={teamdata?.level > 3 ? dreamTeam_done : dreamTeam}
+                  alt="Level 4"
+                  style={imageStyle}
+                />
               </Grid>
               <Grid item xs={6} sx={{}}>
                 <Popup />
