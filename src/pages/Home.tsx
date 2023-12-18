@@ -64,10 +64,10 @@ const Home = ({ teamData }: { teamData: any }) => {
         <Grid
           container
           direction="row"
-          justifyContent="space-evenly"
+          justifyContent="space-between"
           alignItems="stretch"
           rowSpacing={1}
-          columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+          columnSpacing={{ xs: 3, sm: 4, md: 5 }}
         >
           {/*Disse kunne sikkert vært lagd til et felles komponent men tenke de har litt ulike ting de skal uansett så husk å endre i alle om man endrer stil*/}
           <Grid item xs={12} md={6}>
@@ -75,7 +75,7 @@ const Home = ({ teamData }: { teamData: any }) => {
             <RetroButton disabled={true} />
             <TeambuildingButton disabled={true} />
           </Grid>
-          <Grid item xs={6} sx={{}}>
+          <Grid item xs={12} md={6}>
             <Grid
               container
               direction="column"

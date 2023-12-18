@@ -1,9 +1,16 @@
 import { Button, Grid } from "@mui/material";
 import startActivity from "../images/startActivity.svg";
+import { useNavigate } from "react-router-dom";
 
 const StartActivityButton = () => {
   const imageStyle = {
     width: "80%",
+  };
+
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate("/start");
   };
 
   return (
@@ -22,7 +29,9 @@ const StartActivityButton = () => {
         ></img>
       </Grid>
       <Grid item xs={6}>
-        <Button variant="contained">Start-activity</Button>
+        <Button variant="contained" onClick={handleClick}>
+          Start-activity
+        </Button>
       </Grid>
     </Grid>
   );
