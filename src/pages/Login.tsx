@@ -19,6 +19,8 @@ import { teamInfo } from "../constants";
 import startImg from "../forsidebilde.png";
 import wavyBackground from "../wavyBackground.svg";
 import TruthOrLie from "../components/TruthOrLie";
+import Home from "./Home";
+import getTeamInfo from "../firebase/getTeamInfo";
 
 const Login = () => {
   //Test for å skrive til database
@@ -74,6 +76,26 @@ const Login = () => {
     return () => unsubscribe();
   }, []);
 
+  const [teamData, setTeamData] = useState<string[]>([]);
+
+  //Hente info om teamet
+  const getTeamData = async () => {
+    try {
+      const dataFirestore = await getTeamInfo();
+      if (dataFirestore) {
+        setTeamData(dataFirestore);
+      }
+    } catch (error) {
+      console.error("Error signing out:", error);
+    }
+  };
+
+  //For å lytte til når bruker blir satt og om det er endring i brukeren
+  useEffect(() => {
+    console.log("henter team data");
+    getTeamData();
+  }, [user]);
+
   //Foreløpig for bakgrunnen
   const waveBackgroundStyle: React.CSSProperties = {
     position: "absolute",
@@ -94,7 +116,7 @@ const Login = () => {
       {user ? (
         <>
           <button onClick={handleSignOut}>Sign Out</button>
-          <TruthOrLie user={user} />
+          <Home teamData={teamData} />
         </>
       ) : (
         <>
