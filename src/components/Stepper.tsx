@@ -28,7 +28,7 @@ const Steps = ({
       <Typography variant="h6" sx={{ mt: 2, mb: 2 }} color="text.primary">
         Step {activeStep + 1}: {nameList[activeStep]}
       </Typography>
-      <Stepper activeStep={activeStep}>
+      <Stepper activeStep={activeStep} sx={{ width: "30%" }}>
         {nameList.map((label) => (
           <Step key={label}>
             <StepLabel>{/*{label}*/}</StepLabel>
