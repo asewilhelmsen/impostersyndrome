@@ -1,5 +1,6 @@
 import { Box, Typography } from "@mui/material";
 import ImposterSyndromePicture from "../../images/Information.svg";
+import PieChart from "../../images/PieChart.svg";
 
 const Information = () => {
   return (
@@ -40,10 +41,7 @@ const Information = () => {
           alt="Imposter syndrome illustration"
           style={{ width: "50%" }}
         ></img>
-        <Typography color="text.primary">
-          Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
-          officia deserunt mollit anim id est laborum.
-        </Typography>
+        <img src={PieChart} alt="Pie chart" style={{ width: "35%" }}></img>
       </Box>
     </div>
   );
