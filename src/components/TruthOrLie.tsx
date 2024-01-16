@@ -1,4 +1,4 @@
-import { Typography, TextField, Grid, Button } from "@mui/material";
+import { Typography, TextField, Grid, Button, Card } from "@mui/material";
 import { FormEvent, useEffect, useState } from "react";
 import handleTruthOrLie from "../firebase/handles/handleTruthOrLie";
 import getTruthOrLie from "../firebase/getData";
@@ -154,11 +154,18 @@ const TruthOrLie = ({ user }: { user: any }) => {
         {data ? (
           <>
             <h2>Data from Firestore:</h2>
-            <ul>
+            <Grid container direction="row" spacing={2} alignContent="center">
               {data.map((item: Data) => (
-                <li key={item.id}>{JSON.stringify(item)}</li>
+                <Grid item>
+                  <Card>
+                    <Typography>Name: {JSON.stringify(item.id)}</Typography>
+                    <Button>{JSON.stringify(item.truth1)}</Button>
+                    <Button>{JSON.stringify(item.truth2)}</Button>
+                    <Button>{JSON.stringify(item.lie)}</Button>
+                  </Card>
+                </Grid>
               ))}
-            </ul>
+            </Grid>
           </>
         ) : (
           <div>NO data</div>
