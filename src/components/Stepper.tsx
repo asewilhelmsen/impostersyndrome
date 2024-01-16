@@ -24,14 +24,14 @@ const Steps = ({
   };
 
   return (
-    <Box sx={{ width: "100%" }}>
-      <Typography>
+    <Box sx={{ width: "90%", margin: "auto" }}>
+      <Typography variant="h6" sx={{ mt: 2, mb: 2 }} color="text.primary">
         Step {activeStep + 1}: {nameList[activeStep]}
       </Typography>
-      <Stepper activeStep={activeStep}>
-        {nameList.map((label, index) => (
+      <Stepper activeStep={activeStep} sx={{ width: "30%" }}>
+        {nameList.map((label) => (
           <Step key={label}>
-            <StepLabel>{label}</StepLabel>
+            <StepLabel>{/*{label}*/}</StepLabel>
           </Step>
         ))}
       </Stepper>
@@ -40,7 +40,13 @@ const Steps = ({
       </React.Fragment>
 
       <React.Fragment>
-        <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            pt: 2,
+          }}
+        >
           <Button
             color="inherit"
             disabled={activeStep === 0}
