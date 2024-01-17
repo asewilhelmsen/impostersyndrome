@@ -5,18 +5,24 @@ import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
+import { useNavigate } from "react-router-dom";
 
 const Steps = ({
   nameList,
   content,
 }: {
   nameList: string[];
-  content: JSX.Element[] /*change to different components */;
+  content: JSX.Element[];
 }) => {
   const [activeStep, setActiveStep] = React.useState(0);
+  const navigate = useNavigate();
 
   const handleNext = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    if (activeStep === nameList.length - 1) {
+      navigate("/home");
+    } else {
+      setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    }
   };
 
   const handleBack = () => {
@@ -38,7 +44,6 @@ const Steps = ({
       <React.Fragment>
         <Box>{content[activeStep]}</Box>
       </React.Fragment>
-
       <React.Fragment>
         <Box
           sx={{
@@ -57,7 +62,6 @@ const Steps = ({
           </Button>
           <Box sx={{ flex: "1 1 auto" }} />
           <Button onClick={handleNext}>
-            {/*Should handle if finish is pressed */}
             {activeStep === nameList.length - 1 ? "Finish" : "Next"}
           </Button>
         </Box>
