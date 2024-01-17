@@ -21,9 +21,12 @@ import dreamTeam_done from "../images/dreamTeam_done.svg";
 import RetroButton from "../components/RetroButton";
 import StartActivityButton from "../components/StartActivityButton";
 import TeambuildingButton from "../components/TeambuildingButton";
+import { useTeamContext } from "../TeamContext";
 
-const Home = ({ teamData }: { teamData: any }) => {
-  const teamdata = teamData?.[0] || { id: "info", level: 0 };
+const Home = () => {
+  const { teamData } = useTeamContext();
+  console.log("atm teamData: " + teamData?.level);
+  //const teamdata = teamData?.[0] || { id: "info", level: 0 };
 
   //Foreløpig for bakgrunnen
   const waveBackgroundStyle: React.CSSProperties = {
@@ -87,14 +90,16 @@ const Home = ({ teamData }: { teamData: any }) => {
               <Grid item xs={12} sm={6} md={3} sx={{}}>
                 <img
                   src={
-                    teamdata?.level > 0 ? teamConnectors_done : teamConnectors
+                    teamData && teamData.level > 0
+                      ? teamConnectors_done
+                      : teamConnectors
                   }
                   alt="Level 1"
                   style={imageStyle}
                 />
                 <img
                   src={
-                    teamdata?.level > 1
+                    teamData && teamData.level > 1
                       ? communicationExplorers_done
                       : communicationExplorers
                   }
@@ -102,12 +107,18 @@ const Home = ({ teamData }: { teamData: any }) => {
                   style={imageStyle}
                 />
                 <img
-                  src={teamdata?.level > 2 ? bondBuilders_done : bondBuilders}
+                  src={
+                    teamData && teamData.level > 2
+                      ? bondBuilders_done
+                      : bondBuilders
+                  }
                   alt="Level 3"
                   style={imageStyle}
                 />
                 <img
-                  src={teamdata?.level > 3 ? dreamTeam_done : dreamTeam}
+                  src={
+                    teamData && teamData.level > 3 ? dreamTeam_done : dreamTeam
+                  }
                   alt="Level 4"
                   style={imageStyle}
                 />
