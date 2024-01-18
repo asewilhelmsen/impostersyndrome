@@ -21,12 +21,28 @@ import dreamTeam_done from "../images/dreamTeam_done.svg";
 import RetroButton from "../components/RetroButton";
 import StartActivityButton from "../components/StartActivityButton";
 import TeambuildingButton from "../components/TeambuildingButton";
-import { useTeamContext } from "../TeamContext";
+import { useState, useEffect } from "react";
+import getTeamLevel from "../firebase/getTeamLevel";
+import { auth } from "../firebase/firebase_setup/firebase";
 
 const Home = () => {
-  const { teamData } = useTeamContext();
-  console.log("atm teamData: " + teamData?.level);
-  //const teamdata = teamData?.[0] || { id: "info", level: 0 };
+  const [teamLevel, setTeamLevel] = useState(0);
+  const teamId = auth.currentUser?.uid;
+
+  const setTheLevel = async () => {
+    try {
+      const level = await getTeamLevel();
+      setTeamLevel(level);
+    } catch (error) {
+      console.error("Kan ikke hente level", error);
+    }
+  };
+
+  useEffect(() => {
+    if (teamId) {
+      setTheLevel();
+    }
+  }, [teamId]);
 
   //Foreløpig for bakgrunnen
   const waveBackgroundStyle: React.CSSProperties = {
@@ -46,10 +62,10 @@ const Home = () => {
   const imageStyle = {
     width: "25%", // Initially, set the width to 100% for responsiveness
     height: "auto",
-    "@media (min-width: 600px)": {
+    "@media (minWidth: 600px)": {
       width: "48%", // Adjust width for small screens and up
     },
-    "@media (min-width: 960px)": {
+    "@media (minWidth: 960px)": {
       width: "23%", // Adjust width for medium screens and up
     },
   };
@@ -89,17 +105,13 @@ const Home = () => {
             >
               <Grid item xs={12} sm={6} md={3} sx={{}}>
                 <img
-                  src={
-                    teamData && teamData.level > 0
-                      ? teamConnectors_done
-                      : teamConnectors
-                  }
+                  src={teamLevel > 0 ? teamConnectors_done : teamConnectors}
                   alt="Level 1"
                   style={imageStyle}
                 />
                 <img
                   src={
-                    teamData && teamData.level > 1
+                    teamLevel > 1
                       ? communicationExplorers_done
                       : communicationExplorers
                   }
@@ -107,18 +119,12 @@ const Home = () => {
                   style={imageStyle}
                 />
                 <img
-                  src={
-                    teamData && teamData.level > 2
-                      ? bondBuilders_done
-                      : bondBuilders
-                  }
+                  src={teamLevel > 2 ? bondBuilders_done : bondBuilders}
                   alt="Level 3"
                   style={imageStyle}
                 />
                 <img
-                  src={
-                    teamData && teamData.level > 3 ? dreamTeam_done : dreamTeam
-                  }
+                  src={teamLevel > 3 ? dreamTeam_done : dreamTeam}
                   alt="Level 4"
                   style={imageStyle}
                 />

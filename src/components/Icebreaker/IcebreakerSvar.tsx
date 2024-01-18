@@ -4,9 +4,9 @@ import IcebreakerSvarKort from "./IcebreakerSvarKort";
 //Dette kan settes i egen fil så det kan bruke samme overalt
 interface Svar {
   id: string;
-  truth1: string;
-  truth2: string;
-  lie: string;
+  sannhet1: string;
+  sannhet2: string;
+  logn: string;
 }
 
 const IcebreakerSvar = ({ alleSvar }: { alleSvar: Svar[] }) => {

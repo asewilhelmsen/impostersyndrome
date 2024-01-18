@@ -9,15 +9,15 @@ import { FormEvent, useEffect, useState } from "react";
 import getTruthOrLie from "../../firebase/getData";
 import { onSnapshot } from "firebase/firestore";
 import { auth, firestore } from "../../firebase/firebase_setup/firebase";
-import { collection } from "@firebase/firestore";
+import { collection, doc } from "@firebase/firestore";
 import IcebreakerSvar from "./IcebreakerSvar";
 import handleIcebreakerSvar from "../../firebase/handles/handleIcebreakerSvar";
 
 interface Svar {
   id: string;
-  truth1: string;
-  truth2: string;
-  lie: string;
+  sannhet1: string;
+  sannhet2: string;
+  logn: string;
 }
 
 const Icebreaker = () => {
@@ -36,27 +36,24 @@ const Icebreaker = () => {
   const [submitted, setSubmitted] = useState(false);
 
   //Kan kanskje hentes fra context?
-  const user = auth.currentUser?.uid;
+  const teamId = auth.currentUser?.uid;
 
   //Denne bør hentes fra et input felt i starten ellerno
   const teamMemberCount = 6;
-
-  const collectionName = user + "_truthOrLie";
 
   //Til å hente input verdiene fra statene og sende til databasen
   const submitSvar = (e: FormEvent) => {
     e.preventDefault();
 
-    let data = {
-      userId: user,
-      name: navn,
-      submission: {
-        truth1: sannhet1,
-        truth2: sannhet2,
-        lie: logn,
+    let svar = {
+      id: navn,
+      personSvar: {
+        sannhet1: sannhet1,
+        sannhet2: sannhet2,
+        logn: logn,
       },
     };
-    handleIcebreakerSvar(data);
+    handleIcebreakerSvar(svar);
     setSubmitted(true);
 
     //Tømme staten etter at det er sendt
@@ -100,25 +97,25 @@ const Icebreaker = () => {
   };
 
   useEffect(() => {
-    if (user) {
-      const unsubscribe = onSnapshot(
-        collection(firestore, collectionName),
-        (querySnapshot) => {
-          console.log("listener, querysnapshot: ", querySnapshot);
-          //setSubmissionCount(querySnapshot.docs.length);
-          const newData: any[] = [];
-          querySnapshot.forEach((doc) => {
-            newData.push({ id: doc.id, ...doc.data() });
-          });
-          setSvarCount(newData.length);
-          setSvar(newData);
-        }
-      );
+    if (teamId) {
+      const teamRef = collection(firestore, teamId);
+      const icebreakerRef = doc(teamRef, "icebreaker");
+      const ibSvarRef = collection(icebreakerRef, "svar");
+
+      const unsubscribe = onSnapshot(ibSvarRef, (querySnapshot) => {
+        console.log("listener, querysnapshot: ", querySnapshot);
+        const newData: any[] = [];
+        querySnapshot.forEach((doc) => {
+          newData.push({ id: doc.id, ...doc.data() });
+        });
+        setSvarCount(newData.length);
+        setSvar(newData);
+      });
 
       // Cleanup the listener when the component unmounts
       return unsubscribe;
     }
-  }, [user]);
+  }, [teamId]);
 
   return (
     <>

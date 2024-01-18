@@ -1,7 +1,7 @@
 import Steps from "../components/Stepper";
 import Icebreaker from "../components/Icebreaker/Icebreaker";
 import { auth } from "../firebase/firebase_setup/firebase";
-import Expectations from "../components/StartActivity/Expectations";
+import Forventninger from "../components/StartActivity/Forventninger";
 import Information from "../components/StartActivity/ImposterSyndrome";
 
 const Step3Content = () => <div>This is the content for Step 3</div>;
@@ -21,7 +21,7 @@ const StartActivity = () => {
     <Icebreaker />,
     <Information />,
     <Step3Content />,
-    <Expectations />,
+    <Forventninger />,
   ];
 
   return (

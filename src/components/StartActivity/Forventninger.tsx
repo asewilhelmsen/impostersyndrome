@@ -2,10 +2,10 @@ import { Box, Typography } from "@mui/material";
 import A from "../../images/A.svg";
 import B from "../../images/B.svg";
 import C from "../../images/C.svg";
-import Goals from "../Goals";
+import Maal from "../Maal";
 import ExpectationImg from "../../images/Expectations.svg";
 
-const Expectations = () => {
+const Forventninger = () => {
   return (
     <Box sx={{ display: "flex", flexDirection: "column", gap: 4 }}>
       <Box
@@ -65,9 +65,9 @@ const Expectations = () => {
           Define and write specific goals regarding teamwork for this sprint:
         </Typography>
       </Box>
-      <Goals></Goals>
+      <Maal />
     </Box>
   );
 };
 
-export default Expectations;
+export default Forventninger;

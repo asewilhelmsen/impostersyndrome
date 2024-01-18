@@ -19,12 +19,9 @@ import { teamInfo } from "../constants";
 import startImg from "../forsidebilde.png";
 import wavyBackground from "../wavyBackground.svg";
 import Home from "./Home";
-import getTeamInfo from "../firebase/getTeamInfo";
-import { useTeamContext } from "../TeamContext";
 
 const Login = () => {
   //Test for å skrive til database
-  const { setTeamData } = useTeamContext();
   const [user, setUser] = useState(auth.currentUser);
   const [teamCode, setTeamCode] = useState("");
 
@@ -62,7 +59,6 @@ const Login = () => {
     try {
       await signOut(auth);
       setUser(null);
-      setTeamData(null);
     } catch (error) {
       console.error("Error signing out:", error);
     }
@@ -77,25 +73,6 @@ const Login = () => {
     // Cleanup the listener when the component unmounts
     return () => unsubscribe();
   }, []);
-
-  //Hente info om teamet
-  const getTeamData = async () => {
-    try {
-      const dataFirestore = await getTeamInfo();
-      if (dataFirestore) {
-        console.log("Data firestore: " + dataFirestore[0].level);
-        setTeamData(dataFirestore[0]);
-      }
-    } catch (error) {
-      console.error("Error signing out:", error);
-    }
-  };
-
-  //For å lytte til når bruker blir satt og om det er endring i brukeren
-  useEffect(() => {
-    console.log("henter team data");
-    getTeamData();
-  }, [user, setTeamData]);
 
   //Foreløpig for bakgrunnen
   const waveBackgroundStyle: React.CSSProperties = {
@@ -120,75 +97,73 @@ const Login = () => {
           <Home />
         </>
       ) : (
-        <>
-          <div style={containerStyle}>
-            <img
-              src={wavyBackground}
-              alt="Wavy Background"
-              style={waveBackgroundStyle}
+        <div style={containerStyle}>
+          <img
+            src={wavyBackground}
+            alt="Wavy Background"
+            style={waveBackgroundStyle}
+          />
+          <Container
+            maxWidth="md"
+            sx={{ alignItems: "center", textAlign: "center" }}
+          >
+            <Box
+              component="img"
+              sx={{
+                mt: 4,
+                height: 500,
+                width: 750,
+                maxHeight: { xs: 233, md: 280 },
+                maxWidth: { xs: 350, md: 422 },
+              }}
+              alt="Team working together"
+              src={startImg}
             />
-            <Container
-              maxWidth="md"
-              sx={{ alignItems: "center", textAlign: "center" }}
-            >
-              <Box
-                component="img"
-                sx={{
-                  mt: 4,
-                  height: 500,
-                  width: 750,
-                  maxHeight: { xs: 233, md: 280 },
-                  maxWidth: { xs: 350, md: 422 },
-                }}
-                alt="Team working together"
-                src={startImg}
-              />
-              <Typography variant="h3" sx={{ mt: 5 }}>
-                The Imposter Phenomenon
-              </Typography>
-              <Typography variant="h4">
-                This website will help your team connect, work better together
-                and be aware of the imposter feeling.
-              </Typography>
+            <Typography variant="h3" sx={{ mt: 5 }}>
+              The Imposter Phenomenon
+            </Typography>
+            <Typography variant="h4">
+              This website will help your team connect, work better together and
+              be aware of the imposter feeling.
+            </Typography>
 
-              <CssBaseline />
-              <Box
-                sx={{
-                  mt: 5,
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                }}
-              >
-                <Box sx={{ mt: 3 }}>
-                  <Grid container spacing={2}>
-                    <Grid item xs={12}>
-                      <TextField
-                        name="teamCode"
-                        required
-                        variant="filled"
-                        fullWidth
-                        id="teamCode"
-                        label="Team code"
-                        autoFocus
-                        value={teamCode}
-                        onChange={(e) => setTeamCode(e.target.value)}
-                      />
-                    </Grid>
+            <CssBaseline />
+            <Box
+              sx={{
+                mt: 5,
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
+              <Box sx={{ mt: 3 }}>
+                <Grid container spacing={2}>
+                  <Grid item xs={12}>
+                    <TextField
+                      name="teamCode"
+                      required
+                      variant="filled"
+                      fullWidth
+                      id="teamCode"
+                      label="Team code"
+                      autoFocus
+                      value={teamCode}
+                      onChange={(e) => setTeamCode(e.target.value)}
+                    />
                   </Grid>
-                  <Button
-                    fullWidth
-                    variant="contained"
-                    sx={{ mt: 3, mb: 2 }}
-                    onClick={handleJoinTeam}
-                  >
-                    Join team
-                  </Button>
-                </Box>
+                </Grid>
+                <Button
+                  fullWidth
+                  variant="contained"
+                  sx={{ mt: 3, mb: 2 }}
+                  onClick={handleJoinTeam}
+                >
+                  Join team
+                </Button>
               </Box>
-            </Container>
-          </div>
-        </>
+            </Box>
+          </Container>
+        </div>
       )}
     </>
   );

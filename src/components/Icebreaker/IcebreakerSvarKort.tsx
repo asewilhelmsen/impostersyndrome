@@ -3,9 +3,9 @@ import { useEffect, useState } from "react";
 
 interface Svar {
   id: string;
-  truth1: string;
-  truth2: string;
-  lie: string;
+  sannhet1: string;
+  sannhet2: string;
+  logn: string;
 }
 
 const IcebreakerSvarKort = ({ svar }: { svar: Svar }) => {
@@ -14,7 +14,7 @@ const IcebreakerSvarKort = ({ svar }: { svar: Svar }) => {
 
   //For at de skal komme i tilfeldig rekkefølge på hver person
   useEffect(() => {
-    const buttonsArray = [svar.truth1, svar.truth2, svar.lie];
+    const buttonsArray = [svar.sannhet1, svar.sannhet2, svar.logn];
     setShuffledButtons(buttonsArray.sort(() => Math.random() - 0.5));
   }, [svar]);
 
@@ -26,9 +26,9 @@ const IcebreakerSvarKort = ({ svar }: { svar: Svar }) => {
       <Card
         sx={{
           backgroundColor:
-            clickedLogn === svar.lie
+            clickedLogn === svar.logn
               ? "#A5D79C"
-              : clickedLogn === svar.truth1 || clickedLogn === svar.truth2
+              : clickedLogn === svar.sannhet1 || clickedLogn === svar.sannhet2
               ? "#FFC1BD"
               : "",
           display: "flex",

@@ -1,21 +1,22 @@
 import { collection, doc, setDoc } from "@firebase/firestore";
-import { firestore } from "../firebase_setup/firebase";
+import { firestore, auth } from "../firebase_setup/firebase";
 
 //Fil for å legge til funskjoner som håndterer det som har med truth or lie å gjøre
 
-const handleIcebreakerSvar = (data) => {
-  //For å lage en egen collection som er for et team og en aktivitet
-  const collectionName = data.userId + "_truthOrLie";
-  //Refere til den collectionen vi vil sende til
-  const ref = collection(firestore, collectionName);
-  //For at man kan bestemme dokument navnet selv og ikke bare få en random id laget av firebase
-  const docRef = doc(ref, data.name);
+//Lage type/interface her!!!!! til svar
+const handleIcebreakerSvar = (svar) => {
+  const teamId = auth.currentUser?.uid;
 
-  //Data.submission er et objekt med truth1, truth2 og lie
+  //Refere til den collectionen vi vil sende til
+  const teamRef = collection(firestore, teamId);
+  const icebreakerRef = doc(teamRef, "icebreaker");
+  const ibSvarRef = collection(icebreakerRef, "svar");
+  const personRef = doc(ibSvarRef, svar.navn);
+
   try {
-    setDoc(docRef, data.submission);
+    setDoc(personRef, svar.personSvar);
   } catch (err) {
-    console.log(err);
+    console.log("Kunne ikke sende icebreaker svar!", err);
   }
 };
 
