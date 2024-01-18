@@ -1,5 +1,5 @@
 import Steps from "../components/Stepper";
-import TruthOrLie from "../components/TruthOrLie";
+import Icebreaker from "../components/Icebreaker/Icebreaker";
 import { auth } from "../firebase/firebase_setup/firebase";
 import Expectations from "../components/StartActivity/Expectations";
 import Information from "../components/StartActivity/ImposterSyndrome";
@@ -11,9 +11,14 @@ const StartActivity = () => {
   const user = auth.currentUser;
   console.log("start activity user", user);
 
-  const steps = ["Icebreaker", "Learn about Imposter Phenomenon", "Conversation", "Expectations"];
+  const steps = [
+    "Icebreaker",
+    "Lær mer om Imposter Phenomenon",
+    "Samtalestarter",
+    "Forventningsavklaringer",
+  ];
   const stepComponents = [
-    <TruthOrLie user={user} />,
+    <Icebreaker />,
     <Information />,
     <Step3Content />,
     <Expectations />,

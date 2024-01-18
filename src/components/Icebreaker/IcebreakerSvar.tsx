@@ -1,0 +1,25 @@
+import { Typography, Grid } from "@mui/material";
+import IcebreakerSvarKort from "./IcebreakerSvarKort";
+
+//Dette kan settes i egen fil så det kan bruke samme overalt
+interface Svar {
+  id: string;
+  truth1: string;
+  truth2: string;
+  lie: string;
+}
+
+const IcebreakerSvar = ({ alleSvar }: { alleSvar: Svar[] }) => {
+  return (
+    <>
+      <Typography>Klikk på den du tror er en løgn på hver person!</Typography>
+      <Grid container direction="row" spacing={2} alignContent="center">
+        {alleSvar.map((svar: Svar) => (
+          <IcebreakerSvarKort key={svar.id} svar={svar} />
+        ))}
+      </Grid>
+    </>
+  );
+};
+
+export default IcebreakerSvar;

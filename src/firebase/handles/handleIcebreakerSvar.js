@@ -3,7 +3,7 @@ import { firestore } from "../firebase_setup/firebase";
 
 //Fil for å legge til funskjoner som håndterer det som har med truth or lie å gjøre
 
-const handleTruthOrLie = (data) => {
+const handleIcebreakerSvar = (data) => {
   //For å lage en egen collection som er for et team og en aktivitet
   const collectionName = data.userId + "_truthOrLie";
   //Refere til den collectionen vi vil sende til
@@ -19,4 +19,4 @@ const handleTruthOrLie = (data) => {
   }
 };
 
-export default handleTruthOrLie;
+export default handleIcebreakerSvar;

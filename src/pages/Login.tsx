@@ -18,7 +18,6 @@ import {
 import { teamInfo } from "../constants";
 import startImg from "../forsidebilde.png";
 import wavyBackground from "../wavyBackground.svg";
-import TruthOrLie from "../components/TruthOrLie";
 import Home from "./Home";
 import getTeamInfo from "../firebase/getTeamInfo";
 
