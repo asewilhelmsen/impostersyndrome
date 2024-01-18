@@ -10,8 +10,8 @@ const handleIcebreakerSvar = (svar) => {
   //Refere til den collectionen vi vil sende til
   const teamRef = collection(firestore, teamId);
   const icebreakerRef = doc(teamRef, "icebreaker");
-  const svarRef = collection(icebreakerRef, "svar");
-  const personRef = doc(svarRef, svar.navn);
+  const ibSvarRef = collection(icebreakerRef, "svar");
+  const personRef = doc(ibSvarRef, svar.navn);
 
   try {
     setDoc(personRef, svar.personSvar);
