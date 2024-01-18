@@ -21,9 +21,11 @@ import wavyBackground from "../wavyBackground.svg";
 import TruthOrLie from "../components/TruthOrLie";
 import Home from "./Home";
 import getTeamInfo from "../firebase/getTeamInfo";
+import { useTeamContext } from "../TeamContext";
 
 const Login = () => {
   //Test for å skrive til database
+  const { setTeamData } = useTeamContext();
   const [user, setUser] = useState(auth.currentUser);
   const [teamCode, setTeamCode] = useState("");
 
@@ -61,6 +63,7 @@ const Login = () => {
     try {
       await signOut(auth);
       setUser(null);
+      setTeamData(null);
     } catch (error) {
       console.error("Error signing out:", error);
     }
@@ -76,14 +79,13 @@ const Login = () => {
     return () => unsubscribe();
   }, []);
 
-  const [teamData, setTeamData] = useState<string[]>([]);
-
   //Hente info om teamet
   const getTeamData = async () => {
     try {
       const dataFirestore = await getTeamInfo();
       if (dataFirestore) {
-        setTeamData(dataFirestore);
+        console.log("Data firestore: " + dataFirestore[0].level);
+        setTeamData(dataFirestore[0]);
       }
     } catch (error) {
       console.error("Error signing out:", error);
@@ -94,7 +96,7 @@ const Login = () => {
   useEffect(() => {
     console.log("henter team data");
     getTeamData();
-  }, [user]);
+  }, [user, setTeamData]);
 
   //Foreløpig for bakgrunnen
   const waveBackgroundStyle: React.CSSProperties = {
@@ -116,7 +118,7 @@ const Login = () => {
       {user ? (
         <>
           <button onClick={handleSignOut}>Sign Out</button>
-          <Home teamData={teamData} />
+          <Home />
         </>
       ) : (
         <>
