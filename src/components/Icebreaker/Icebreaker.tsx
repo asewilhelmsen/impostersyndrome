@@ -47,16 +47,15 @@ const Icebreaker = () => {
   const submitSvar = (e: FormEvent) => {
     e.preventDefault();
 
-    let data = {
-      userId: user,
-      name: navn,
-      submission: {
-        truth1: sannhet1,
-        truth2: sannhet2,
-        lie: logn,
+    let svar = {
+      navn: navn,
+      personSvar: {
+        sannhet1: sannhet1,
+        sannhet2: sannhet2,
+        logn: logn,
       },
     };
-    handleIcebreakerSvar(data);
+    handleIcebreakerSvar(svar);
     setSubmitted(true);
 
     //Tømme staten etter at det er sendt
