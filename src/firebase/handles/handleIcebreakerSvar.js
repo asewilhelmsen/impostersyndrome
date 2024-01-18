@@ -16,7 +16,7 @@ const handleIcebreakerSvar = (svar) => {
   try {
     setDoc(personRef, svar.personSvar);
   } catch (err) {
-    console.log(err);
+    console.log("Kunne ikke sende icebreaker svar!", err);
   }
 };
 
