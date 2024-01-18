@@ -21,26 +21,28 @@ import dreamTeam_done from "../images/dreamTeam_done.svg";
 import RetroButton from "../components/RetroButton";
 import StartActivityButton from "../components/StartActivityButton";
 import TeambuildingButton from "../components/TeambuildingButton";
-import { useTeamContext } from "../TeamContext";
 import { useState, useEffect } from "react";
 import getTeamLevel from "../firebase/getTeamLevel";
+import { auth } from "../firebase/firebase_setup/firebase";
 
 const Home = () => {
   const [teamLevel, setTeamLevel] = useState(0);
-  // const { teamData } = useTeamContext();
+  const teamId = auth.currentUser?.uid;
 
   const setTheLevel = async () => {
     try {
       const level = await getTeamLevel();
       setTeamLevel(level);
     } catch (error) {
-      console.error("Error signing out:", error);
+      console.error("Kan ikke hente level", error);
     }
   };
 
   useEffect(() => {
-    setTheLevel();
-  }, []);
+    if (teamId) {
+      setTheLevel();
+    }
+  }, [teamId]);
 
   //Foreløpig for bakgrunnen
   const waveBackgroundStyle: React.CSSProperties = {

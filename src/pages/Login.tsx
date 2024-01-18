@@ -22,7 +22,6 @@ import Home from "./Home";
 
 const Login = () => {
   //Test for å skrive til database
-  // const { setTeamData } = useTeamContext();
   const [user, setUser] = useState(auth.currentUser);
   const [teamCode, setTeamCode] = useState("");
 
@@ -60,7 +59,6 @@ const Login = () => {
     try {
       await signOut(auth);
       setUser(null);
-      // setTeamData(null);
     } catch (error) {
       console.error("Error signing out:", error);
     }
