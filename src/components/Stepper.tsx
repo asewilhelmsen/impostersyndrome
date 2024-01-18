@@ -6,6 +6,7 @@ import StepLabel from "@mui/material/StepLabel";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { useNavigate } from "react-router-dom";
+import LevelPopUp from "./LevelPopUp";
 
 const Steps = ({
   nameList,
@@ -15,10 +16,12 @@ const Steps = ({
   content: JSX.Element[];
 }) => {
   const [activeStep, setActiveStep] = React.useState(0);
+  const [showPopUp, setShowPopUp] = React.useState(false);
   const navigate = useNavigate();
 
   const handleNext = () => {
     if (activeStep === nameList.length - 1) {
+      /*setShowPopUp(true);*/
       navigate("/home");
     } else {
       setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -29,8 +32,13 @@ const Steps = ({
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
+  const handleClosePopUp = () => {
+    setShowPopUp(false);
+    /*navigate("/home");*/
+  };
+
   return (
-    <Box sx={{ width: "90%", margin: "auto" }}>
+    <Box sx={{ width: "90%", height: "80%", margin: "auto" }}>
       <Typography variant="h6" sx={{ mt: 2, mb: 2 }} color="text.primary">
         Step {activeStep + 1}: {nameList[activeStep]}
       </Typography>
@@ -42,14 +50,18 @@ const Steps = ({
         ))}
       </Stepper>
       <React.Fragment>
-        <Box>{content[activeStep]}</Box>
+        {!showPopUp && <Box sx={{ pb: 5 }}>{content[activeStep]}</Box>}
       </React.Fragment>
+      {/*showPopUp && <LevelPopUp onClose={handleClosePopUp} />*/}
       <React.Fragment>
         <Box
           sx={{
             display: "flex",
             flexDirection: "row",
-            pt: 2,
+            position: "fixed",
+            bottom: 0,
+            justifyContent: "space-between",
+            width: "inherit",
           }}
         >
           <Button
@@ -60,7 +72,6 @@ const Steps = ({
           >
             Back
           </Button>
-          <Box sx={{ flex: "1 1 auto" }} />
           <Button onClick={handleNext}>
             {activeStep === nameList.length - 1 ? "Finish" : "Next"}
           </Button>
