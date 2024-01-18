@@ -1,11 +1,26 @@
 import React, { useState } from "react";
 import { Box, TextField, Typography, Button } from "@mui/material";
+import handleMaal from "../firebase/handles/handleMaal";
 
-const Goals = () => {
+const Maal = () => {
   const [goalCount, setGoalCount] = useState([1]);
+  const [maalInput, setMaalInput] = useState<string>("");
+  const [maalene, setMaalene] = useState<{ [key: string]: string }>({});
 
-  const addGoal = () => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setMaalInput(e.target.value);
+  };
+
+  const addMaal = () => {
     setGoalCount((prevGoals) => [...prevGoals, prevGoals.length + 1]);
+    setMaalene((prevMaalene) => ({
+      ...prevMaalene,
+      [`maal${goalCount[goalCount.length - 1]}`]: maalInput,
+    }));
+  };
+
+  const saveMaal = () => {
+    handleMaal(maalene);
   };
 
   return (
@@ -25,17 +40,18 @@ const Goals = () => {
             id={`goal${goalNumber}`}
             variant="outlined"
             sx={{ width: "30%" }}
+            onChange={handleInputChange}
           />
         </Box>
       ))}
-      <Button onClick={addGoal} variant="contained" color="primary">
+      <Button onClick={addMaal} variant="contained" color="primary">
         Add goal
       </Button>
-      <Button variant="contained" color="primary">
+      <Button variant="contained" color="primary" onClick={saveMaal}>
         Save goals
       </Button>
     </div>
   );
 };
 
-export default Goals;
+export default Maal;
