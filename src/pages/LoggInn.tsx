@@ -19,11 +19,12 @@ import { teamInfo } from "../constants";
 import startImg from "../forsidebilde.png";
 import wavyBackground from "../wavyBackground.svg";
 import Hjem from "./Hjem";
+import { useTeamContext } from "../TeamContext";
 
 const LoggInn = () => {
-  //Test for å skrive til database
-  const [teamBruker, setTeamBruker] = useState(auth.currentUser);
   const [teamKode, setTeamKode] = useState("");
+  const { teamBruker, setTeamBruker } = useTeamContext();
+
 
   //Hjelpefunksjon som kobler teamkoden til "fake" email og passord
   const setLoginInfo = (teamKode: string) => {

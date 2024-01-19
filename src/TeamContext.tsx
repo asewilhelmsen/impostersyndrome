@@ -1,10 +1,11 @@
+import { User } from "firebase/auth";
 import { createContext, ReactNode, useContext, useState } from "react";
 
-type TeamData = { id: string; level: number };
+type TeamBruker = User | null;
 
 type TeamContextProps = {
-  teamData: TeamData | null;
-  setTeamData: React.Dispatch<React.SetStateAction<TeamData | null>>;
+  teamBruker: TeamBruker | null;
+  setTeamBruker: React.Dispatch<React.SetStateAction<TeamBruker | null>>;
 };
 
 const TeamContext = createContext<TeamContextProps | undefined>(undefined);
@@ -14,10 +15,10 @@ type TeamProviderProps = {
 };
 
 export const TeamProvider: React.FC<TeamProviderProps> = ({ children }) => {
-  const [teamData, setTeamData] = useState<TeamData | null>(null);
+  const [teamBruker, setTeamBruker] = useState<TeamBruker | null>(null);
 
   return (
-    <TeamContext.Provider value={{ teamData, setTeamData }}>
+    <TeamContext.Provider value={{ teamBruker, setTeamBruker }}>
       {children}
     </TeamContext.Provider>
   );
@@ -28,5 +29,5 @@ export const useTeamContext = () => {
   if (!context) {
     throw new Error("useTeamContext must be used within a TeamProvider");
   }
-  return context as TeamContextProps; // Explicitly cast context to TeamContextProps
+  return context as TeamContextProps;
 };
