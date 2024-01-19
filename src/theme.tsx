@@ -19,7 +19,6 @@ const theme = createTheme({
   typography: {
     h2: {
       color: "#0E056E",
-      marginTop: "2%",
       marginBottom: "2%",
     },
   },

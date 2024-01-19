@@ -37,7 +37,16 @@ const Steps = ({
   };
 
   return (
-    <Box sx={{ height: "100vh" }}>
+    <Box
+      sx={{
+        height: "100vh",
+        overflow: "auto",
+        display: "flex",
+        flexDirection: "column",
+        backgroundColor: "secondary.main",
+      }}
+    >
+      {/* Grid with the stepper header */}
       <Grid container sx={{ backgroundColor: "white", padding: 3 }}>
         <Grid item xs={12}>
           <Typography variant="h6" sx={{ mt: 2, mb: 2, color: "text.primary" }}>
@@ -55,16 +64,20 @@ const Steps = ({
         </Grid>
       </Grid>
 
+      {/* Grid with the content and next/back button */}
       <Grid
         container
-        sx={{ backgroundColor: "secondary.main", padding: 3, pt: 0 }}
+        sx={{
+          padding: 3,
+          flex: 1,
+        }}
       >
         <Grid item xs={12}>
           {!showPopUp && <Box sx={{ pb: 5 }}>{content[activeStep]}</Box>}
         </Grid>
-        <Grid item xs={6}>
+
+        <Grid item xs={6} textAlign={"center"} alignSelf={"end"}>
           <Button
-            color="inherit"
             disabled={activeStep === 0}
             onClick={handleBack}
             sx={{ mr: 1 }}
@@ -72,7 +85,7 @@ const Steps = ({
             Back
           </Button>
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={6} textAlign={"center"} alignSelf={"end"}>
           <Button onClick={handleNext}>
             {activeStep === nameList.length - 1 ? "Finish" : "Next"}
           </Button>
