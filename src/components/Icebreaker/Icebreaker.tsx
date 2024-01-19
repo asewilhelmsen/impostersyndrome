@@ -11,7 +11,6 @@ import { firestore } from "../../firebase/firebase_setup/firebase";
 import { collection, doc } from "@firebase/firestore";
 import IcebreakerSvar from "./IcebreakerSvar";
 import handleIcebreakerSvar from "../../firebase/handles/handleIcebreakerSvar";
-import { Auth, User, getAuth } from "firebase/auth";
 import { useTeamContext } from "../../TeamContext";
 
 interface Svar {

@@ -15,11 +15,11 @@ import StartAktivitetButton from "../components/StartAktivitetButton";
 import TeambuildingButton from "../components/TeambuildingButton";
 import { useState, useEffect } from "react";
 import getTeamLevel from "../firebase/getTeamLevel";
-import { auth } from "../firebase/firebase_setup/firebase";
+import { useTeamContext } from "../TeamContext";
 
 const Hjem = () => {
   const [teamLevel, setTeamLevel] = useState(0);
-  const teamId = auth.currentUser?.uid;
+  const { teamBruker } = useTeamContext();
 
   const setLevel = async () => {
     try {
@@ -31,10 +31,10 @@ const Hjem = () => {
   };
 
   useEffect(() => {
-    if (teamId) {
+    if (teamBruker) {
       setLevel();
     }
-  }, [teamId]);
+  }, [teamBruker]);
 
   //Foreløpig for bakgrunnen
   const waveBackgroundStyle: React.CSSProperties = {

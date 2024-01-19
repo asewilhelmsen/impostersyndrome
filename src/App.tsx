@@ -13,14 +13,12 @@ function App() {
   const { setTeamBruker } = useTeamContext();
 
   const bruker = getAuth(app);
-  const navigate = useNavigate();
 
   onAuthStateChanged(bruker, (teamBruker) => {
     if (teamBruker) {
       console.log("setter team bruker i App");
       setTeamBruker(teamBruker);
     } else {
-      navigate("/");
     }
   });
   return (
