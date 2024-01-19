@@ -1,16 +1,11 @@
 import Steps from "../components/Stepper";
 import Icebreaker from "../components/Icebreaker/Icebreaker";
-import { auth } from "../firebase/firebase_setup/firebase";
-import Forventninger from "../components/StartActivity/Forventninger";
-import Information from "../components/StartActivity/ImposterSyndrome";
+import Forventninger from "../components/StartAktivitet/Forventninger";
+import IPInformasjon from "../components/StartAktivitet/IPInformasjon";
 
 const Step3Content = () => <div>This is the content for Step 3</div>;
 
-const StartActivity = () => {
-  //Må sjekke at det finnes en bruker ellerno
-  const user = auth.currentUser;
-  console.log("start activity user", user);
-
+const StartAktivitet = () => {
   const steps = [
     "Icebreaker",
     "Lær mer om Imposter Phenomenon",
@@ -19,7 +14,7 @@ const StartActivity = () => {
   ];
   const stepComponents = [
     <Icebreaker />,
-    <Information />,
+    <IPInformasjon />,
     <Step3Content />,
     <Forventninger />,
   ];
@@ -31,4 +26,4 @@ const StartActivity = () => {
   );
 };
 
-export default StartActivity;
+export default StartAktivitet;

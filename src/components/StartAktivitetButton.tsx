@@ -2,7 +2,7 @@ import { Button, Grid } from "@mui/material";
 import startActivity from "../images/startActivity.svg";
 import { useNavigate } from "react-router-dom";
 
-const StartActivityButton = () => {
+const StartAktivitetButton = () => {
   const imageStyle = {
     width: "80%",
   };
@@ -10,7 +10,7 @@ const StartActivityButton = () => {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate("/start");
+    navigate("/startaktivitet");
   };
 
   return (
@@ -37,4 +37,4 @@ const StartActivityButton = () => {
   );
 };
 
-export default StartActivityButton;
+export default StartAktivitetButton;

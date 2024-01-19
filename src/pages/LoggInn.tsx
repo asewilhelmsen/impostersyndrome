@@ -18,23 +18,23 @@ import {
 import { teamInfo } from "../constants";
 import startImg from "../forsidebilde.png";
 import wavyBackground from "../wavyBackground.svg";
-import Home from "./Home";
+import Hjem from "./Hjem";
 
-const Login = () => {
+const LoggInn = () => {
   //Test for å skrive til database
-  const [user, setUser] = useState(auth.currentUser);
-  const [teamCode, setTeamCode] = useState("");
+  const [teamBruker, setTeamBruker] = useState(auth.currentUser);
+  const [teamKode, setTeamKode] = useState("");
 
   //Hjelpefunksjon som kobler teamkoden til "fake" email og passord
-  const setLoginInfo = (teamCode: string) => {
-    const teamLogin = teamInfo[teamCode] || { email: "", password: "" };
+  const setLoginInfo = (teamKode: string) => {
+    const teamLogin = teamInfo[teamKode] || { email: "", password: "" };
     return teamLogin;
   };
 
   //Login funksjon som bruker firebase signIn
   const handleJoinTeam = async () => {
     try {
-      const { email, password } = setLoginInfo(teamCode);
+      const { email, password } = setLoginInfo(teamKode);
       await signInWithEmailAndPassword(auth, email, password);
     } catch (error) {
       console.error("Error signing in:", error);
@@ -58,7 +58,7 @@ const Login = () => {
   const handleSignOut = async () => {
     try {
       await signOut(auth);
-      setUser(null);
+      setTeamBruker(null);
     } catch (error) {
       console.error("Error signing out:", error);
     }
@@ -66,11 +66,9 @@ const Login = () => {
 
   //For å lytte til når bruker blir satt og om det er endring i brukeren
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setUser(user);
+    const unsubscribe = onAuthStateChanged(auth, (bruker) => {
+      setTeamBruker(bruker);
     });
-
-    // Cleanup the listener when the component unmounts
     return () => unsubscribe();
   }, []);
 
@@ -91,10 +89,10 @@ const Login = () => {
 
   return (
     <>
-      {user ? (
+      {teamBruker ? (
         <>
           <button onClick={handleSignOut}>Sign Out</button>
-          <Home />
+          <Hjem />
         </>
       ) : (
         <div style={containerStyle}>
@@ -116,7 +114,7 @@ const Login = () => {
                 maxHeight: { xs: 233, md: 280 },
                 maxWidth: { xs: 350, md: 422 },
               }}
-              alt="Team working together"
+              alt="Team som jobber sammen illustrasjon"
               src={startImg}
             />
             <Typography variant="h3" sx={{ mt: 5 }}>
@@ -140,15 +138,15 @@ const Login = () => {
                 <Grid container spacing={2}>
                   <Grid item xs={12}>
                     <TextField
-                      name="teamCode"
+                      name="teamKode"
                       required
                       variant="filled"
                       fullWidth
-                      id="teamCode"
-                      label="Team code"
+                      id="teamKode"
+                      label="Team kode"
                       autoFocus
-                      value={teamCode}
-                      onChange={(e) => setTeamCode(e.target.value)}
+                      value={teamKode}
+                      onChange={(e) => setTeamKode(e.target.value)}
                     />
                   </Grid>
                 </Grid>
@@ -158,7 +156,7 @@ const Login = () => {
                   sx={{ mt: 3, mb: 2 }}
                   onClick={handleJoinTeam}
                 >
-                  Join team
+                  Bli med i teamet
                 </Button>
               </Box>
             </Box>
@@ -169,4 +167,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default LoggInn;

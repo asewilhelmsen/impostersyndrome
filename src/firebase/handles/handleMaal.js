@@ -1,7 +1,6 @@
 import { collection, doc, setDoc } from "@firebase/firestore";
 import { firestore, auth } from "../firebase_setup/firebase";
 
-//Lage type/interface her!!!!! til svar
 const handleMaal = (maal) => {
   const teamId = auth.currentUser?.uid;
 

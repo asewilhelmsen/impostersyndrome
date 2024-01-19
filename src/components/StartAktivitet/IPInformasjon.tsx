@@ -2,7 +2,7 @@ import { Box, Typography } from "@mui/material";
 import ImposterSyndromePicture from "../../images/Information.svg";
 import PieChart from "../../images/PieChart.svg";
 
-const Information = () => {
+const IPInformasjon = () => {
   return (
     <div>
       <Typography variant="h2" sx={{ mt: 5, mb: 10 }} color="text.primary">
@@ -38,13 +38,17 @@ const Information = () => {
 
         <img
           src={ImposterSyndromePicture}
-          alt="Imposter syndrome illustration"
+          alt="Imposter syndrome illustrasjon"
           style={{ width: "50%" }}
         ></img>
-        <img src={PieChart} alt="Pie chart" style={{ width: "35%" }}></img>
+        <img
+          src={PieChart}
+          alt="Kakediagram illustrasjon"
+          style={{ width: "35%" }}
+        ></img>
       </Box>
     </div>
   );
 };
 
-export default Information;
+export default IPInformasjon;

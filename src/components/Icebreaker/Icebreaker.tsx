@@ -6,7 +6,6 @@ import {
   CircularProgress,
 } from "@mui/material";
 import { FormEvent, useEffect, useState } from "react";
-import getTruthOrLie from "../../firebase/getData";
 import { onSnapshot } from "firebase/firestore";
 import { auth, firestore } from "../../firebase/firebase_setup/firebase";
 import { collection, doc } from "@firebase/firestore";
@@ -84,18 +83,6 @@ const Icebreaker = () => {
     }
   };
 
-  //Brukes ikke nå da unsubscribe gjør det istede
-  const getData = async () => {
-    try {
-      const dataFirestore = await getTruthOrLie();
-      if (dataFirestore) {
-        setSvar(dataFirestore);
-      }
-    } catch (error) {
-      console.error("Error signing out:", error);
-    }
-  };
-
   useEffect(() => {
     if (teamId) {
       const teamRef = collection(firestore, teamId);
@@ -120,7 +107,7 @@ const Icebreaker = () => {
   return (
     <>
       <Typography variant="h2">2 sannheter og 1 løgn</Typography>
-      {!submitted ? (
+      {!submitted && svarCount < teamMemberCount ? (
         <>
           <form onSubmit={submitSvar}>
             <Grid

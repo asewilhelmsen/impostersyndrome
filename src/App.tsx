@@ -1,18 +1,18 @@
 import React from "react";
 import "./App.css";
 import { Routes, Route } from "react-router-dom";
-import Login from "./pages/Login";
-import Home from "./pages/Home";
-import StartActivity from "./pages/StartActivity";
+import LoggInn from "./pages/LoggInn";
+import Hjem from "./pages/Hjem";
+import StartAktivitet from "./pages/StartAktivitet";
 import Retro from "./pages/Retro";
 
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<Login />} />
-      <Route path="/home" element={<Home />} />
-      <Route path="/start" element={<StartActivity />} />
-      <Route path="/retro" element={<Retro />} />
+      <Route path="/" element={<LoggInn />} />
+      <Route path="/hjem" element={<Hjem />} />
+      <Route path="/startaktivitet" element={<StartAktivitet />} />
+      <Route path="/retrospektiv" element={<Retro />} />
     </Routes>
   );
 }

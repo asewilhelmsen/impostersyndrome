@@ -1,12 +1,4 @@
-import {
-  Box,
-  Button,
-  Container,
-  CssBaseline,
-  Grid,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Container, Grid, Typography } from "@mui/material";
 import wave from "../wave.svg";
 import { teamInfo } from "../constants";
 import Popup from "../components/Popup";
@@ -19,17 +11,17 @@ import bondBuilders_done from "../images/bondBuilders_done.svg";
 import dreamTeam from "../images/dreamTeam.svg";
 import dreamTeam_done from "../images/dreamTeam_done.svg";
 import RetroButton from "../components/RetroButton";
-import StartActivityButton from "../components/StartActivityButton";
+import StartAktivitetButton from "../components/StartAktivitetButton";
 import TeambuildingButton from "../components/TeambuildingButton";
 import { useState, useEffect } from "react";
 import getTeamLevel from "../firebase/getTeamLevel";
 import { auth } from "../firebase/firebase_setup/firebase";
 
-const Home = () => {
+const Hjem = () => {
   const [teamLevel, setTeamLevel] = useState(0);
   const teamId = auth.currentUser?.uid;
 
-  const setTheLevel = async () => {
+  const setLevel = async () => {
     try {
       const level = await getTeamLevel();
       setTeamLevel(level);
@@ -40,7 +32,7 @@ const Home = () => {
 
   useEffect(() => {
     if (teamId) {
-      setTheLevel();
+      setLevel();
     }
   }, [teamId]);
 
@@ -90,7 +82,7 @@ const Home = () => {
         >
           {/*Disse kunne sikkert vært lagd til et felles komponent men tenke de har litt ulike ting de skal uansett så husk å endre i alle om man endrer stil*/}
           <Grid item xs={12} md={6}>
-            <StartActivityButton />
+            <StartAktivitetButton />
             <RetroButton disabled={true} />
             <TeambuildingButton disabled={true} />
           </Grid>
@@ -140,4 +132,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Hjem;
