@@ -6,6 +6,7 @@ import StepLabel from "@mui/material/StepLabel";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { useNavigate } from "react-router-dom";
+import { Grid } from "@mui/material";
 
 const Steps = ({
   nameList,
@@ -36,32 +37,32 @@ const Steps = ({
   };
 
   return (
-    <Box sx={{ width: "90%", height: "80%", margin: "auto" }}>
-      <Typography variant="h6" sx={{ mt: 2, mb: 2 }} color="text.primary">
-        Step {activeStep + 1}: {nameList[activeStep]}
-      </Typography>
-      <Stepper activeStep={activeStep} sx={{ width: "30%" }}>
-        {nameList.map((label) => (
-          <Step key={label}>
-            <StepLabel>{/*{label}*/}</StepLabel>
-          </Step>
-        ))}
-      </Stepper>
-      <React.Fragment>
-        {!showPopUp && <Box sx={{ pb: 5 }}>{content[activeStep]}</Box>}
-      </React.Fragment>
-      {/*showPopUp && <LevelPopUp onClose={handleClosePopUp} />*/}
-      <React.Fragment>
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "row",
-            position: "fixed",
-            bottom: 0,
-            justifyContent: "space-between",
-            width: "inherit",
-          }}
-        >
+    <Box sx={{ height: "100vh" }}>
+      <Grid container sx={{ backgroundColor: "white", padding: 3 }}>
+        <Grid item xs={12}>
+          <Typography variant="h6" sx={{ mt: 2, mb: 2, color: "text.primary" }}>
+            <b>Step {activeStep + 1}:</b> {nameList[activeStep]}
+          </Typography>
+        </Grid>
+        <Grid item xs={12}>
+          <Stepper activeStep={activeStep} sx={{ width: "30%" }}>
+            {nameList.map((label) => (
+              <Step key={label}>
+                <StepLabel>{/*{label}*/}</StepLabel>
+              </Step>
+            ))}
+          </Stepper>
+        </Grid>
+      </Grid>
+
+      <Grid
+        container
+        sx={{ backgroundColor: "secondary.main", padding: 3, pt: 0 }}
+      >
+        <Grid item xs={12}>
+          {!showPopUp && <Box sx={{ pb: 5 }}>{content[activeStep]}</Box>}
+        </Grid>
+        <Grid item xs={6}>
           <Button
             color="inherit"
             disabled={activeStep === 0}
@@ -70,11 +71,13 @@ const Steps = ({
           >
             Back
           </Button>
+        </Grid>
+        <Grid item xs={6}>
           <Button onClick={handleNext}>
             {activeStep === nameList.length - 1 ? "Finish" : "Next"}
           </Button>
-        </Box>
-      </React.Fragment>
+        </Grid>
+      </Grid>
     </Box>
   );
 };
