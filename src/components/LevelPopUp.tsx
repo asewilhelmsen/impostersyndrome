@@ -12,7 +12,7 @@ const LevelPopUp: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         margin: "auto",
         width: "300px",
         padding: "20px",
-        backgroundColor: "#4CAF50", // Green color, you can customize
+        backgroundColor: "#4CAF50",
         color: "#fff",
         textAlign: "center",
         borderRadius: "8px",

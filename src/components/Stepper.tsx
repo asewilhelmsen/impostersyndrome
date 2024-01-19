@@ -6,7 +6,6 @@ import StepLabel from "@mui/material/StepLabel";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { useNavigate } from "react-router-dom";
-import LevelPopUp from "./LevelPopUp";
 
 const Steps = ({
   nameList,
@@ -22,7 +21,7 @@ const Steps = ({
   const handleNext = () => {
     if (activeStep === nameList.length - 1) {
       /*setShowPopUp(true);*/
-      navigate("/home");
+      navigate("/hjem");
     } else {
       setActiveStep((prevActiveStep) => prevActiveStep + 1);
     }
@@ -34,7 +33,6 @@ const Steps = ({
 
   const handleClosePopUp = () => {
     setShowPopUp(false);
-    /*navigate("/home");*/
   };
 
   return (
