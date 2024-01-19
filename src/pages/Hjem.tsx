@@ -36,6 +36,7 @@ const Hjem = () => {
     }
   }, [teamBruker]);
 
+
   //Foreløpig for bakgrunnen
   const waveBackgroundStyle: React.CSSProperties = {
     position: "absolute",

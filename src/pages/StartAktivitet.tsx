@@ -4,6 +4,7 @@ import Forventninger from "../components/StartAktivitet/Forventninger";
 import IPInformasjon from "../components/StartAktivitet/IPInformasjon";
 import Samtalestarter from "../components/Samtalestarter";
 
+
 const StartAktivitet = () => {
   const steps = [
     "Icebreaker",

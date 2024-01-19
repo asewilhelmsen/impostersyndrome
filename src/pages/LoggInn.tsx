@@ -25,6 +25,7 @@ const LoggInn = () => {
   const [teamKode, setTeamKode] = useState("");
   const { teamBruker, setTeamBruker } = useTeamContext();
 
+
   //Hjelpefunksjon som kobler teamkoden til "fake" email og passord
   const setLoginInfo = (teamKode: string) => {
     const teamLogin = teamInfo[teamKode] || { email: "", password: "" };
@@ -67,7 +68,6 @@ const LoggInn = () => {
   //For å lytte til når bruker blir satt og om det er endring i brukeren
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (bruker) => {
-      console.log("bruker i onAuth", bruker?.uid);
       setTeamBruker(bruker);
     });
     return () => unsubscribe();

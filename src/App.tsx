@@ -1,6 +1,6 @@
 import React from "react";
 import "./App.css";
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import LoggInn from "./pages/LoggInn";
 import Hjem from "./pages/Hjem";
 import StartAktivitet from "./pages/StartAktivitet";
