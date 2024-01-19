@@ -2,8 +2,7 @@ import Steps from "../components/Stepper";
 import Icebreaker from "../components/Icebreaker/Icebreaker";
 import Forventninger from "../components/StartAktivitet/Forventninger";
 import IPInformasjon from "../components/StartAktivitet/IPInformasjon";
-
-const Step3Content = () => <div>This is the content for Step 3</div>;
+import Samtalestarter from "../components/Samtalestarter";
 
 const StartAktivitet = () => {
   const steps = [
@@ -15,7 +14,7 @@ const StartAktivitet = () => {
   const stepComponents = [
     <Icebreaker />,
     <IPInformasjon />,
-    <Step3Content />,
+    <Samtalestarter />,
     <Forventninger />,
   ];
 

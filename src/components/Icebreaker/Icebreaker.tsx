@@ -7,10 +7,12 @@ import {
 } from "@mui/material";
 import { FormEvent, useEffect, useState } from "react";
 import { onSnapshot } from "firebase/firestore";
-import { auth, firestore } from "../../firebase/firebase_setup/firebase";
+import { firestore } from "../../firebase/firebase_setup/firebase";
 import { collection, doc } from "@firebase/firestore";
 import IcebreakerSvar from "./IcebreakerSvar";
 import handleIcebreakerSvar from "../../firebase/handles/handleIcebreakerSvar";
+import { Auth, User, getAuth } from "firebase/auth";
+import { useTeamContext } from "../../TeamContext";
 
 interface Svar {
   id: string;
@@ -34,11 +36,11 @@ const Icebreaker = () => {
   //For å sjekke om brukeren har sendt inn svarert
   const [submitted, setSubmitted] = useState(false);
 
-  //Kan kanskje hentes fra context?
-  const teamId = auth.currentUser?.uid;
-
   //Denne bør hentes fra et input felt i starten ellerno
   const teamMemberCount = 6;
+
+  //Brukeren som er logget inn på
+  const { teamBruker } = useTeamContext();
 
   //Til å hente input verdiene fra statene og sende til databasen
   const submitSvar = (e: FormEvent) => {
@@ -84,8 +86,8 @@ const Icebreaker = () => {
   };
 
   useEffect(() => {
-    if (teamId) {
-      const teamRef = collection(firestore, teamId);
+    if (teamBruker) {
+      const teamRef = collection(firestore, teamBruker.uid);
       const icebreakerRef = doc(teamRef, "icebreaker");
       const ibSvarRef = collection(icebreakerRef, "svar");
 
@@ -102,7 +104,7 @@ const Icebreaker = () => {
       // Cleanup the listener when the component unmounts
       return unsubscribe;
     }
-  }, [teamId]);
+  }, [teamBruker]);
 
   return (
     <>

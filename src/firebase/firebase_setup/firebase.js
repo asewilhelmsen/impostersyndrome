@@ -19,4 +19,4 @@ const auth = getAuth(app);
 //Selve databasen i Firebase
 const firestore = getFirestore(app);
 
-export { firestore, auth };
+export { firestore, auth, app };
