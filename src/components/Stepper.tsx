@@ -76,8 +76,17 @@ const Steps = ({
           {!showPopUp && <Box sx={{ pb: 5 }}>{content[activeStep]}</Box>}
         </Grid>
 
-        <Grid item xs={6} textAlign={"center"} alignSelf={"end"}>
+        <Grid
+          item
+          xs={6}
+          sx={{
+            display: "flex",
+            justifyContent: "flex-end",
+            alignSelf: "flex-end",
+          }}
+        >
           <Button
+            variant="contained"
             disabled={activeStep === 0}
             onClick={handleBack}
             sx={{ mr: 1 }}
@@ -85,8 +94,16 @@ const Steps = ({
             Back
           </Button>
         </Grid>
-        <Grid item xs={6} textAlign={"center"} alignSelf={"end"}>
-          <Button onClick={handleNext}>
+        <Grid
+          item
+          xs={6}
+          sx={{
+            display: "flex",
+            justifyContent: "flex-start",
+            alignSelf: "flex-end",
+          }}
+        >
+          <Button variant="contained" onClick={handleNext}>
             {activeStep === nameList.length - 1 ? "Finish" : "Next"}
           </Button>
         </Grid>

@@ -19,7 +19,9 @@ const Popup = () => {
           </Typography>
         </CardContent>
         <CardActions>
-          <Button size="small">Learn More</Button>
+          <Button sx={{ color: "text.primary" }} size="small">
+            Learn More
+          </Button>
         </CardActions>
       </Card>
     </>

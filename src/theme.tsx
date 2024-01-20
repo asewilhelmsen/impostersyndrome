@@ -22,6 +22,17 @@ const theme = createTheme({
       marginBottom: "2%",
     },
   },
+  components: {
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          color: "white",
+          borderRadius: 6,
+          textTransform: "none",
+        },
+      },
+    },
+  },
 });
 
 export default theme;
