@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Box, TextField, Typography, Button } from "@mui/material";
-import handleMaal from "../firebase/handles/handleMaal";
+import IconButton from "@mui/material/IconButton";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
 
 const Maal = () => {
   const [goalCount, setGoalCount] = useState([1]);
@@ -17,10 +18,6 @@ const Maal = () => {
       ...prevMaalene,
       [`maal${goalCount[goalCount.length - 1]}`]: maalInput,
     }));
-  };
-
-  const saveMaal = () => {
-    handleMaal(maalene);
   };
 
   return (
@@ -44,12 +41,9 @@ const Maal = () => {
           />
         </Box>
       ))}
-      <Button onClick={addMaal} variant="contained" color="primary">
-        Add goal
-      </Button>
-      <Button variant="contained" color="primary" onClick={saveMaal}>
-        Save goals
-      </Button>
+      <IconButton onClick={addMaal} color="primary">
+        <AddCircleIcon fontSize="large" />
+      </IconButton>
     </div>
   );
 };
