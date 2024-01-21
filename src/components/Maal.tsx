@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box, TextField, Typography, Button } from "@mui/material";
+import { Box, TextField, Typography, Button, Tooltip } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 
@@ -7,6 +7,7 @@ const Maal = () => {
   const [goalCount, setGoalCount] = useState([1]);
   const [maalInput, setMaalInput] = useState<string>("");
   const [maalene, setMaalene] = useState<{ [key: string]: string }>({});
+  const [showTooltip, setShowTooltip] = useState(false);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setMaalInput(e.target.value);
@@ -21,7 +22,12 @@ const Maal = () => {
   };
 
   return (
-    <div>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+      }}
+    >
       {goalCount.map((goalNumber) => (
         <Box
           key={goalNumber}
@@ -36,15 +42,28 @@ const Maal = () => {
           <TextField
             id={`goal${goalNumber}`}
             variant="outlined"
-            sx={{ width: "30%" }}
+            sx={{ width: "70%" }}
             onChange={handleInputChange}
           />
         </Box>
       ))}
-      <IconButton onClick={addMaal} color="primary">
-        <AddCircleIcon fontSize="large" />
-      </IconButton>
-    </div>
+      <Box
+        sx={{
+          display: "flex",
+        }}
+      >
+        <Tooltip title="Add Goal" open={showTooltip}>
+          <IconButton
+            onClick={addMaal}
+            color="primary"
+            onMouseEnter={() => setShowTooltip(true)}
+            onMouseLeave={() => setShowTooltip(false)}
+          >
+            <AddCircleIcon fontSize="large" />
+          </IconButton>
+        </Tooltip>
+      </Box>
+    </Box>
   );
 };
 

@@ -71,7 +71,7 @@ const Forventninger = () => {
           </React.Fragment>
         ))}
         <Grid item xs={1}></Grid>
-        <Grid item xs={3}>
+        <Grid item xs={8}>
           <Maal />
         </Grid>
       </Grid>
@@ -80,7 +80,7 @@ const Forventninger = () => {
         src={ExpectationImg}
         alt="Expectation illustration"
         className={styles.expectationImg}
-        style={{ width: "20%", paddingRight: "15%" }} // Fikse så bildet forsvinner når skjermen blir liten
+        style={{ width: "20%", paddingRight: "15%" }}
       ></img>
     </Box>
   );
