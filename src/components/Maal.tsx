@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Box, TextField, Typography, Button, Tooltip } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 
 const Maal = () => {
   const [goalCount, setGoalCount] = useState([1]);
@@ -21,6 +22,12 @@ const Maal = () => {
     }));
   };
 
+  const removeMaal = (goalNumber: number) => {
+    setGoalCount((prevGoals) => prevGoals.filter((num) => num !== goalNumber));
+    const { [`maal${goalNumber}`]: removedGoal, ...rest } = maalene;
+    setMaalene(rest);
+  };
+
   return (
     <Box
       sx={{
@@ -38,12 +45,26 @@ const Maal = () => {
             alignItems: "center",
           }}
         >
-          <Typography>{`Goal ${goalNumber}: `}</Typography>
+          <Typography>{`Mål ${goalNumber}: `}</Typography>
           <TextField
             id={`goal${goalNumber}`}
             variant="outlined"
             sx={{ width: "70%" }}
             onChange={handleInputChange}
+            InputProps={{
+              endAdornment: goalCount.length > 1 && (
+                <IconButton
+                  sx={{
+                    color: "primary.main",
+                    padding: 0,
+                    borderRadius: 1,
+                  }}
+                  onClick={() => removeMaal(goalNumber)}
+                >
+                  <DeleteOutlineIcon fontSize="medium" />
+                </IconButton>
+              ),
+            }}
           />
         </Box>
       ))}
@@ -52,7 +73,7 @@ const Maal = () => {
           display: "flex",
         }}
       >
-        <Tooltip title="Add Goal" open={showTooltip}>
+        <Tooltip title="Legg til nytt mål" open={showTooltip}>
           <IconButton
             onClick={addMaal}
             color="primary"

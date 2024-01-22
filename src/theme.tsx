@@ -32,6 +32,15 @@ const theme = createTheme({
         },
       },
     },
+    MuiStep: {
+      styleOverrides: {
+        root: {
+          "& .MuiStepIcon-root": {
+            color: "#E3EAFD",
+          },
+        },
+      },
+    },
   },
 });
 
