@@ -7,6 +7,7 @@ import {
   onAuthStateChanged,
 } from "firebase/auth";
 import {
+  Alert,
   Box,
   Button,
   Container,
@@ -24,7 +25,7 @@ import { useTeamContext } from "../TeamContext";
 const LoggInn = () => {
   const [teamKode, setTeamKode] = useState("");
   const { teamBruker, setTeamBruker } = useTeamContext();
-
+  const [error, setError] = useState<boolean>(false);
 
   //Hjelpefunksjon som kobler teamkoden til "fake" email og passord
   const setLoginInfo = (teamKode: string) => {
@@ -35,9 +36,11 @@ const LoggInn = () => {
   //Login funksjon som bruker firebase signIn
   const handleJoinTeam = async () => {
     try {
+      setError(false);
       const { email, password } = setLoginInfo(teamKode);
       await signInWithEmailAndPassword(auth, email, password);
     } catch (error) {
+      setError(true);
       console.error("Error signing in:", error);
     }
   };
@@ -92,8 +95,7 @@ const LoggInn = () => {
     <>
       {teamBruker ? (
         <>
-          <button onClick={handleSignOut}>Sign Out</button>
-          <Hjem />
+          <Hjem handleSignOut={handleSignOut} />
         </>
       ) : (
         <div style={containerStyle}>
@@ -160,6 +162,13 @@ const LoggInn = () => {
                   Bli med i teamet
                 </Button>
               </Box>
+              {error && (
+                <Alert severity="error">
+                  {
+                    "Noe gikk galt under innloggingen! Vennligst sjekk at du har en gyldig teamkode"
+                  }
+                </Alert>
+              )}
             </Box>
           </Container>
         </div>

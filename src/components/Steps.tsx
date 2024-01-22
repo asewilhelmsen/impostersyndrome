@@ -53,7 +53,7 @@ const Steps = ({
         console.log("querysnapshot STEG Steps ", querySnapshot.data()?.steg);
         setAktivtSteg(querySnapshot.data()?.steg);
         if (querySnapshot.data()?.steg === -1) {
-          navigate("/hjem");
+          navigate("/");
         }
       });
 

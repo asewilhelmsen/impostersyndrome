@@ -1,4 +1,4 @@
-import { Container, Grid, Typography } from "@mui/material";
+import { Button, Container, Grid, Typography } from "@mui/material";
 import wave from "../wave.svg";
 import { teamInfo } from "../constants";
 import Popup from "../components/Popup";
@@ -20,7 +20,7 @@ import { firestore } from "../firebase/firebase_setup/firebase";
 import { doc, onSnapshot } from "@firebase/firestore";
 import { useNavigate } from "react-router-dom";
 
-const Hjem = () => {
+const Hjem = ({ handleSignOut }: { handleSignOut: () => Promise<void> }) => {
   const [teamLevel, setTeamLevel] = useState(0);
   const { teamBruker } = useTeamContext();
   const navigate = useNavigate();
@@ -75,6 +75,8 @@ const Hjem = () => {
 
   return (
     <div style={containerStyle}>
+      <Button onClick={handleSignOut}>Logg ut</Button>
+
       <img src={wave} alt="Wavy Background" style={waveBackgroundStyle} />
       <Container
         maxWidth="md"
