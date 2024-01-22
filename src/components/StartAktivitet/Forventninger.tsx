@@ -25,7 +25,11 @@ const expectationsList = [
   },
 ];
 
-const Forventninger = () => {
+const Forventninger = ({
+  onMaalSubmit,
+}: {
+  onMaalSubmit: (maal: { [key: string]: string }) => void;
+}) => {
   return (
     <Box style={{ display: "flex", flexDirection: "row" }}>
       <Grid container>
@@ -72,7 +76,7 @@ const Forventninger = () => {
         ))}
         <Grid item xs={1}></Grid>
         <Grid item xs={8}>
-          <Maal />
+          <Maal onMaalSubmit={onMaalSubmit} />
         </Grid>
       </Grid>
 

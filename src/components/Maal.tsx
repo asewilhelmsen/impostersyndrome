@@ -1,10 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Box, TextField, Typography, Button, Tooltip } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 
-const Maal = () => {
+const Maal = ({
+  onMaalSubmit,
+}: {
+  onMaalSubmit: (maal: { [key: string]: string }) => void;
+}) => {
   const [goalCount, setGoalCount] = useState([1]);
   const [maalInput, setMaalInput] = useState<string>("");
   const [maalene, setMaalene] = useState<{ [key: string]: string }>({});
@@ -27,6 +31,9 @@ const Maal = () => {
     const { [`maal${goalNumber}`]: removedGoal, ...rest } = maalene;
     setMaalene(rest);
   };
+  useEffect(() => {
+    onMaalSubmit(maalene);
+  }, [maalene, onMaalSubmit]);
 
   return (
     <Box

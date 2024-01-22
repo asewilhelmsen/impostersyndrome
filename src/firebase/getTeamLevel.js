@@ -10,7 +10,6 @@ const getTeamLevel = async () => {
     const docSnap = await getDoc(docRef);
 
     if (docSnap.exists()) {
-      console.log("teamID i get team info", teamId);
       return docSnap.data().level;
     } else {
       //Håndtere feilmelding her

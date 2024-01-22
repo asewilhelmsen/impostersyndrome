@@ -1,9 +1,9 @@
-import Steps from "../components/Stepper";
+import Steps from "../components/Steps";
 import Icebreaker from "../components/Icebreaker/Icebreaker";
 import Forventninger from "../components/StartAktivitet/Forventninger";
 import IPInformasjon from "../components/StartAktivitet/IPInformasjon";
-
-const Step3Content = () => <div>This is the content for Step 3</div>;
+import Samtalestarter from "../components/StartAktivitet/Samtalestarter";
+import { useState } from "react";
 
 const StartAktivitet = () => {
   const steps = [
@@ -12,16 +12,23 @@ const StartAktivitet = () => {
     "Samtalestarter",
     "Forventningsavklaringer",
   ];
+  const [maal, setMaal] = useState<{ [key: string]: string }>({});
+
+  // Callback funksjon for å håndtere måldata som blir satt på tvers av komponenter
+  const handleMaalSubmit = (maal: { [key: string]: string }) => {
+    setMaal(maal);
+  };
+
   const stepComponents = [
     <Icebreaker />,
     <IPInformasjon />,
-    <Step3Content />,
-    <Forventninger />,
+    <Samtalestarter />,
+    <Forventninger onMaalSubmit={handleMaalSubmit} />,
   ];
 
   return (
     <div>
-      <Steps nameList={steps} content={stepComponents} />
+      <Steps nameList={steps} content={stepComponents} maalData={maal} />
     </div>
   );
 };

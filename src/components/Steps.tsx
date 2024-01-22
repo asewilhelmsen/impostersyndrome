@@ -7,34 +7,60 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { useNavigate } from "react-router-dom";
 import { Grid } from "@mui/material";
+import { useEffect, useState } from "react";
+import { useTeamContext } from "../TeamContext";
+import { doc, onSnapshot } from "@firebase/firestore";
+import { firestore } from "../firebase/firebase_setup/firebase";
+import handleNextStep from "../firebase/handles/handleNextStep";
+import handleBackStep from "../firebase/handles/handleBackStep";
+import handleFinishStartAkt from "../firebase/handles/handleFinishStartAkt";
 
 const Steps = ({
   nameList,
   content,
+  maalData,
 }: {
   nameList: string[];
   content: JSX.Element[];
+  maalData: { [key: string]: string };
 }) => {
-  const [activeStep, setActiveStep] = React.useState(0);
-  const [showPopUp, setShowPopUp] = React.useState(false);
+  const [aktivtSteg, setAktivtSteg] = useState(0);
+  const [showPopUp, setShowPopUp] = useState(false);
   const navigate = useNavigate();
+  const { teamBruker } = useTeamContext();
 
   const handleNext = () => {
-    if (activeStep === nameList.length - 1) {
+    if (aktivtSteg === nameList.length - 1) {
       /*setShowPopUp(true);*/
-      navigate("/hjem");
+      handleFinishStartAkt(maalData);
     } else {
-      setActiveStep((prevActiveStep) => prevActiveStep + 1);
+      handleNextStep();
     }
   };
 
   const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+    handleBackStep();
   };
 
   const handleClosePopUp = () => {
     setShowPopUp(false);
   };
+
+  useEffect(() => {
+    if (teamBruker) {
+      const docRef = doc(firestore, teamBruker.uid, "startAktivitetSteg");
+
+      const unsubscribe = onSnapshot(docRef, (querySnapshot) => {
+        console.log("querysnapshot STEG Steps ", querySnapshot.data()?.steg);
+        setAktivtSteg(querySnapshot.data()?.steg);
+        if (querySnapshot.data()?.steg === -1) {
+          navigate("/");
+        }
+      });
+
+      return unsubscribe;
+    }
+  }, [teamBruker]);
 
   return (
     <Box
@@ -50,11 +76,11 @@ const Steps = ({
       <Grid container sx={{ backgroundColor: "white", padding: 3 }}>
         <Grid item xs={12}>
           <Typography variant="h6" sx={{ mt: 2, mb: 2, color: "text.primary" }}>
-            <b>Step {activeStep + 1}:</b> {nameList[activeStep]}
+            <b>Step {aktivtSteg + 1}:</b> {nameList[aktivtSteg]}
           </Typography>
         </Grid>
         <Grid item xs={12}>
-          <Stepper activeStep={activeStep} sx={{ width: "30%" }}>
+          <Stepper activeStep={aktivtSteg} sx={{ width: "30%" }}>
             {nameList.map((label) => (
               <Step key={label}>
                 <StepLabel>{/*{label}*/}</StepLabel>
@@ -73,7 +99,7 @@ const Steps = ({
         }}
       >
         <Grid item xs={12}>
-          {!showPopUp && <Box sx={{ pb: 5 }}>{content[activeStep]}</Box>}
+          {!showPopUp && <Box sx={{ pb: 5 }}>{content[aktivtSteg]}</Box>}
         </Grid>
 
         <Grid
@@ -87,7 +113,7 @@ const Steps = ({
         >
           <Button
             variant="contained"
-            disabled={activeStep === 0}
+            // disabled={activeStep === 0}
             onClick={handleBack}
             sx={{ mr: 1 }}
           >
@@ -104,7 +130,7 @@ const Steps = ({
           }}
         >
           <Button variant="contained" onClick={handleNext}>
-            {activeStep === nameList.length - 1 ? "Finish" : "Next"}
+            {aktivtSteg === nameList.length - 1 ? "Finish" : "Next"}
           </Button>
         </Grid>
       </Grid>
