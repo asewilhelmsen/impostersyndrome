@@ -17,9 +17,11 @@ import handleFinishStartAkt from "../firebase/handles/handleFinishStartAkt";
 const Steps = ({
   nameList,
   content,
+  maalData,
 }: {
   nameList: string[];
   content: JSX.Element[];
+  maalData: { [key: string]: string };
 }) => {
   const [aktivtSteg, setAktivtSteg] = useState(0);
   const [showPopUp, setShowPopUp] = useState(false);
@@ -29,7 +31,7 @@ const Steps = ({
   const handleNext = () => {
     if (aktivtSteg === nameList.length - 1) {
       /*setShowPopUp(true);*/
-      handleFinishStartAkt();
+      handleFinishStartAkt(maalData);
     } else {
       handleNextStep();
     }

@@ -1,8 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Box, TextField, Typography, Button } from "@mui/material";
 import handleMaal from "../firebase/handles/handleMaal";
 
-const Maal = () => {
+const Maal = ({
+  onMaalSubmit,
+}: {
+  onMaalSubmit: (maal: { [key: string]: string }) => void;
+}) => {
   const [goalCount, setGoalCount] = useState([1]);
   const [maalInput, setMaalInput] = useState<string>("");
   const [maalene, setMaalene] = useState<{ [key: string]: string }>({});
@@ -19,9 +23,9 @@ const Maal = () => {
     }));
   };
 
-  const saveMaal = () => {
-    handleMaal(maalene);
-  };
+  useEffect(() => {
+    onMaalSubmit(maalene);
+  }, [maalene, onMaalSubmit]);
 
   return (
     <div>
@@ -46,9 +50,6 @@ const Maal = () => {
       ))}
       <Button onClick={addMaal} variant="contained" color="primary">
         Add goal
-      </Button>
-      <Button variant="contained" color="primary" onClick={saveMaal}>
-        Save goals
       </Button>
     </div>
   );

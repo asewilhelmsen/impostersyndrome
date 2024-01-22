@@ -5,7 +5,11 @@ import C from "../../images/C.svg";
 import Maal from "../Maal";
 import ExpectationImg from "../../images/Expectations.svg";
 
-const Forventninger = () => {
+const Forventninger = ({
+  onMaalSubmit,
+}: {
+  onMaalSubmit: (maal: { [key: string]: string }) => void;
+}) => {
   return (
     <Box sx={{ display: "flex", flexDirection: "column", gap: 4 }}>
       <Box
@@ -65,7 +69,7 @@ const Forventninger = () => {
           Define and write specific goals regarding teamwork for this sprint:
         </Typography>
       </Box>
-      <Maal />
+      <Maal onMaalSubmit={onMaalSubmit} />
     </Box>
   );
 };
