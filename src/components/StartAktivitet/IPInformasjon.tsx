@@ -5,9 +5,7 @@ import PieChart from "../../images/PieChart.svg";
 const IPInformasjon = () => {
   return (
     <div>
-      <Typography variant="h2" sx={{ mt: 5, mb: 10 }} color="text.primary">
-        What is Imposter Syndrome?
-      </Typography>
+      <Typography variant="h2">Hva er Imposter Syndrome?</Typography>
 
       <Box
         sx={{

@@ -6,6 +6,7 @@ import StepLabel from "@mui/material/StepLabel";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { useNavigate } from "react-router-dom";
+import { Grid } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useTeamContext } from "../TeamContext";
 import { doc, onSnapshot } from "@firebase/firestore";
@@ -62,45 +63,77 @@ const Steps = ({
   }, [teamBruker]);
 
   return (
-    <Box sx={{ width: "90%", height: "80%", margin: "auto" }}>
-      <Typography variant="h6" sx={{ mt: 2, mb: 2 }} color="text.primary">
-        Step {aktivtSteg + 1}: {nameList[aktivtSteg]}
-      </Typography>
-      <Stepper activeStep={aktivtSteg} sx={{ width: "30%" }}>
-        {nameList.map((label) => (
-          <Step key={label}>
-            <StepLabel>{/*{label}*/}</StepLabel>
-          </Step>
-        ))}
-      </Stepper>
-      <React.Fragment>
-        {!showPopUp && <Box sx={{ pb: 5 }}>{content[aktivtSteg]}</Box>}
-      </React.Fragment>
-      {/*showPopUp && <LevelPopUp onClose={handleClosePopUp} />*/}
-      <React.Fragment>
-        <Box
+    <Box
+      sx={{
+        height: "100vh",
+        overflow: "auto",
+        display: "flex",
+        flexDirection: "column",
+        backgroundColor: "secondary.main",
+      }}
+    >
+      {/* Grid with the stepper header */}
+      <Grid container sx={{ backgroundColor: "white", padding: 3 }}>
+        <Grid item xs={12}>
+          <Typography variant="h6" sx={{ mt: 2, mb: 2, color: "text.primary" }}>
+            <b>Step {aktivtSteg + 1}:</b> {nameList[aktivtSteg]}
+          </Typography>
+        </Grid>
+        <Grid item xs={12}>
+          <Stepper activeStep={aktivtSteg} sx={{ width: "30%" }}>
+            {nameList.map((label) => (
+              <Step key={label}>
+                <StepLabel>{/*{label}*/}</StepLabel>
+              </Step>
+            ))}
+          </Stepper>
+        </Grid>
+      </Grid>
+
+      {/* Grid with the content and next/back button */}
+      <Grid
+        container
+        sx={{
+          padding: 3,
+          flex: 1,
+        }}
+      >
+        <Grid item xs={12}>
+          {!showPopUp && <Box sx={{ pb: 5 }}>{content[aktivtSteg]}</Box>}
+        </Grid>
+
+        <Grid
+          item
+          xs={6}
           sx={{
             display: "flex",
-            flexDirection: "row",
-            position: "fixed",
-            bottom: 0,
-            justifyContent: "space-between",
-            width: "inherit",
+            justifyContent: "flex-end",
+            alignSelf: "flex-end",
           }}
         >
           <Button
-            color="inherit"
-            // disabled={aktivtSteg === 0}
+            variant="contained"
+            // disabled={activeStep === 0}
             onClick={handleBack}
             sx={{ mr: 1 }}
           >
             Back
           </Button>
-          <Button onClick={handleNext}>
+        </Grid>
+        <Grid
+          item
+          xs={6}
+          sx={{
+            display: "flex",
+            justifyContent: "flex-start",
+            alignSelf: "flex-end",
+          }}
+        >
+          <Button variant="contained" onClick={handleNext}>
             {aktivtSteg === nameList.length - 1 ? "Finish" : "Next"}
           </Button>
-        </Box>
-      </React.Fragment>
+        </Grid>
+      </Grid>
     </Box>
   );
 };
