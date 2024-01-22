@@ -16,12 +16,16 @@ import TeambuildingButton from "../components/TeambuildingButton";
 import { useState, useEffect } from "react";
 import getTeamLevel from "../firebase/getTeamLevel";
 import { useTeamContext } from "../TeamContext";
+import { firestore } from "../firebase/firebase_setup/firebase";
+import { doc, onSnapshot } from "@firebase/firestore";
+import { useNavigate } from "react-router-dom";
 
 const Hjem = () => {
   const [teamLevel, setTeamLevel] = useState(0);
   const { teamBruker } = useTeamContext();
+  const navigate = useNavigate();
 
-  const setLevel = async () => {
+  const getLevel = async () => {
     try {
       const level = await getTeamLevel();
       setTeamLevel(level);
@@ -32,10 +36,16 @@ const Hjem = () => {
 
   useEffect(() => {
     if (teamBruker) {
-      setLevel();
+      getLevel();
+      const docRef = doc(firestore, teamBruker.uid, "startAktivitetSteg");
+      const unsubscribe = onSnapshot(docRef, (querySnapshot) => {
+        if (querySnapshot.data()?.steg === 0) {
+          navigate("/startaktivitet");
+        }
+      });
+      return unsubscribe;
     }
   }, [teamBruker]);
-
 
   //Foreløpig for bakgrunnen
   const waveBackgroundStyle: React.CSSProperties = {
