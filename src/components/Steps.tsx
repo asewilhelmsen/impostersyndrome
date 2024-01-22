@@ -30,7 +30,6 @@ const Steps = ({
     if (aktivtSteg === nameList.length - 1) {
       /*setShowPopUp(true);*/
       handleFinishStartAkt();
-      navigate("/hjem");
     } else {
       handleNextStep();
     }
@@ -49,8 +48,11 @@ const Steps = ({
       const docRef = doc(firestore, teamBruker.uid, "startAktivitetSteg");
 
       const unsubscribe = onSnapshot(docRef, (querySnapshot) => {
-        console.log("querysnapshot stepper data: ", querySnapshot.data()?.steg);
+        console.log("querysnapshot STEG Steps ", querySnapshot.data()?.steg);
         setAktivtSteg(querySnapshot.data()?.steg);
+        if (querySnapshot.data()?.steg === -1) {
+          navigate("/hjem");
+        }
       });
 
       return unsubscribe;
@@ -86,7 +88,7 @@ const Steps = ({
         >
           <Button
             color="inherit"
-            disabled={aktivtSteg === 0}
+            // disabled={aktivtSteg === 0}
             onClick={handleBack}
             sx={{ mr: 1 }}
           >

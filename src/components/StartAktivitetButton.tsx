@@ -1,6 +1,7 @@
 import { Button, Grid } from "@mui/material";
 import startActivity from "../images/startActivity.svg";
 import { useNavigate } from "react-router-dom";
+import handleNextStep from "../firebase/handles/handleNextStep";
 
 const StartAktivitetButton = () => {
   const imageStyle = {
@@ -11,6 +12,7 @@ const StartAktivitetButton = () => {
 
   const handleClick = () => {
     navigate("/startaktivitet");
+    handleNextStep();
   };
 
   return (
@@ -30,7 +32,7 @@ const StartAktivitetButton = () => {
       </Grid>
       <Grid item xs={6}>
         <Button variant="contained" onClick={handleClick}>
-          Start-activity
+          Start-aktivitet
         </Button>
       </Grid>
     </Grid>

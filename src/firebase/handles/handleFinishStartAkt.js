@@ -8,7 +8,8 @@ const handleFinishStartAkt = () => {
 
   try {
     setDoc(stegRef, {
-      steg: 0,
+      steg: -1,
+      samtaleSteg: 0,
     });
   } catch (err) {
     console.log("Kunne ikke oppdatere steg!", err);

@@ -2,7 +2,7 @@ import Steps from "../components/Steps";
 import Icebreaker from "../components/Icebreaker/Icebreaker";
 import Forventninger from "../components/StartAktivitet/Forventninger";
 import IPInformasjon from "../components/StartAktivitet/IPInformasjon";
-import Samtalestarter from "../components/Samtalestarter";
+import Samtalestarter from "../components/StartAktivitet/Samtalestarter";
 
 const StartAktivitet = () => {
   const steps = [
