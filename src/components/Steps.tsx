@@ -14,7 +14,6 @@ import { firestore } from "../firebase/firebase_setup/firebase";
 import handleNextStep from "../firebase/handles/handleNextStep";
 import handleBackStep from "../firebase/handles/handleBackStep";
 import handleFinishStartAkt from "../firebase/handles/handleFinishStartAkt";
-import LevelPopUp from "./LevelPopUp";
 
 const Steps = ({
   nameList,
@@ -26,13 +25,12 @@ const Steps = ({
   maalData: { [key: string]: string };
 }) => {
   const [aktivtSteg, setAktivtSteg] = useState(0);
-  const [showPopUp, setShowPopUp] = useState(false);
   const navigate = useNavigate();
   const { teamBruker } = useTeamContext();
 
   const handleNext = () => {
     if (aktivtSteg === nameList.length - 1) {
-      setShowPopUp(true);
+      handleFinishStartAkt(maalData);
     } else {
       handleNextStep();
     }
@@ -42,10 +40,6 @@ const Steps = ({
     handleBackStep();
   };
 
-  const handleClosePopUp = () => {
-    handleFinishStartAkt(maalData);
-  };
-
   useEffect(() => {
     if (teamBruker) {
       const docRef = doc(firestore, teamBruker.uid, "startAktivitetSteg");
@@ -53,7 +47,7 @@ const Steps = ({
       const unsubscribe = onSnapshot(docRef, (querySnapshot) => {
         console.log("querysnapshot STEG Steps ", querySnapshot.data()?.steg);
         setAktivtSteg(querySnapshot.data()?.steg);
-        if (querySnapshot.data()?.steg === -1) {
+        if (querySnapshot.data()?.steg === 4) {
           navigate("/");
         }
       });
@@ -73,73 +67,67 @@ const Steps = ({
       }}
     >
       {/* Grid with the stepper header */}
-      {!showPopUp && (
-        <Grid container sx={{ backgroundColor: "white", padding: 3 }}>
-          <Grid item xs={12}>
-            <Typography variant="h6">
-              <b>Step {aktivtSteg + 1}:</b> {nameList[aktivtSteg]}
-            </Typography>
-          </Grid>
-          <Grid item xs={12}>
-            <Stepper activeStep={aktivtSteg} sx={{ width: "30%", mt: 0 }}>
-              {nameList.map((label) => (
-                <Step key={label}>
-                  <StepLabel>{/*{label}*/}</StepLabel>
-                </Step>
-              ))}
-            </Stepper>
-          </Grid>
+      <Grid container sx={{ backgroundColor: "white", padding: 3 }}>
+        <Grid item xs={12}>
+          <Typography variant="h6">
+            <b>Step {aktivtSteg + 1}:</b> {nameList[aktivtSteg]}
+          </Typography>
         </Grid>
-      )}
+        <Grid item xs={12}>
+          <Stepper activeStep={aktivtSteg} sx={{ width: "30%", mt: 0 }}>
+            {nameList.map((label) => (
+              <Step key={label}>
+                <StepLabel>{/*{label}*/}</StepLabel>
+              </Step>
+            ))}
+          </Stepper>
+        </Grid>
+      </Grid>
 
       {/* Grid with the content and next/back button */}
-      {showPopUp ? (
-        <LevelPopUp onClose={handleClosePopUp} level={1} />
-      ) : (
+      <Grid
+        container
+        sx={{
+          padding: 3,
+          flex: 1,
+        }}
+      >
+        <Grid item xs={12}>
+          <Box sx={{ pb: 5 }}>{content[aktivtSteg]}</Box>
+        </Grid>
+
         <Grid
-          container
+          item
+          xs={6}
           sx={{
-            padding: 3,
-            flex: 1,
+            display: "flex",
+            justifyContent: "flex-end",
+            alignSelf: "flex-end",
           }}
         >
-          <Grid item xs={12}>
-            <Box sx={{ pb: 5 }}>{content[aktivtSteg]}</Box>
-          </Grid>
-
-          <Grid
-            item
-            xs={6}
-            sx={{
-              display: "flex",
-              justifyContent: "flex-end",
-              alignSelf: "flex-end",
-            }}
+          <Button
+            variant="contained"
+            // disabled={activeStep === 0}
+            onClick={handleBack}
+            sx={{ mr: 1 }}
           >
-            <Button
-              variant="contained"
-              // disabled={activeStep === 0}
-              onClick={handleBack}
-              sx={{ mr: 1 }}
-            >
-              Back
-            </Button>
-          </Grid>
-          <Grid
-            item
-            xs={6}
-            sx={{
-              display: "flex",
-              justifyContent: "flex-start",
-              alignSelf: "flex-end",
-            }}
-          >
-            <Button variant="contained" onClick={handleNext}>
-              {aktivtSteg === nameList.length - 1 ? "Finish" : "Next"}
-            </Button>
-          </Grid>
+            Back
+          </Button>
         </Grid>
-      )}
+        <Grid
+          item
+          xs={6}
+          sx={{
+            display: "flex",
+            justifyContent: "flex-start",
+            alignSelf: "flex-end",
+          }}
+        >
+          <Button variant="contained" onClick={handleNext}>
+            {aktivtSteg === nameList.length - 1 ? "Finish" : "Next"}
+          </Button>
+        </Grid>
+      </Grid>
     </Box>
   );
 };

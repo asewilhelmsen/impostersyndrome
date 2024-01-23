@@ -18,7 +18,7 @@ const handleFinishStartAkt = (maalData) => {
 
   try {
     setDoc(stegRef, {
-      steg: -1,
+      steg: 4,
       samtaleSteg: 0,
     });
     setDoc(startAktMaalRef, maalData);

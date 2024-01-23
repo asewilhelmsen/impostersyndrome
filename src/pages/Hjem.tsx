@@ -19,9 +19,12 @@ import { useTeamContext } from "../TeamContext";
 import { firestore } from "../firebase/firebase_setup/firebase";
 import { doc, onSnapshot } from "@firebase/firestore";
 import { useNavigate } from "react-router-dom";
+import LevelPopUp from "../components/LevelPopUp";
+import handleCloseLevelPopUp from "../firebase/handles/handleCloseLevelPopUp";
 
 const Hjem = ({ handleSignOut }: { handleSignOut: () => Promise<void> }) => {
   const [teamLevel, setTeamLevel] = useState(0);
+  const [showPopUp, setShowPopUp] = useState(false);
   const { teamBruker } = useTeamContext();
   const navigate = useNavigate();
 
@@ -44,11 +47,18 @@ const Hjem = ({ handleSignOut }: { handleSignOut: () => Promise<void> }) => {
       const unsubscribe = onSnapshot(docRef, (querySnapshot) => {
         if (querySnapshot.data()?.steg === 0) {
           navigate("/startaktivitet");
+        } else if (querySnapshot.data()?.steg === 4) {
+          setShowPopUp(true);
         }
       });
       return unsubscribe;
     }
   }, [teamBruker]);
+
+  const handleClosePopUp = () => {
+    setShowPopUp(false);
+    handleCloseLevelPopUp();
+  };
 
   //Foreløpig for bakgrunnen
   const waveBackgroundStyle: React.CSSProperties = {
@@ -81,6 +91,7 @@ const Hjem = ({ handleSignOut }: { handleSignOut: () => Promise<void> }) => {
       <Button onClick={handleSignOut}>Logg ut</Button>
 
       <img src={wave} alt="Wavy Background" style={waveBackgroundStyle} />
+
       <Container
         maxWidth="md"
         sx={{ alignItems: "center", minHeight: "700px" }}
@@ -143,6 +154,9 @@ const Hjem = ({ handleSignOut }: { handleSignOut: () => Promise<void> }) => {
             </Grid>
           </Grid>
         </Grid>
+        {showPopUp && (
+          <LevelPopUp onClose={handleClosePopUp} level={teamLevel} />
+        )}
       </Container>
     </div>
   );
