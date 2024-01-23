@@ -1,39 +1,40 @@
 import React, { useState, useEffect } from "react";
-import { Box, TextField, Typography, Button, Tooltip } from "@mui/material";
+import { Box, TextField, Typography, Tooltip } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import { v4 as uuidv4 } from "uuid";
+import { Maalene } from "../interfaces";
 
 const Maal = ({
   onMaalSubmit,
 }: {
-  onMaalSubmit: (maal: { [key: string]: string }) => void;
+  onMaalSubmit: (maal: Maalene[]) => void;
 }) => {
-  const [goalCount, setGoalCount] = useState([1]);
-  const [maalInput, setMaalInput] = useState<string>("");
-  const [maalene, setMaalene] = useState<{ [key: string]: string }>({});
+  const [maalene, setMaalene] = useState<Maalene[]>([
+    { id: uuidv4(), tekst: "" },
+  ]);
   const [showTooltip, setShowTooltip] = useState(false);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setMaalInput(e.target.value);
+  const handleInputChange = (id: string, value: string) => {
+    setMaalene((prevMaal) =>
+      prevMaal.map((maal) =>
+        maal.id === id ? { ...maal, tekst: value } : maal
+      )
+    );
   };
 
   const addMaal = () => {
-    setGoalCount((prevGoals) => [...prevGoals, prevGoals.length + 1]);
-    setMaalene((prevMaalene) => ({
-      ...prevMaalene,
-      [`maal${goalCount[goalCount.length - 1]}`]: maalInput,
-    }));
+    const nyMaalId = uuidv4();
+    setMaalene([...maalene, { id: nyMaalId, tekst: "" }]);
   };
 
-  const removeMaal = (goalNumber: number) => {
-    setGoalCount((prevGoals) => prevGoals.filter((num) => num !== goalNumber));
-    const { [`maal${goalNumber}`]: removedGoal, ...rest } = maalene;
-    setMaalene(rest);
+  const removeMaal = (maalId: string) => {
+    setMaalene((prevMaal) => prevMaal.filter((maal) => maal.id !== maalId));
   };
   useEffect(() => {
     onMaalSubmit(maalene);
-  }, [maalene, onMaalSubmit]);
+  }, [maalene]);
 
   return (
     <Box
@@ -42,9 +43,9 @@ const Maal = ({
         flexDirection: "column",
       }}
     >
-      {goalCount.map((goalNumber) => (
+      {maalene.map((maal, maalIndex) => (
         <Box
-          key={goalNumber}
+          key={maalIndex}
           sx={{
             display: "flex",
             flexDirection: "row",
@@ -52,21 +53,21 @@ const Maal = ({
             alignItems: "center",
           }}
         >
-          <Typography>{`Mål ${goalNumber}: `}</Typography>
+          <Typography>{`Mål ${maalIndex + 1}: `}</Typography>
           <TextField
-            id={`goal${goalNumber}`}
             variant="outlined"
             sx={{ width: "70%" }}
-            onChange={handleInputChange}
+            value={maal.tekst}
+            onChange={(e) => handleInputChange(maal.id, e.target.value)}
             InputProps={{
-              endAdornment: goalCount.length > 1 && (
+              endAdornment: maalene.length > 1 && (
                 <IconButton
                   sx={{
                     color: "primary.main",
                     padding: 0,
                     borderRadius: 1,
                   }}
-                  onClick={() => removeMaal(goalNumber)}
+                  onClick={() => removeMaal(maal.id)}
                 >
                   <DeleteOutlineIcon fontSize="medium" />
                 </IconButton>
