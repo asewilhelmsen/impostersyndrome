@@ -21,6 +21,14 @@ const theme = createTheme({
       color: "#0E056E",
       marginBottom: "2%",
     },
+    h5: {
+      color: "#0E056E",
+      marginBottom: "2%",
+    },
+    h6: {
+      color: "#0E056E",
+      marginBottom: "1%",
+    },
   },
   components: {
     MuiButton: {
@@ -29,6 +37,13 @@ const theme = createTheme({
           color: "white",
           borderRadius: 6,
           textTransform: "none",
+        },
+      },
+    },
+    MuiIconButton: {
+      styleOverrides: {
+        root: {
+          color: "#7D97F4",
         },
       },
     },

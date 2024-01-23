@@ -35,8 +35,11 @@ const Hjem = ({ handleSignOut }: { handleSignOut: () => Promise<void> }) => {
   };
 
   useEffect(() => {
+    getLevel();
+  }, []);
+
+  useEffect(() => {
     if (teamBruker) {
-      getLevel();
       const docRef = doc(firestore, teamBruker.uid, "startAktivitetSteg");
       const unsubscribe = onSnapshot(docRef, (querySnapshot) => {
         if (querySnapshot.data()?.steg === 0) {
