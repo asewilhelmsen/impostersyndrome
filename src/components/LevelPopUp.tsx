@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box, Typography, IconButton } from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
+import { Box, Typography, IconButton, Modal } from "@mui/material";
 import TeamConnectors_Img from "../images/teamConnectors_done.svg"; //level 1
 import CommunicationExplorers_Img from "../images/communicationExplorers_done.svg"; //level 2
 import BondBuilders_Img from "../images/bondBuilders_done.svg"; //level 3
@@ -34,39 +33,30 @@ const LevelPopUp: React.FC<{ onClose: () => void; level: number }> = ({
   });
 
   return (
-    <Box
-      sx={{
-        margin: "auto",
-        backgroundColor: "white",
-        width: "40%",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
-        borderRadius: "10px",
-        boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-      }}
-    >
-      <Box sx={{ alignSelf: "flex-end" }}>
-        <IconButton onClick={onClose}>
-          <CloseIcon fontSize="large" />
-        </IconButton>
-      </Box>
-      <Box>
-        <Typography variant="h5" sx={{ marginBottom: "15px" }}>
-          Gratulerer!
-        </Typography>
-      </Box>
-      <Box>
-        <Typography variant="h6" sx={{ marginBottom: "15px" }}>
-          Teamet har nådd et nytt nivå 🎉
-        </Typography>
-      </Box>
-      <Box>
-        {/* Display the image based on the level */}
+    <Modal open={true} onClose={onClose}>
+      <Box
+        sx={{
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+          width: "30%",
+          bgcolor: "white",
+          border: "1px solid #000",
+          borderRadius: 2,
+          boxShadow: 24,
+          p: 4,
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Typography variant="h5">Gratulerer!</Typography>
+        <Typography variant="h6">Teamet har nådd et nytt nivå 🎉</Typography>
         {levelImage && <img src={levelImage} alt={`Level ${level} image`} />}
       </Box>
-    </Box>
+    </Modal>
   );
 };
 
