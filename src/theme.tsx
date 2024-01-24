@@ -34,7 +34,7 @@ const theme = createTheme({
       color: "#0E056E",
       marginBottom: "1%",
     },
-   fontFamily: "Inter",
+    fontFamily: ["Inter", "sans-serif"].join(","),
   },
   components: {
     MuiButton: {
