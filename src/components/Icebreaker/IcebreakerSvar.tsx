@@ -17,7 +17,7 @@ const IcebreakerSvar = ({ alleSvar }: { alleSvar: Svar[] }) => {
         container
         direction="row"
         spacing={2}
-        justifyContent="center"
+        justifyContent={"center"}
         sx={{ marginTop: "10px" }}
       >
         {alleSvar.map((svar: Svar) => (

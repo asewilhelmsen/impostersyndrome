@@ -22,7 +22,7 @@ const IcebreakerSvarKort = ({ svar }: { svar: Svar }) => {
     setClickedLogn(buttonText);
   };
   return (
-    <Grid item key={svar.id}>
+    <Grid item key={svar.id} xs={3}>
       <Card
         sx={{
           backgroundColor:
