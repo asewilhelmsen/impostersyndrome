@@ -14,31 +14,36 @@ import RetroButton from "../components/RetroButton";
 import StartAktivitetButton from "../components/StartAktivitetButton";
 import TeambuildingButton from "../components/TeambuildingButton";
 import { useState, useEffect } from "react";
-import getTeamLevel from "../firebase/getTeamLevel";
 import { useTeamContext } from "../TeamContext";
 import { firestore } from "../firebase/firebase_setup/firebase";
 import { doc, onSnapshot } from "@firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import LevelPopUp from "../components/LevelPopUp";
 import handleCloseLevelPopUp from "../firebase/handles/handleCloseLevelPopUp";
+import getTeamInfo from "../firebase/getTeamInfo";
 
 const Hjem = ({ handleSignOut }: { handleSignOut: () => Promise<void> }) => {
   const [teamLevel, setTeamLevel] = useState(0);
+  const [teamNavn, setTeamNavn] = useState("Bachelorgruppe");
   const [showPopUp, setShowPopUp] = useState(false);
-  const { teamBruker } = useTeamContext();
+  const { teamBruker, setTeamAntall } = useTeamContext();
   const navigate = useNavigate();
 
-  const getLevel = async () => {
+  const setTeamInfo = async () => {
     try {
-      const level = await getTeamLevel();
-      setTeamLevel(level);
+      const teamInfo = await getTeamInfo();
+      if (teamInfo) {
+        setTeamLevel(teamInfo.level);
+        setTeamNavn(teamInfo.teamNavn);
+        setTeamAntall(teamInfo.antallMedlemmer);
+      }
     } catch (error) {
       console.error("Kan ikke hente level", error);
     }
   };
 
   useEffect(() => {
-    getLevel();
+    setTeamInfo();
   }, []);
 
   useEffect(() => {
@@ -97,7 +102,7 @@ const Hjem = ({ handleSignOut }: { handleSignOut: () => Promise<void> }) => {
         sx={{ alignItems: "center", minHeight: "700px" }}
       >
         <Typography variant="h2" sx={{ mt: 5, mb: 10 }} color="text.primary">
-          Team: {teamInfo["123"].name}
+          Team: {teamNavn}
         </Typography>
         <Grid
           container

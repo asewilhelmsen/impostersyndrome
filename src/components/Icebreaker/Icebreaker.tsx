@@ -35,8 +35,7 @@ const Icebreaker = () => {
   //For å sjekke om brukeren har sendt inn svarert
   const [submitted, setSubmitted] = useState(false);
 
-  //Denne bør hentes fra et input felt i starten ellerno
-  const teamMemberCount = 6;
+  const { teamAntall } = useTeamContext();
 
   //Brukeren som er logget inn på
   const { teamBruker } = useTeamContext();
@@ -108,7 +107,7 @@ const Icebreaker = () => {
   return (
     <>
       <Typography variant="h2">2 sannheter og 1 løgn</Typography>
-      {!submitted && svarCount < teamMemberCount ? (
+      {!submitted && svarCount < teamAntall ? (
         <>
           <form onSubmit={submitSvar}>
             <Grid
@@ -168,17 +167,21 @@ const Icebreaker = () => {
               </Grid>
             </Grid>
           </form>
-          <div>Antall svar: {svarCount} / 6</div>
+          <div>
+            Antall svar: {svarCount} / {teamAntall}
+          </div>
         </>
       ) : (
         <>
-          {svarCount < teamMemberCount ? (
+          {svarCount < teamAntall ? (
             <div>
               <Typography variant="h5">
                 Venter på at de andre skal svare...
               </Typography>
               <CircularProgress />
-              <div>Antall svar: {svarCount} / 6</div>
+              <div>
+                Antall svar: {svarCount} / {teamAntall}
+              </div>
             </div>
           ) : (
             <IcebreakerSvar alleSvar={svar} />
