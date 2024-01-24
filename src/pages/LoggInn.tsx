@@ -82,7 +82,7 @@ const LoggInn = () => {
     top: 0,
     left: 0,
     width: "100%",
-    height: "100%",
+    height: "110%",
     zIndex: -1,
   };
 
@@ -112,20 +112,20 @@ const LoggInn = () => {
               component="img"
               sx={{
                 mt: 4,
-                height: 500,
-                width: 750,
-                maxHeight: { xs: 233, md: 280 },
-                maxWidth: { xs: 350, md: 422 },
+                height: 350,
+                width: 650,
+                maxHeight: { xs: 200, md: 250 },
+                maxWidth: { xs: 300, md: 350 },
               }}
               alt="Team som jobber sammen illustrasjon"
               src={startImg}
             />
-            <Typography variant="h3" sx={{ mt: 5 }}>
-              The Imposter Phenomenon
+            <Typography variant="h3" sx={{ mt: 10, mb: 2 }}>
+              Navn på nettsiden
             </Typography>
-            <Typography variant="h4">
-              This website will help your team connect, work better together and
-              be aware of the imposter feeling.
+            <Typography variant="h5">
+              Denne nettsiden kan hjelpe deg og ditt team til å samarbeide bedre
+              og bli bevisst på imposter følelsen.
             </Typography>
 
             <CssBaseline />

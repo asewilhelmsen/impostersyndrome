@@ -13,7 +13,13 @@ const IcebreakerSvar = ({ alleSvar }: { alleSvar: Svar[] }) => {
   return (
     <>
       <Typography>Klikk på den du tror er en løgn på hver person!</Typography>
-      <Grid container direction="row" spacing={2} alignContent="center">
+      <Grid
+        container
+        direction="row"
+        spacing={2}
+        justifyContent="center"
+        sx={{ marginTop: "10px" }}
+      >
         {alleSvar.map((svar: Svar) => (
           <IcebreakerSvarKort key={svar.id} svar={svar} />
         ))}

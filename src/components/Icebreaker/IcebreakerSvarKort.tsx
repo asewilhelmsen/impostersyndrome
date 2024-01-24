@@ -35,12 +35,21 @@ const IcebreakerSvarKort = ({ svar }: { svar: Svar }) => {
           flexDirection: "column",
           alignItems: "center",
           padding: "16px",
+          width: "200px", // Adjust the width as needed
         }}
       >
         <Typography> Navn: {svar.id}</Typography>
         {shuffledButtons.map((buttonText, index) => (
-          <div style={{ marginTop: "8px" }} key={index}>
-            <Button onClick={() => handleLognClick(buttonText)}>
+          <div style={{ marginTop: "8px", width: "100%" }} key={index}>
+            <Button
+              variant="outlined"
+              sx={{
+                width: "100%",
+                height: "50px", // Adjust the height as needed
+                whiteSpace: "normal",
+              }}
+              onClick={() => handleLognClick(buttonText)}
+            >
               {buttonText}
             </Button>
           </div>

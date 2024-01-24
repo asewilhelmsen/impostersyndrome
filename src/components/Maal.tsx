@@ -56,7 +56,7 @@ const Maal = ({
           <TextField
             id={`goal${goalNumber}`}
             variant="outlined"
-            sx={{ width: "70%" }}
+            sx={{ width: "70%", backgroundColor: "white" }}
             onChange={handleInputChange}
             InputProps={{
               endAdornment: goalCount.length > 1 && (
