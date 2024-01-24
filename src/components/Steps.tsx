@@ -14,6 +14,7 @@ import { firestore } from "../firebase/firebase_setup/firebase";
 import handleNextStep from "../firebase/handles/handleNextStep";
 import handleBackStep from "../firebase/handles/handleBackStep";
 import handleFinishStartAkt from "../firebase/handles/handleFinishStartAkt";
+import { Maalene } from "../interfaces";
 
 const Steps = ({
   nameList,
@@ -22,7 +23,7 @@ const Steps = ({
 }: {
   nameList: string[];
   content: JSX.Element[];
-  maalData: { [key: string]: string };
+  maalData: Maalene[];
 }) => {
   const [aktivtSteg, setAktivtSteg] = useState(0);
   const navigate = useNavigate();

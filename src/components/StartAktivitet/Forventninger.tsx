@@ -6,6 +6,7 @@ import Maal from "../Maal";
 import ExpectationImg from "../../images/Expectations.svg";
 import React from "react";
 import styles from "./Forventninger.module.css";
+import { Maalene } from "../../interfaces";
 
 const expectationsList = [
   {
@@ -28,7 +29,7 @@ const expectationsList = [
 const Forventninger = ({
   onMaalSubmit,
 }: {
-  onMaalSubmit: (maal: { [key: string]: string }) => void;
+  onMaalSubmit: (maal: Maalene[]) => void;
 }) => {
   return (
     <Box style={{ display: "flex", flexDirection: "row" }}>
@@ -76,6 +77,15 @@ const Forventninger = ({
         ))}
         <Grid item xs={1}></Grid>
         <Grid item xs={8}>
+          <Typography
+            sx={{
+              color: "text.secondary",
+              marginTop: "20px",
+              marginBottom: "20px",
+            }}
+          >
+            {"Bare ett teammedlem trenger å fylle inn målene!"}
+          </Typography>
           <Maal onMaalSubmit={onMaalSubmit} />
         </Grid>
       </Grid>
