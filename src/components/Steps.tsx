@@ -48,7 +48,10 @@ const Steps = ({
       const unsubscribe = onSnapshot(docRef, (querySnapshot) => {
         console.log("querysnapshot STEG Steps ", querySnapshot.data()?.steg);
         setAktivtSteg(querySnapshot.data()?.steg);
-        if (querySnapshot.data()?.steg === 4) {
+        if (
+          querySnapshot.data()?.steg === 4 ||
+          querySnapshot.data()?.steg === -1
+        ) {
           navigate("/");
         }
       });

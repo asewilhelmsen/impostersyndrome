@@ -56,7 +56,7 @@ const Maal = ({
           <Typography>{`Mål ${maalIndex + 1}: `}</Typography>
           <TextField
             variant="outlined"
-            sx={{ width: "70%",  backgroundColor: "white" }}
+            sx={{ width: "70%", backgroundColor: "white", marginTop: "5px" }}
             value={maal.tekst}
             onChange={(e) => handleInputChange(maal.id, e.target.value)}
             InputProps={{
