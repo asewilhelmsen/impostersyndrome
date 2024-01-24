@@ -13,12 +13,16 @@ const handleFinishStartAkt = (maalData) => {
   const maalRef = collection(forventningerRef, "maal");
   const startAktMaalRef = doc(maalRef, "startAktMaal");
 
+  //Ref level
+  const teamInfoRef = doc(teamRef, "teamInfo");
+
   try {
     setDoc(stegRef, {
-      steg: -1,
+      steg: 4,
       samtaleSteg: 0,
     });
     setDoc(startAktMaalRef, maalData);
+    setDoc(teamInfoRef, { level: 1 });
   } catch (err) {
     console.log("Kunne ikke fullføre startaktiviteten!", err);
   }

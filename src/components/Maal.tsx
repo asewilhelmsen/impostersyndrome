@@ -83,7 +83,6 @@ const Maal = ({
         <Tooltip title="Legg til nytt mål" open={showTooltip}>
           <IconButton
             onClick={addMaal}
-            color="primary"
             onMouseEnter={() => setShowTooltip(true)}
             onMouseLeave={() => setShowTooltip(false)}
           >

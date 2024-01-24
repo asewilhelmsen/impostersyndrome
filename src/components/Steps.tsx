@@ -25,13 +25,11 @@ const Steps = ({
   maalData: { [key: string]: string };
 }) => {
   const [aktivtSteg, setAktivtSteg] = useState(0);
-  const [showPopUp, setShowPopUp] = useState(false);
   const navigate = useNavigate();
   const { teamBruker } = useTeamContext();
 
   const handleNext = () => {
     if (aktivtSteg === nameList.length - 1) {
-      /*setShowPopUp(true);*/
       handleFinishStartAkt(maalData);
     } else {
       handleNextStep();
@@ -42,10 +40,6 @@ const Steps = ({
     handleBackStep();
   };
 
-  const handleClosePopUp = () => {
-    setShowPopUp(false);
-  };
-
   useEffect(() => {
     if (teamBruker) {
       const docRef = doc(firestore, teamBruker.uid, "startAktivitetSteg");
@@ -53,7 +47,7 @@ const Steps = ({
       const unsubscribe = onSnapshot(docRef, (querySnapshot) => {
         console.log("querysnapshot STEG Steps ", querySnapshot.data()?.steg);
         setAktivtSteg(querySnapshot.data()?.steg);
-        if (querySnapshot.data()?.steg === -1) {
+        if (querySnapshot.data()?.steg === 4) {
           navigate("/");
         }
       });
@@ -75,12 +69,12 @@ const Steps = ({
       {/* Grid with the stepper header */}
       <Grid container sx={{ backgroundColor: "white", padding: 3 }}>
         <Grid item xs={12}>
-          <Typography variant="h6" sx={{ mt: 2, mb: 2, color: "text.primary" }}>
+          <Typography variant="h6">
             <b>Step {aktivtSteg + 1}:</b> {nameList[aktivtSteg]}
           </Typography>
         </Grid>
         <Grid item xs={12}>
-          <Stepper activeStep={aktivtSteg} sx={{ width: "30%" }}>
+          <Stepper activeStep={aktivtSteg} sx={{ width: "30%", mt: 0 }}>
             {nameList.map((label) => (
               <Step key={label}>
                 <StepLabel>{/*{label}*/}</StepLabel>
@@ -99,7 +93,7 @@ const Steps = ({
         }}
       >
         <Grid item xs={12}>
-          {!showPopUp && <Box sx={{ pb: 5 }}>{content[aktivtSteg]}</Box>}
+          <Box sx={{ pb: 5 }}>{content[aktivtSteg]}</Box>
         </Grid>
 
         <Grid
