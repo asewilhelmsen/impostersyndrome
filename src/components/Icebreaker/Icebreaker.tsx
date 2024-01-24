@@ -225,7 +225,7 @@ const Icebreaker = () => {
               </Grid>
               <Grid item>
                 <Button type="submit" variant="contained">
-                  Sendt inn
+                  Send inn
                 </Button>
               </Grid>
               <Grid item>

@@ -76,7 +76,7 @@ const Steps = ({
       <Grid container sx={{ backgroundColor: "white", padding: 3 }}>
         <Grid item xs={12}>
           <Typography variant="h6" sx={{ mt: 2, mb: 2, color: "text.primary" }}>
-            <b>Step {aktivtSteg + 1}:</b> {nameList[aktivtSteg]}
+            <b>Steg {aktivtSteg + 1}:</b> {nameList[aktivtSteg]}
           </Typography>
         </Grid>
         <Grid item xs={12}>
@@ -117,7 +117,7 @@ const Steps = ({
             onClick={handleBack}
             sx={{ mr: 1 }}
           >
-            Back
+            Tilbake
           </Button>
         </Grid>
         <Grid
@@ -130,7 +130,7 @@ const Steps = ({
           }}
         >
           <Button variant="contained" onClick={handleNext}>
-            {aktivtSteg === nameList.length - 1 ? "Finish" : "Next"}
+            {aktivtSteg === nameList.length - 1 ? "Ferdig" : "Neste"}
           </Button>
         </Grid>
       </Grid>
