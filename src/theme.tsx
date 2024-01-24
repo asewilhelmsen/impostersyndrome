@@ -1,5 +1,10 @@
 import { createTheme } from "@mui/material/styles";
 import { red } from "@mui/material/colors";
+import { SxProps } from "@mui/system";
+
+interface CustomStyleOverrides {
+  customColorButton?: SxProps;
+}
 
 const theme = createTheme({
   palette: {
@@ -29,6 +34,7 @@ const theme = createTheme({
       color: "#0E056E",
       marginBottom: "1%",
     },
+    fontFamily: ["Inter", "sans-serif"].join(","),
   },
   components: {
     MuiButton: {
@@ -37,6 +43,14 @@ const theme = createTheme({
           color: "white",
           borderRadius: 6,
           textTransform: "none",
+        },
+        outlined: {
+          color: "black",
+          backgroundColor: "white",
+          borderColor: "white",
+        },
+        text: {
+          color: "#7D97F4",
         },
       },
     },
