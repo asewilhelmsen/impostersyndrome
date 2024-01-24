@@ -26,7 +26,15 @@ const theme = createTheme({
       color: "#0E056E",
       marginBottom: "2%",
     },
-    fontFamily: "Inter",
+    h5: {
+      color: "#0E056E",
+      marginBottom: "2%",
+    },
+    h6: {
+      color: "#0E056E",
+      marginBottom: "1%",
+    },
+   fontFamily: "Inter",
   },
   components: {
     MuiButton: {
@@ -42,6 +50,13 @@ const theme = createTheme({
           borderColor: "white",
         },
         text: {
+          color: "#7D97F4",
+        },
+      },
+    },
+    MuiIconButton: {
+      styleOverrides: {
+        root: {
           color: "#7D97F4",
         },
       },
