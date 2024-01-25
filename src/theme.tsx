@@ -1,10 +1,5 @@
 import { createTheme } from "@mui/material/styles";
 import { red } from "@mui/material/colors";
-import { SxProps } from "@mui/system";
-
-interface CustomStyleOverrides {
-  customColorButton?: SxProps;
-}
 
 const theme = createTheme({
   palette: {
