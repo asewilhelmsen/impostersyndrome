@@ -4,34 +4,33 @@ import img_disabled from "../images/teambuilding_disabled.svg";
 
 const TeambuildingButton = ({ disabled }: { disabled: boolean }) => {
   const imageStyle = {
-    width: "75%",
+    width: "25%",
+    marginBottom: "3%",
   };
 
   return (
-    <Grid
-      container
-      direction="row"
-      alignItems="center"
-      justifyContent="flex-start"
-      spacing={2}
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "center",
+        gap: "5%",
+      }}
     >
-      <Grid item xs={6}>
-        <img
-          src={disabled ? img_disabled : img}
-          alt="Button illustration"
-          style={imageStyle}
-        ></img>
-      </Grid>
-      <Grid item xs={6}>
-        {disabled ? (
-          <Button variant="contained" disabled>
-            Teambuilding
-          </Button>
-        ) : (
-          <Button variant="contained">Teambuilding</Button>
-        )}
-      </Grid>
-    </Grid>
+      <img
+        src={disabled ? img_disabled : img}
+        alt="Button illustration"
+        style={imageStyle}
+      ></img>
+      {disabled ? (
+        <Button variant="contained" disabled>
+          TEAMBUILDING
+        </Button>
+      ) : (
+        <Button variant="contained">TEAMBUILDING</Button>
+      )}
+    </div>
   );
 };
 

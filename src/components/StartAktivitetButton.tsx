@@ -5,7 +5,7 @@ import handleNextStep from "../firebase/handles/handleNextStep";
 
 const StartAktivitetButton = () => {
   const imageStyle = {
-    width: "80%",
+    width: "25%",
   };
 
   const navigate = useNavigate();
@@ -16,26 +16,24 @@ const StartAktivitetButton = () => {
   };
 
   return (
-    <Grid
-      container
-      direction="row"
-      alignItems="center"
-      justifyContent="flex-start"
-      spacing={2}
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "center",
+        gap: "5%",
+      }}
     >
-      <Grid item xs={6}>
-        <img
-          src={startActivity}
-          alt="Button illustration"
-          style={imageStyle}
-        ></img>
-      </Grid>
-      <Grid item xs={6}>
-        <Button variant="contained" onClick={handleClick}>
-          Start-aktivitet
-        </Button>
-      </Grid>
-    </Grid>
+      <img
+        src={startActivity}
+        alt="Button illustration"
+        style={imageStyle}
+      ></img>
+      <Button variant="contained" onClick={handleClick}>
+        START-AKTIVITET
+      </Button>
+    </div>
   );
 };
 
