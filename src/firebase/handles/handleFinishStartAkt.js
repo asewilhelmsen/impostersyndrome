@@ -1,4 +1,4 @@
-import { collection, doc, setDoc } from "@firebase/firestore";
+import { collection, doc, setDoc, updateDoc } from "@firebase/firestore";
 import { firestore, auth } from "../firebase_setup/firebase";
 
 const handleFinishStartAkt = (maalData) => {
@@ -12,7 +12,6 @@ const handleFinishStartAkt = (maalData) => {
   const forventningerRef = doc(teamRef, "forventninger");
   const maalRef = collection(forventningerRef, "maal");
   const startAktMaalRef = doc(maalRef, "startAktMaal");
-  
   //Ref level
   const teamInfoRef = doc(teamRef, "teamInfo");
 
@@ -28,7 +27,7 @@ const handleFinishStartAkt = (maalData) => {
       samtaleSteg: 0,
     });
     setDoc(startAktMaalRef, maalObject);
-    setDoc(teamInfoRef, { level: 1 });
+    updateDoc(teamInfoRef, { level: 1 });
   } catch (err) {
     console.log("Kunne ikke fullføre startaktiviteten!", err);
   }

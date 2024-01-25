@@ -159,9 +159,7 @@ const Hjem = ({ handleSignOut }: { handleSignOut: () => Promise<void> }) => {
             </Grid>
           </Grid>
         </Grid>
-        {showPopUp && (
-          <LevelPopUp onClose={handleClosePopUp} level={teamLevel} />
-        )}
+        {showPopUp && <LevelPopUp onClose={handleClosePopUp} level={1} />}
       </Container>
     </div>
   );
