@@ -36,10 +36,8 @@ const Icebreaker = () => {
   //For å sjekke om brukeren har sendt inn svarert
   const [submitted, setSubmitted] = useState(false);
 
-  const { teamAntall } = useTeamContext();
-
-  //Brukeren som er logget inn på
-  const { teamBruker } = useTeamContext();
+  //Brukeren som er logget inn på og antall team medlemmer
+  const { teamBruker, teamAntall } = useTeamContext();
 
   //Til å hente input verdiene fra statene og sende til databasen
   const submitSvar = (e: FormEvent) => {
