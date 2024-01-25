@@ -18,8 +18,9 @@ const Samtalestarter = () => {
   const [samtaleIndex, setSamtaleIndex] = useState(0);
   const samtalekortArray = [
     "Hvordan tror dere teamarbeid påvirker følelsen av imposter syndrome?",
-    "Hva kan dere gjøre for å miske imposter følelsene på teamet?",
-    "Dere har fullført alle samtalekortene!",
+    "Har dere noen gang følt på imposter syndrome i noen settinger?",
+    "Hva kan dere gjøre for å minske imposter følelsene på teamet?",
+    "Dere har fullført alle samtalekortene! ",
   ];
 
   useEffect(() => {

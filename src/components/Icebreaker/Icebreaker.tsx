@@ -4,6 +4,7 @@ import {
   Grid,
   Button,
   CircularProgress,
+  InputLabel,
 } from "@mui/material";
 import { FormEvent, useEffect, useState } from "react";
 import { onSnapshot } from "firebase/firestore";
@@ -109,80 +110,153 @@ const Icebreaker = () => {
       <Typography variant="h2">2 sannheter og 1 løgn</Typography>
       {!submitted && svarCount < teamAntall ? (
         <>
+          <Typography variant="body1" color="text.secondary">
+            2 sannheter og 1 løgn er en icebreaker-øvelse for at dere skal bli
+            litt bedre kjent før vi setter i gang.
+          </Typography>
+          <Typography variant="body1" sx={{ mb: 5 }} color="text.secondary">
+            Skriv inn 2 sannheter og 1 løgn om deg selv så skal de andre
+            medlemmene gjette hva som er løgnen din senere!
+          </Typography>
           <form onSubmit={submitSvar}>
             <Grid
               container
               direction="column"
-              spacing={2}
-              alignContent="center"
+              spacing={4}
+              justifyContent="center"
+              alignItems={"center"}
             >
               <Grid item>
+                <InputLabel
+                  sx={{
+                    color: "text.primary",
+                  }}
+                >
+                  Navnet ditt
+                </InputLabel>
                 <TextField
                   name="navn"
                   required
-                  variant="filled"
-                  label="Navnet ditt"
+                  variant="outlined"
                   autoFocus
+                  sx={{
+                    backgroundColor: "white",
+                    borderRadius: "6px",
+                  }}
                   value={navn}
                   onChange={handleInputChange}
                 />
               </Grid>
-              <Grid item>
-                <TextField
-                  name="sannhet1"
-                  required
-                  variant="filled"
-                  label="En sannhet"
-                  autoFocus
-                  value={sannhet1}
-                  onChange={handleInputChange}
-                />
-              </Grid>
-              <Grid item>
-                <TextField
-                  name="sannhet2"
-                  required
-                  variant="filled"
-                  label="En sannhet"
-                  autoFocus
-                  value={sannhet2}
-                  onChange={handleInputChange}
-                />
-              </Grid>
-              <Grid item>
-                <TextField
-                  name="logn"
-                  required
-                  variant="filled"
-                  label="En løgn"
-                  autoFocus
-                  value={logn}
-                  onChange={handleInputChange}
-                />
+              <Grid
+                container
+                item
+                direction="row"
+                spacing={2}
+                justifyContent="center"
+              >
+                <Grid item xs={6} sm={3}>
+                  <InputLabel
+                    sx={{
+                      color: "text.primary",
+                    }}
+                  >
+                    Første sannhet
+                  </InputLabel>
+                  <TextField
+                    name="sannhet1"
+                    required
+                    variant="outlined"
+                    autoFocus
+                    sx={{
+                      backgroundColor: "white",
+                      borderRadius: "6px",
+                      width: "100%",
+                    }}
+                    value={sannhet1}
+                    onChange={handleInputChange}
+                  />
+                </Grid>
+
+                <Grid item xs={6} sm={3}>
+                  <InputLabel
+                    sx={{
+                      color: "text.primary",
+                    }}
+                  >
+                    Andre sannhet
+                  </InputLabel>
+                  <TextField
+                    name="sannhet2"
+                    required
+                    variant="outlined"
+                    autoFocus
+                    sx={{
+                      backgroundColor: "white",
+                      borderRadius: "6px",
+                      width: "100%",
+                    }}
+                    value={sannhet2}
+                    onChange={handleInputChange}
+                  />
+                </Grid>
+                <Grid item xs={6} sm={3}>
+                  <InputLabel
+                    sx={{
+                      color: "text.primary",
+                    }}
+                  >
+                    En løgn
+                  </InputLabel>
+                  <TextField
+                    name="logn"
+                    required
+                    variant="outlined"
+                    autoFocus
+                    sx={{
+                      backgroundColor: "white",
+                      borderRadius: "6px",
+                      width: "100%",
+                    }}
+                    value={logn}
+                    onChange={handleInputChange}
+                  />
+                </Grid>
               </Grid>
               <Grid item>
                 <Button type="submit" variant="contained">
-                  Sendt inn
+                  Send inn
                 </Button>
+              </Grid>
+              <Grid item>
+                Antall svar: {svarCount} / {teamAntall}
               </Grid>
             </Grid>
           </form>
-          <div>
-            Antall svar: {svarCount} / {teamAntall}
-          </div>
         </>
       ) : (
         <>
           {svarCount < teamAntall ? (
-            <div>
-              <Typography variant="h5">
-                Venter på at de andre skal svare...
-              </Typography>
-              <CircularProgress />
-              <div>
-                Antall svar: {svarCount} / {teamAntall}
-              </div>
-            </div>
+            <Grid
+              container
+              direction="column"
+              spacing={4}
+              alignItems={"center"}
+              sx={{ marginTop: "5px" }}
+            >
+              <Grid item>
+                <Typography variant="h6">
+                  Venter på at de andre skal svare...
+                </Typography>
+              </Grid>
+              <Grid item>
+                <CircularProgress />
+              </Grid>
+              <Grid item>
+                <Typography variant="h5">
+                  Antall svar: {svarCount} / {teamAntall}
+                </Typography>
+              </Grid>
+            </Grid>
           ) : (
             <IcebreakerSvar alleSvar={svar} />
           )}
