@@ -22,7 +22,7 @@ const IcebreakerSvarKort = ({ svar }: { svar: Svar }) => {
     setClickedLogn(buttonText);
   };
   return (
-    <Grid item key={svar.id}>
+    <Grid item key={svar.id} xs={8} md={6} lg={4}>
       <Card
         sx={{
           backgroundColor:
@@ -34,13 +34,22 @@ const IcebreakerSvarKort = ({ svar }: { svar: Svar }) => {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          padding: "16px",
+          padding: "10px",
+          margin: "auto",
         }}
       >
         <Typography> Navn: {svar.id}</Typography>
         {shuffledButtons.map((buttonText, index) => (
-          <div style={{ marginTop: "8px" }} key={index}>
-            <Button onClick={() => handleLognClick(buttonText)}>
+          <div style={{ marginTop: "5px", width: "100%" }} key={index}>
+            <Button
+              variant="outlined"
+              sx={{
+                width: "100%",
+                height: "40px",
+                whiteSpace: "normal",
+              }}
+              onClick={() => handleLognClick(buttonText)}
+            >
               {buttonText}
             </Button>
           </div>
