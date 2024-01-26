@@ -1,6 +1,5 @@
-import { Button, Container, Grid, Typography } from "@mui/material";
+import { Button, Grid, Typography } from "@mui/material";
 import wave from "../wave.svg";
-import { teamInfo } from "../constants";
 import Popup from "../components/Popup";
 import teamConnectors from "../images/teamConnectors.svg";
 import teamConnectors_done from "../images/teamConnectors_done.svg";
@@ -22,7 +21,6 @@ import LevelPopUp from "../components/LevelPopUp";
 import handleCloseLevelPopUp from "../firebase/handles/handleCloseLevelPopUp";
 import getTeamInfo from "../firebase/getTeamInfo";
 import { useMediaQuery } from "@mui/material";
-
 
 const Hjem = ({ handleSignOut }: { handleSignOut: () => Promise<void> }) => {
   const [teamLevel, setTeamLevel] = useState(0);
@@ -69,21 +67,6 @@ const Hjem = ({ handleSignOut }: { handleSignOut: () => Promise<void> }) => {
     handleCloseLevelPopUp();
   };
 
-  //Foreløpig for bakgrunnen
-  const waveBackgroundStyle: React.CSSProperties = {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    width: "100%",
-    height: "100%",
-    zIndex: -1,
-  };
-
-  const containerStyle: React.CSSProperties = {
-    position: "relative",
-    zIndex: 1,
-  };
-
   const imageStyle = {
     width: "17%",
   };
@@ -110,9 +93,9 @@ const Hjem = ({ handleSignOut }: { handleSignOut: () => Promise<void> }) => {
           backgroundSize: "cover",
           display: "flex",
           flexDirection: isSmallScreen ? "column" : "row",
-          paddingTop: "3%",
-          paddingLeft: "3%",
-          paddingRight: "6%",
+          paddingTop: isSmallScreen ? "6%" : "3%",
+          paddingLeft: "5%",
+          paddingRight: "10%",
         }}
       >
         <Grid
@@ -169,9 +152,7 @@ const Hjem = ({ handleSignOut }: { handleSignOut: () => Promise<void> }) => {
             <Popup />
           </Grid>
         </Grid>
-        {showPopUp && (
-          <LevelPopUp onClose={handleClosePopUp} level={1} />
-        )}
+        {showPopUp && <LevelPopUp onClose={handleClosePopUp} level={1} />}
       </div>
     </div>
   );
