@@ -15,7 +15,7 @@ const IPInformasjon = () => {
 
   const sections = [
     {
-      label: "Hva er Imposter Syndrome?",
+      label: "Hva er det?",
       content: `
       Imposter syndrome er et utbredt fenomen der individers selvtillit og prestasjon påvirkes av bekymringen for å bli avslørt som bedragere på grunn av manglende forventet kompetanse. Selv med betydelig ferdigheter undervurderer enkeltpersoner ofte seg selv og tilskriver suksess til flaks eller eksterne faktorer. \n
       
@@ -47,7 +47,7 @@ const IPInformasjon = () => {
         "Per fullfører et krevende gruppeprosjekt i informatikk og oppnår toppkarakterer sammen med teamet sitt. Til tross for dette føler han seg utilstrekkelig og tilskriver suksessen til de andre i gruppen. Han overarbeider seg for å kompensere for det han tror er manglende bidrag fra hans side og føler seg stadig mer presset og tviler på sine egne evner.",
     },
     {
-      label: "Suksessfaktorer og Håndtering",
+      label: "Suksessfaktorer",
       content: `
       Flere suksessfaktorer har blitt identifisert for å håndtere Imposter syndrome. Den første, som vi jobber med akkurat nå, er å øke bevisstheten om fenomenet og utbredelsen på informatikkstudiet. Teamarbeid og å bygge et støttende miljø er en annen suksessfaktor. Å fremme en følelse av tilhørighet og dyrke samarbeid og deling av erfaringer, i stedet for å ha et konkurransepreget miljø, er viktig. I tillegg er det essensielt å sette realistiske forventninger og gi jevnlig bekreftelse gjennom mestringsopplevelser.
       `,
@@ -112,6 +112,7 @@ const IPInformasjon = () => {
                   mt={2}
                   border={1}
                   borderColor="primary.main"
+                  bgcolor={"white"}
                   display={"flex"}
                   flexDirection={"row"}
                 >
