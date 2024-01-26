@@ -21,6 +21,8 @@ import { useNavigate } from "react-router-dom";
 import LevelPopUp from "../components/LevelPopUp";
 import handleCloseLevelPopUp from "../firebase/handles/handleCloseLevelPopUp";
 import getTeamInfo from "../firebase/getTeamInfo";
+import { useMediaQuery } from "@mui/material";
+
 
 const Hjem = ({ handleSignOut }: { handleSignOut: () => Promise<void> }) => {
   const [teamLevel, setTeamLevel] = useState(0);
@@ -28,6 +30,8 @@ const Hjem = ({ handleSignOut }: { handleSignOut: () => Promise<void> }) => {
   const [showPopUp, setShowPopUp] = useState(false);
   const { teamBruker, setTeamAntall } = useTeamContext();
   const navigate = useNavigate();
+
+  const isSmallScreen = useMediaQuery("(max-width: 800px)");
 
   const setTeamInfo = async () => {
     try {
@@ -81,86 +85,94 @@ const Hjem = ({ handleSignOut }: { handleSignOut: () => Promise<void> }) => {
   };
 
   const imageStyle = {
-    width: "25%", // Initially, set the width to 100% for responsiveness
-    height: "auto",
-    "@media (minWidth: 600px)": {
-      width: "48%", // Adjust width for small screens and up
-    },
-    "@media (minWidth: 960px)": {
-      width: "23%", // Adjust width for medium screens and up
-    },
+    width: "17%",
   };
 
   return (
-    <div style={containerStyle}>
+    <div
+      style={{
+        height: "100vh",
+        overflow: "auto",
+        display: "flex",
+        flexDirection: "column",
+      }}
+    >
       <Button onClick={handleSignOut}>Logg ut</Button>
 
-      <img src={wave} alt="Wavy Background" style={waveBackgroundStyle} />
+      <Typography variant="h2" style={{ marginBottom: 0, marginLeft: "7%" }}>
+        Team: {teamNavn}
+      </Typography>
 
-      <Container
-        maxWidth="md"
-        sx={{ alignItems: "center", minHeight: "700px" }}
+      <div
+        style={{
+          flex: 1,
+          backgroundImage: `url(${wave})`,
+          backgroundSize: "cover",
+          display: "flex",
+          flexDirection: isSmallScreen ? "column" : "row",
+          paddingTop: "3%",
+          paddingLeft: "3%",
+          paddingRight: "6%",
+        }}
       >
-        <Typography variant="h2" sx={{ mt: 5, mb: 10 }} color="text.primary">
-          Team: {teamNavn}
-        </Typography>
         <Grid
-          container
-          direction="row"
-          justifyContent="space-between"
-          alignItems="stretch"
-          rowSpacing={1}
-          columnSpacing={{ xs: 3, sm: 4, md: 5 }}
+          container //container 1
+          alignItems="center"
         >
-          {/*Disse kunne sikkert vært lagd til et felles komponent men tenke de har litt ulike ting de skal uansett så husk å endre i alle om man endrer stil*/}
-          <Grid item xs={12} md={6}>
+          <Grid item xs={12}>
             <StartAktivitetButton />
+          </Grid>
+          <Grid item xs={12}>
             <RetroButton disabled={true} />
+          </Grid>
+          <Grid item xs={12}>
             <TeambuildingButton disabled={true} />
           </Grid>
-          <Grid item xs={12} md={6}>
-            <Grid
-              container
-              direction="column"
-              justifyContent="space-evenly"
-              alignItems="stretch"
-              rowSpacing={1}
-              columnSpacing={{ xs: 1, sm: 2, md: 3 }}
-            >
-              <Grid item xs={12} sm={6} md={3} sx={{}}>
-                <img
-                  src={teamLevel > 0 ? teamConnectors_done : teamConnectors}
-                  alt="Level 1"
-                  style={imageStyle}
-                />
-                <img
-                  src={
-                    teamLevel > 1
-                      ? communicationExplorers_done
-                      : communicationExplorers
-                  }
-                  alt="Level 2"
-                  style={imageStyle}
-                />
-                <img
-                  src={teamLevel > 2 ? bondBuilders_done : bondBuilders}
-                  alt="Level 3"
-                  style={imageStyle}
-                />
-                <img
-                  src={teamLevel > 3 ? dreamTeam_done : dreamTeam}
-                  alt="Level 4"
-                  style={imageStyle}
-                />
-              </Grid>
-              <Grid item xs={6} sx={{}}>
-                <Popup />
-              </Grid>
-            </Grid>
+        </Grid>
+
+        <Grid
+          container //container 2
+          style={{
+            textAlign: "center",
+            justifyContent: "center",
+            alignItems: "center",
+            padding: "3% 0",
+          }}
+        >
+          <Grid item xs={12}>
+            <img
+              src={teamLevel > 0 ? teamConnectors_done : teamConnectors}
+              alt="Level 1"
+              style={imageStyle}
+            />
+            <img
+              src={
+                teamLevel > 1
+                  ? communicationExplorers_done
+                  : communicationExplorers
+              }
+              alt="Level 2"
+              style={imageStyle}
+            />
+            <img
+              src={teamLevel > 2 ? bondBuilders_done : bondBuilders}
+              alt="Level 3"
+              style={imageStyle}
+            />
+            <img
+              src={teamLevel > 3 ? dreamTeam_done : dreamTeam}
+              alt="Level 4"
+              style={imageStyle}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <Popup />
           </Grid>
         </Grid>
-        {showPopUp && <LevelPopUp onClose={handleClosePopUp} level={1} />}
-      </Container>
+        {showPopUp && (
+          <LevelPopUp onClose={handleClosePopUp} level={1} />
+        )}
+      </div>
     </div>
   );
 };

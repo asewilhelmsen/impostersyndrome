@@ -4,34 +4,32 @@ import retro_disabled from "../images/retro_disabled.svg";
 
 const RetroButton = ({ disabled }: { disabled: boolean }) => {
   const imageStyle = {
-    width: "80%",
+    width: "25%",
   };
 
   return (
-    <Grid
-      container
-      direction="row"
-      alignItems="center"
-      justifyContent="flex-start"
-      spacing={2}
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "center",
+        gap: "5%",
+      }}
     >
-      <Grid item xs={6}>
-        <img
-          src={disabled ? retro_disabled : retro}
-          alt="Button illustration"
-          style={imageStyle}
-        ></img>
-      </Grid>
-      <Grid item xs={6}>
-        {disabled ? (
-          <Button variant="contained" disabled>
-            Retrospective
-          </Button>
-        ) : (
-          <Button variant="contained">Retrospective</Button>
-        )}
-      </Grid>
-    </Grid>
+      <img
+        src={disabled ? retro_disabled : retro}
+        alt="Button illustration"
+        style={imageStyle}
+      ></img>
+      {disabled ? (
+        <Button variant="contained" disabled>
+          RETROSPEKTIV
+        </Button>
+      ) : (
+        <Button variant="contained">RETROSPEKTIV</Button>
+      )}
+    </div>
   );
 };
 
