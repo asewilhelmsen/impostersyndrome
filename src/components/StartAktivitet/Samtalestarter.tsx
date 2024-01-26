@@ -36,9 +36,7 @@ const Samtalestarter = () => {
 
   return (
     <>
-      <Typography variant="h2" sx={{ mt: 5 }} color="text.primary">
-        Samtalestarter
-      </Typography>
+      <Typography variant="h2">Samtalestarter</Typography>
       <Typography variant="body1" sx={{ mb: 5 }} color="text.secondary">
         La oss snakke om hvordan dere kan jobbe bra som et team! Gå gjennom de 3
         kortene nedenfor!

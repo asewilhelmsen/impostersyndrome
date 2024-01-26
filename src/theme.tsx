@@ -34,6 +34,14 @@ const theme = createTheme({
       color: "#0E056E",
       marginBottom: "1%",
     },
+    body1: {
+      color: "#0E056E",
+      marginBottom: "1%",
+    },
+    body2: {
+      color: "#0E056E",
+      marginBottom: "1%",
+    },
     fontFamily: ["Inter", "sans-serif"].join(","),
   },
   components: {

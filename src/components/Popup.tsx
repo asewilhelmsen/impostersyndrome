@@ -1,30 +1,49 @@
-import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
+import { IconButton, Tooltip } from "@mui/material";
+import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
+
 const Popup = () => {
   return (
-    <>
-      <Card sx={{ minWidth: 275, textAlign: "center" }}>
-        <CardContent>
-          <Typography variant="h5" component="div">
-            Learn more about Imposter Syndrome?
-          </Typography>
-          <Typography sx={{ mb: 1.5 }} color="text.secondary"></Typography>
-          <Typography variant="body2">
-            Are you curious about learning more about Impostor Syndrome?
-            Understanding Impostor Syndrome can be a key step in overcoming it.
-          </Typography>
-        </CardContent>
-        <CardActions>
-          <Button sx={{ color: "text.primary" }} size="small">
-            Learn More
-          </Button>
-        </CardActions>
-      </Card>
-    </>
+    <Card
+      sx={{
+        width: "60%",
+        minHeight: 200,
+        margin: "auto",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        padding: 2,
+        position: "relative",
+      }}
+    >
+      <Tooltip title="Her kommer det nye pop-ups på tilfeldig tidspunkt - Så følg med!">
+        <IconButton
+          sx={{
+            position: "absolute",
+            top: 0,
+            right: 0,
+            "&:hover": {
+              backgroundColor: "transparent",
+            },
+          }}
+        >
+          <HelpOutlineIcon />
+        </IconButton>
+      </Tooltip>
+      <CardContent>
+        <Typography style={{ marginBottom: "10%" }} variant="h5">
+          Velkommen!
+        </Typography>
+
+        <Typography variant="body2">
+          Samle teamet ditt og kom i gang med start-aktiviteten
+        </Typography>
+      </CardContent>
+    </Card>
   );
 };
 
