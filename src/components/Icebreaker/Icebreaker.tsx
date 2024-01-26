@@ -36,11 +36,8 @@ const Icebreaker = () => {
   //For å sjekke om brukeren har sendt inn svarert
   const [submitted, setSubmitted] = useState(false);
 
-  //Denne bør hentes fra et input felt i starten ellerno
-  const teamMemberCount = 6;
-
-  //Brukeren som er logget inn på
-  const { teamBruker } = useTeamContext();
+  //Brukeren som er logget inn på og antall team medlemmer
+  const { teamBruker, teamAntall } = useTeamContext();
 
   //Til å hente input verdiene fra statene og sende til databasen
   const submitSvar = (e: FormEvent) => {
@@ -109,7 +106,7 @@ const Icebreaker = () => {
   return (
     <>
       <Typography variant="h2">2 sannheter og 1 løgn</Typography>
-      {!submitted && svarCount < teamMemberCount ? (
+      {!submitted && svarCount < teamAntall ? (
         <>
           <Typography variant="body1" color="text.secondary">
             2 sannheter og 1 løgn er en icebreaker-øvelse for at dere skal bli
@@ -229,14 +226,14 @@ const Icebreaker = () => {
                 </Button>
               </Grid>
               <Grid item>
-                <div>Antall svar: {svarCount} / 6</div>
+                Antall svar: {svarCount} / {teamAntall}
               </Grid>
             </Grid>
           </form>
         </>
       ) : (
         <>
-          {svarCount < teamMemberCount ? (
+          {svarCount < teamAntall ? (
             <Grid
               container
               direction="column"
@@ -254,7 +251,7 @@ const Icebreaker = () => {
               </Grid>
               <Grid item>
                 <Typography variant="h5">
-                  Antall svar: {svarCount} / 6
+                  Antall svar: {svarCount} / {teamAntall}
                 </Typography>
               </Grid>
             </Grid>

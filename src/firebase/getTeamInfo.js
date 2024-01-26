@@ -2,7 +2,7 @@ import { auth, firestore } from "./firebase_setup/firebase";
 import { getDoc, doc } from "@firebase/firestore";
 
 //Returnerer team infoen (level)
-const getTeamLevel = async () => {
+const getTeamInfo = async () => {
   const teamId = auth.currentUser.uid;
 
   try {
@@ -10,7 +10,7 @@ const getTeamLevel = async () => {
     const docSnap = await getDoc(docRef);
 
     if (docSnap.exists()) {
-      return docSnap.data().level;
+      return docSnap.data();
     } else {
       //Håndtere feilmelding her
       console.log("Fant ikke dokument til team info");
@@ -21,4 +21,4 @@ const getTeamLevel = async () => {
   }
 };
 
-export default getTeamLevel;
+export default getTeamInfo;

@@ -6,6 +6,8 @@ type TeamBruker = User | null;
 type TeamContextProps = {
   teamBruker: TeamBruker | null;
   setTeamBruker: React.Dispatch<React.SetStateAction<TeamBruker | null>>;
+  teamAntall: number;
+  setTeamAntall: React.Dispatch<React.SetStateAction<number>>;
 };
 
 const TeamContext = createContext<TeamContextProps | undefined>(undefined);
@@ -16,9 +18,12 @@ type TeamProviderProps = {
 
 export const TeamProvider: React.FC<TeamProviderProps> = ({ children }) => {
   const [teamBruker, setTeamBruker] = useState<TeamBruker | null>(null);
+  const [teamAntall, setTeamAntall] = useState<number>(6);
 
   return (
-    <TeamContext.Provider value={{ teamBruker, setTeamBruker }}>
+    <TeamContext.Provider
+      value={{ teamBruker, setTeamBruker, teamAntall, setTeamAntall }}
+    >
       {children}
     </TeamContext.Provider>
   );
