@@ -29,7 +29,7 @@ const Hjem = ({ handleSignOut }: { handleSignOut: () => Promise<void> }) => {
   const { teamBruker, setTeamAntall } = useTeamContext();
   const navigate = useNavigate();
 
-  const isSmallScreen = useMediaQuery("(max-width: 800px)");
+  const isSmallScreen = useMediaQuery("(max-width: 1000px)");
 
   const setTeamInfo = async () => {
     try {
@@ -68,7 +68,7 @@ const Hjem = ({ handleSignOut }: { handleSignOut: () => Promise<void> }) => {
   };
 
   const imageStyle = {
-    width: "17%",
+    width: "23%",
   };
 
   return (
@@ -104,7 +104,7 @@ const Hjem = ({ handleSignOut }: { handleSignOut: () => Promise<void> }) => {
           flexDirection: isSmallScreen ? "column" : "row",
           paddingTop: isSmallScreen ? "6%" : "3%",
           paddingLeft: "5%",
-          paddingRight: "10%",
+          paddingRight: "8%",
         }}
       >
         <Grid
@@ -127,8 +127,9 @@ const Hjem = ({ handleSignOut }: { handleSignOut: () => Promise<void> }) => {
           style={{
             textAlign: "center",
             justifyContent: "center",
-            alignItems: "center",
             padding: "3% 0",
+            alignItems: "flex-start",
+            gap: "15%",
           }}
         >
           <Grid item xs={12}>

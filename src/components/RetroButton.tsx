@@ -4,7 +4,7 @@ import retro_disabled from "../images/retro_disabled.svg";
 
 const RetroButton = ({ disabled }: { disabled: boolean }) => {
   const imageStyle = {
-    width: "25%",
+    width: "30%",
   };
 
   return (
