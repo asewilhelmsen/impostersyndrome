@@ -43,9 +43,7 @@ const Forventninger = ({
             gap: "2%",
           }}
         >
-          <Typography variant="h2" style={{ marginBottom: 0 }}>
-            Forventningsavklaring
-          </Typography>
+          <Typography variant="h2">Forventningsavklaring</Typography>
         </Grid>
 
         {expectationsList.map(({ id, text, imgSrc }) => (

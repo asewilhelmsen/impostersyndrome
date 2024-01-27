@@ -84,7 +84,7 @@ const Hjem = ({ handleSignOut }: { handleSignOut: () => Promise<void> }) => {
         <Grid item xs={10}>
           <Typography
             variant="h2"
-            style={{ marginBottom: 0, marginLeft: "7%" }}
+            style={{ marginBottom: "1%", marginLeft: "5%" }}
           >
             Team: {teamNavn}
           </Typography>

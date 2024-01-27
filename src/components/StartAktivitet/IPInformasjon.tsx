@@ -78,10 +78,8 @@ const IPInformasjon = () => {
 
   return (
     <div>
-      <Typography margin={0} variant="h2">
-        Imposter Syndrome
-      </Typography>
-      <Typography marginLeft={"5px"} marginBottom={"2%"} variant="body2">
+      <Typography variant="h2">Imposter Syndrome</Typography>
+      <Typography marginLeft={"5px"} variant="body2">
         Les individuelt gjennom alle underoverskriftene, og bli felles enige om
         å gå videre til neste steg{" "}
       </Typography>
