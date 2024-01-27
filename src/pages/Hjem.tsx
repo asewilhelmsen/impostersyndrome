@@ -80,12 +80,21 @@ const Hjem = ({ handleSignOut }: { handleSignOut: () => Promise<void> }) => {
         flexDirection: "column",
       }}
     >
-      <Button onClick={handleSignOut}>Logg ut</Button>
-
-      <Typography variant="h2" style={{ marginBottom: 0, marginLeft: "7%" }}>
-        Team: {teamNavn}
-      </Typography>
-
+      <Grid container alignItems="center" marginTop={"1%"}>
+        <Grid item xs={10}>
+          <Typography
+            variant="h2"
+            style={{ marginBottom: 0, marginLeft: "7%" }}
+          >
+            Team: {teamNavn}
+          </Typography>
+        </Grid>
+        <Grid item xs={2} style={{ textAlign: "right", paddingRight: "2%" }}>
+          <Button variant="contained" onClick={handleSignOut}>
+            Logg ut
+          </Button>
+        </Grid>
+      </Grid>
       <div
         style={{
           flex: 1,

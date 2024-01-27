@@ -18,7 +18,7 @@ const RetroButton = ({ disabled }: { disabled: boolean }) => {
       }}
     >
       <img
-        src={disabled ? retro_disabled : retro}
+        src={/*disabled ? retro_disabled : */ retro}
         alt="Button illustration"
         style={imageStyle}
       ></img>

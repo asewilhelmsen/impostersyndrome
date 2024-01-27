@@ -19,7 +19,7 @@ const TeambuildingButton = ({ disabled }: { disabled: boolean }) => {
       }}
     >
       <img
-        src={disabled ? img_disabled : img}
+        src={/*disabled ? img_disabled :*/ img}
         alt="Button illustration"
         style={imageStyle}
       ></img>
