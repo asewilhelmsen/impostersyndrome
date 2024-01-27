@@ -21,6 +21,10 @@ const theme = createTheme({
       color: "#0E056E",
       marginBottom: "2%",
     },
+    h3: {
+      color: "#0E056E",
+      marginBottom: "2%",
+    },
     h5: {
       color: "#0E056E",
       marginBottom: "2%",
