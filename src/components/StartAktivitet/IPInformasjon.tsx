@@ -116,7 +116,7 @@ const IPInformasjon = () => {
                 >
                   <img
                     src={ImposterSyndromePicture}
-                    alt="Level 4"
+                    alt="Example illustration"
                     width={"100px"}
                   />
                   <Typography variant="body2">{section.example}</Typography>
