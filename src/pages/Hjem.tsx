@@ -23,7 +23,6 @@ import handleCloseLevelPopUp from "../firebase/handles/handleCloseLevelPopUp";
 import getTeamInfo from "../firebase/getTeamInfo";
 import { useMediaQuery } from "@mui/material";
 
-
 const Hjem = ({ handleSignOut }: { handleSignOut: () => Promise<void> }) => {
   const [teamLevel, setTeamLevel] = useState(0);
   const [teamNavn, setTeamNavn] = useState("Bachelorgruppe");
@@ -67,21 +66,6 @@ const Hjem = ({ handleSignOut }: { handleSignOut: () => Promise<void> }) => {
   const handleClosePopUp = () => {
     setShowPopUp(false);
     handleCloseLevelPopUp();
-  };
-
-  //Foreløpig for bakgrunnen
-  const waveBackgroundStyle: React.CSSProperties = {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    width: "100%",
-    height: "100%",
-    zIndex: -1,
-  };
-
-  const containerStyle: React.CSSProperties = {
-    position: "relative",
-    zIndex: 1,
   };
 
   const imageStyle = {
@@ -169,9 +153,7 @@ const Hjem = ({ handleSignOut }: { handleSignOut: () => Promise<void> }) => {
             <Popup />
           </Grid>
         </Grid>
-        {showPopUp && (
-          <LevelPopUp onClose={handleClosePopUp} level={1} />
-        )}
+        {showPopUp && <LevelPopUp onClose={handleClosePopUp} level={1} />}
       </div>
     </div>
   );
