@@ -11,6 +11,7 @@ interface Svar {
 const IcebreakerSvarKort = ({ svar }: { svar: Svar }) => {
   const [clickedLogn, setClickedLogn] = useState<string | null>(null);
   const [shuffledButtons, setShuffledButtons] = useState<string[]>([]);
+  const [buttonsDisabled, setButtonsDisabled] = useState(false);
 
   //For at de skal komme i tilfeldig rekkefølge på hver person
   useEffect(() => {
@@ -20,6 +21,7 @@ const IcebreakerSvarKort = ({ svar }: { svar: Svar }) => {
 
   const handleLognClick = (buttonText: string) => {
     setClickedLogn(buttonText);
+    setButtonsDisabled(true);
   };
   return (
     <Grid item key={svar.id} xs={8} md={6} lg={4}>
@@ -52,7 +54,14 @@ const IcebreakerSvarKort = ({ svar }: { svar: Svar }) => {
           <div style={{ marginTop: "5px", width: "100%" }} key={index}>
             <Button
               variant="outlined"
+              disabled={buttonsDisabled}
               sx={{
+                "&:disabled": {
+                  color: "inherit",
+                  opacity: 1,
+                  borderWidth: clickedLogn === buttonText ? "1px" : "0px",
+                  borderColor: clickedLogn === buttonText ? "inherit" : "white",
+                },
                 width: "100%",
                 height: "40px",
                 whiteSpace: "normal",
