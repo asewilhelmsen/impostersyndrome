@@ -1,6 +1,5 @@
-import { Button, Container, Grid, Typography } from "@mui/material";
+import { Button, Grid, Typography } from "@mui/material";
 import wave from "../wave.svg";
-import { teamInfo } from "../constants";
 import Popup from "../components/Popup";
 import teamConnectors from "../images/teamConnectors.svg";
 import teamConnectors_done from "../images/teamConnectors_done.svg";
@@ -30,7 +29,7 @@ const Hjem = ({ handleSignOut }: { handleSignOut: () => Promise<void> }) => {
   const { teamBruker, setTeamAntall } = useTeamContext();
   const navigate = useNavigate();
 
-  const isSmallScreen = useMediaQuery("(max-width: 800px)");
+  const isSmallScreen = useMediaQuery("(max-width: 1000px)");
 
   const setTeamInfo = async () => {
     try {
@@ -69,7 +68,7 @@ const Hjem = ({ handleSignOut }: { handleSignOut: () => Promise<void> }) => {
   };
 
   const imageStyle = {
-    width: "17%",
+    width: "23%",
   };
 
   return (
@@ -81,12 +80,21 @@ const Hjem = ({ handleSignOut }: { handleSignOut: () => Promise<void> }) => {
         flexDirection: "column",
       }}
     >
-      <Button onClick={handleSignOut}>Logg ut</Button>
-
-      <Typography variant="h2" style={{ marginBottom: 0, marginLeft: "7%" }}>
-        Team: {teamNavn}
-      </Typography>
-
+      <Grid container alignItems="center" marginTop={"1%"}>
+        <Grid item xs={10}>
+          <Typography
+            variant="h2"
+            style={{ marginBottom: "1%", marginLeft: "5%" }}
+          >
+            Team: {teamNavn}
+          </Typography>
+        </Grid>
+        <Grid item xs={2} style={{ textAlign: "right", paddingRight: "2%" }}>
+          <Button variant="contained" onClick={handleSignOut}>
+            Logg ut
+          </Button>
+        </Grid>
+      </Grid>
       <div
         style={{
           flex: 1,
@@ -94,9 +102,9 @@ const Hjem = ({ handleSignOut }: { handleSignOut: () => Promise<void> }) => {
           backgroundSize: "cover",
           display: "flex",
           flexDirection: isSmallScreen ? "column" : "row",
-          paddingTop: "3%",
-          paddingLeft: "3%",
-          paddingRight: "6%",
+          paddingTop: isSmallScreen ? "6%" : "3%",
+          paddingLeft: "5%",
+          paddingRight: "8%",
         }}
       >
         <Grid
@@ -119,8 +127,9 @@ const Hjem = ({ handleSignOut }: { handleSignOut: () => Promise<void> }) => {
           style={{
             textAlign: "center",
             justifyContent: "center",
-            alignItems: "center",
             padding: "3% 0",
+            alignItems: "flex-start",
+            gap: "15%",
           }}
         >
           <Grid item xs={12}>

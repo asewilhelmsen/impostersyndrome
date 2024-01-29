@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Box, Grid, Tab, Tabs, Typography } from "@mui/material";
 import ImposterSyndromePicture from "../../images/Information.svg";
-import PieChart from "../../images/PieChart.svg";
 import { useMediaQuery } from "@mui/material";
 
 const IPInformasjon = () => {
@@ -15,7 +14,7 @@ const IPInformasjon = () => {
 
   const sections = [
     {
-      label: "Hva er Imposter Syndrome?",
+      label: "Hva er det?",
       content: `
       Imposter syndrome er et utbredt fenomen der individers selvtillit og prestasjon påvirkes av bekymringen for å bli avslørt som bedragere på grunn av manglende forventet kompetanse. Selv med betydelig ferdigheter undervurderer enkeltpersoner ofte seg selv og tilskriver suksess til flaks eller eksterne faktorer. \n
       
@@ -47,7 +46,7 @@ const IPInformasjon = () => {
         "Per fullfører et krevende gruppeprosjekt i informatikk og oppnår toppkarakterer sammen med teamet sitt. Til tross for dette føler han seg utilstrekkelig og tilskriver suksessen til de andre i gruppen. Han overarbeider seg for å kompensere for det han tror er manglende bidrag fra hans side og føler seg stadig mer presset og tviler på sine egne evner.",
     },
     {
-      label: "Suksessfaktorer og Håndtering",
+      label: "Suksessfaktorer",
       content: `
       Flere suksessfaktorer har blitt identifisert for å håndtere Imposter syndrome. Den første, som vi jobber med akkurat nå, er å øke bevisstheten om fenomenet og utbredelsen på informatikkstudiet. Teamarbeid og å bygge et støttende miljø er en annen suksessfaktor. Å fremme en følelse av tilhørighet og dyrke samarbeid og deling av erfaringer, i stedet for å ha et konkurransepreget miljø, er viktig. I tillegg er det essensielt å sette realistiske forventninger og gi jevnlig bekreftelse gjennom mestringsopplevelser.
       `,
@@ -78,12 +77,10 @@ const IPInformasjon = () => {
 
   return (
     <div>
-      <Typography margin={0} variant="h2">
-        Imposter Syndrome
-      </Typography>
-      <Typography marginLeft={"5px"} marginBottom={"2%"} variant="body2">
+      <Typography variant="h2">Imposter Syndrome</Typography>
+      <Typography marginLeft={"5px"} variant="body2">
         Les individuelt gjennom alle underoverskriftene, og bli felles enige om
-        å gå videre til neste steg{" "}
+        å gå videre til neste steg.
       </Typography>
       <Grid container>
         <Grid item xs={12} md={2}>
@@ -112,15 +109,18 @@ const IPInformasjon = () => {
                   mt={2}
                   border={1}
                   borderColor="primary.main"
+                  bgcolor={"white"}
                   display={"flex"}
                   flexDirection={"row"}
                 >
                   <img
                     src={ImposterSyndromePicture}
-                    alt="Level 4"
+                    alt="Example illustration"
                     width={"100px"}
                   />
-                  <Typography variant="body2">{section.example}</Typography>
+                  <Typography variant="body2" style={{ color: "#0E056E" }}>
+                    {section.example}
+                  </Typography>
                 </Box>
               </Box>
             </TabPanel>

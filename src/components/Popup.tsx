@@ -39,7 +39,7 @@ const Popup = () => {
           Velkommen!
         </Typography>
 
-        <Typography variant="body2">
+        <Typography variant="body1">
           Samle teamet ditt og kom i gang med start-aktiviteten
         </Typography>
       </CardContent>

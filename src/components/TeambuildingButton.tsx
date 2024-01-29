@@ -4,7 +4,7 @@ import img_disabled from "../images/teambuilding_disabled.svg";
 
 const TeambuildingButton = ({ disabled }: { disabled: boolean }) => {
   const imageStyle = {
-    width: "25%",
+    width: "30%",
     marginBottom: "3%",
   };
 
@@ -19,7 +19,7 @@ const TeambuildingButton = ({ disabled }: { disabled: boolean }) => {
       }}
     >
       <img
-        src={disabled ? img_disabled : img}
+        src={/*disabled ? img_disabled :*/ img}
         alt="Button illustration"
         style={imageStyle}
       ></img>

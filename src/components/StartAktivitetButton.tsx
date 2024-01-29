@@ -5,7 +5,7 @@ import handleNextStep from "../firebase/handles/handleNextStep";
 
 const StartAktivitetButton = () => {
   const imageStyle = {
-    width: "25%",
+    width: "30%",
   };
 
   const navigate = useNavigate();

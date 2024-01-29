@@ -104,16 +104,12 @@ const Icebreaker = () => {
 
   return (
     <>
-      <Typography variant="h2">2 sannheter og 1 løgn</Typography>
+      <Typography variant="h2">2 Sannheter og 1 Løgn</Typography>
       {!submitted && svarCount < teamAntall ? (
         <>
-          <Typography variant="body1" color="text.secondary">
-            2 sannheter og 1 løgn er en icebreaker-øvelse for at dere skal bli
-            litt bedre kjent før vi setter i gang.
-          </Typography>
-          <Typography variant="body1" sx={{ mb: 5 }} color="text.secondary">
-            Skriv inn 2 sannheter og 1 løgn om deg selv så skal de andre
-            medlemmene gjette hva som er løgnen din senere!
+          <Typography marginLeft={"5px"} variant="body2">
+            På tide å bli bedre kjent! Del to sannheter og én løgn om deg selv,
+            og la de andre gjette løgnen din!
           </Typography>
           <form onSubmit={submitSvar}>
             <Grid
@@ -231,7 +227,7 @@ const Icebreaker = () => {
               sx={{ marginTop: "5px" }}
             >
               <Grid item>
-                <Typography variant="h6">
+                <Typography variant="h5">
                   Venter på at de andre skal svare...
                 </Typography>
               </Grid>

@@ -19,6 +19,10 @@ const theme = createTheme({
   typography: {
     h2: {
       color: "#0E056E",
+      marginBottom: "0%",
+    },
+    h3: {
+      color: "#0E056E",
       marginBottom: "2%",
     },
     h5: {
@@ -34,8 +38,8 @@ const theme = createTheme({
       marginBottom: "1%",
     },
     body2: {
-      color: "#0E056E",
-      marginBottom: "1%",
+      color: "#52505e",
+      marginBottom: "2%",
     },
     fontFamily: ["Inter", "sans-serif"].join(","),
   },
@@ -48,7 +52,7 @@ const theme = createTheme({
           textTransform: "none",
         },
         outlined: {
-          color: "black",
+          color: "#0E056E",
           backgroundColor: "white",
           borderColor: "white",
         },

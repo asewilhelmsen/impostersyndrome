@@ -38,7 +38,16 @@ const IcebreakerSvarKort = ({ svar }: { svar: Svar }) => {
           margin: "auto",
         }}
       >
-        <Typography> Navn: {svar.id}</Typography>
+        <Typography
+          width={"100%"}
+          textAlign={"center"}
+          variant="h5"
+          sx={{
+            textDecoration: "underline",
+          }}
+        >
+          {svar.id}
+        </Typography>
         {shuffledButtons.map((buttonText, index) => (
           <div style={{ marginTop: "5px", width: "100%" }} key={index}>
             <Button

@@ -6,26 +6,20 @@ import {
   signOut,
   onAuthStateChanged,
 } from "firebase/auth";
-import {
-  Alert,
-  Box,
-  Button,
-  Container,
-  CssBaseline,
-  Grid,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Alert, Button, TextField, Typography } from "@mui/material";
 import { teamInfo } from "../constants";
-import startImg from "../forsidebilde.png";
-import wavyBackground from "../wavyBackground.svg";
+import wave from "../wavyBackground.svg";
+import notWave from "../notWavyBackground.svg";
 import Hjem from "./Hjem";
 import { useTeamContext } from "../TeamContext";
+import { useMediaQuery } from "@mui/material";
 
 const LoggInn = () => {
   const [teamKode, setTeamKode] = useState("");
   const { teamBruker, setTeamBruker } = useTeamContext();
   const [error, setError] = useState<boolean>(false);
+
+  const isSmallScreen = useMediaQuery("(max-width: 1100px)");
 
   //Hjelpefunksjon som kobler teamkoden til "fake" email og passord
   const setLoginInfo = (teamKode: string) => {
@@ -76,21 +70,6 @@ const LoggInn = () => {
     return () => unsubscribe();
   }, []);
 
-  //Foreløpig for bakgrunnen
-  const waveBackgroundStyle: React.CSSProperties = {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    width: "100%",
-    height: "110%",
-    zIndex: -1,
-  };
-
-  const containerStyle: React.CSSProperties = {
-    position: "relative",
-    zIndex: 1,
-  };
-
   return (
     <>
       {teamBruker ? (
@@ -98,79 +77,56 @@ const LoggInn = () => {
           <Hjem handleSignOut={handleSignOut} />
         </>
       ) : (
-        <div style={containerStyle}>
-          <img
-            src={wavyBackground}
-            alt="Wavy Background"
-            style={waveBackgroundStyle}
-          />
-          <Container
-            maxWidth="md"
-            sx={{ alignItems: "center", textAlign: "center" }}
+        <div
+          style={{
+            height: "100vh",
+            overflow: "auto",
+            backgroundImage: isSmallScreen ? `url(${notWave})` : `url(${wave})`,
+            backgroundSize: "cover",
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              padding: isSmallScreen ? "40% 10% 0 10%" : "28% 25% 0 25%",
+              alignItems: "center",
+              textAlign: "center",
+            }}
           >
-            <Box
-              component="img"
-              sx={{
-                mt: 4,
-                height: 350,
-                width: 650,
-                maxHeight: { xs: 200, md: 250 },
-                maxWidth: { xs: 300, md: 350 },
-              }}
-              alt="Team som jobber sammen illustrasjon"
-              src={startImg}
-            />
-            <Typography variant="h3" sx={{ mt: 10, mb: 2 }}>
-              Navn på nettsiden
-            </Typography>
-            <Typography variant="h5">
-              Denne nettsiden kan hjelpe deg og ditt team til å samarbeide bedre
-              og bli bevisst på imposter følelsen.
+            <Typography variant="h3">Skap Drømmeteamet!</Typography>
+            <Typography variant="h6" mb={"2%"}>
+              Denne nettsiden kan bistå deg og ditt team med å forbedre
+              samarbeidet og øke bevisstheten om Imposter Syndrome.
             </Typography>
 
-            <CssBaseline />
-            <Box
-              sx={{
-                mt: 5,
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-              }}
+            <TextField
+              name="teamKode"
+              required
+              variant="filled"
+              id="teamKode"
+              label="Team kode"
+              autoFocus
+              value={teamKode}
+              onChange={(e) => setTeamKode(e.target.value)}
+              style={{ width: "30%" }}
+            />
+
+            <Button
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+              onClick={handleJoinTeam}
             >
-              <Box sx={{ mt: 3 }}>
-                <Grid container spacing={2}>
-                  <Grid item xs={12}>
-                    <TextField
-                      name="teamKode"
-                      required
-                      variant="filled"
-                      fullWidth
-                      id="teamKode"
-                      label="Team kode"
-                      autoFocus
-                      value={teamKode}
-                      onChange={(e) => setTeamKode(e.target.value)}
-                    />
-                  </Grid>
-                </Grid>
-                <Button
-                  fullWidth
-                  variant="contained"
-                  sx={{ mt: 3, mb: 2 }}
-                  onClick={handleJoinTeam}
-                >
-                  Bli med i teamet
-                </Button>
-              </Box>
-              {error && (
-                <Alert severity="error">
-                  {
-                    "Noe gikk galt under innloggingen! Vennligst sjekk at du har en gyldig teamkode"
-                  }
-                </Alert>
-              )}
-            </Box>
-          </Container>
+              Bli med i teamet
+            </Button>
+            {error && (
+              <Alert severity="error">
+                {
+                  "Noe gikk galt under innloggingen! Vennligst sjekk at du har en gyldig teamkode"
+                }
+              </Alert>
+            )}
+          </div>
         </div>
       )}
     </>

@@ -37,7 +37,7 @@ const Samtalestarter = () => {
   return (
     <>
       <Typography variant="h2">Samtalestarter</Typography>
-      <Typography variant="body1" sx={{ mb: 5 }} color="text.secondary">
+      <Typography marginLeft={"5px"} variant="body2">
         La oss snakke om hvordan dere kan jobbe bra som et team! Gå gjennom de 3
         kortene sammen og diskuter!
       </Typography>
