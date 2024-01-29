@@ -105,14 +105,13 @@ const Icebreaker = () => {
 
   return (
     <>
-      <Typography variant="h2">2 sannheter og 1 løgn</Typography>
+      <Typography variant="h2">2 Sannheter og 1 Løgn</Typography>
       {!submitted && svarCount < teamAntall ? (
         <>
-          <Typography variant="body2">
-            På tide å bli bedre kjent! Del to sanne påstander og én løgn om deg
-            selv, og la de andre gjette løgnen din!
+          <Typography marginLeft={"5px"} variant="body2">
+            På tide å bli bedre kjent! Del to sannheter og én løgn om deg selv,
+            og la de andre gjette løgnen din!
           </Typography>
-
           <form onSubmit={submitSvar}>
             <Grid
               container
@@ -239,7 +238,7 @@ const Icebreaker = () => {
               sx={{ marginTop: "5px" }}
             >
               <Grid item>
-                <Typography variant="h6">
+                <Typography variant="h5">
                   Venter på at de andre skal svare...
                 </Typography>
               </Grid>

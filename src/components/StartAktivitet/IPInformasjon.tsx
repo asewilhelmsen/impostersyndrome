@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Box, Grid, Tab, Tabs, Typography } from "@mui/material";
 import ImposterSyndromePicture from "../../images/Information.svg";
-import PieChart from "../../images/PieChart.svg";
 import { useMediaQuery } from "@mui/material";
 
 const IPInformasjon = () => {
@@ -81,7 +80,7 @@ const IPInformasjon = () => {
       <Typography variant="h2">Imposter Syndrome</Typography>
       <Typography marginLeft={"5px"} variant="body2">
         Les individuelt gjennom alle underoverskriftene, og bli felles enige om
-        å gå videre til neste steg{" "}
+        å gå videre til neste steg.
       </Typography>
       <Grid container>
         <Grid item xs={12} md={2}>
@@ -119,7 +118,9 @@ const IPInformasjon = () => {
                     alt="Example illustration"
                     width={"100px"}
                   />
-                  <Typography variant="body2">{section.example}</Typography>
+                  <Typography variant="body2" style={{ color: "#0E056E" }}>
+                    {section.example}
+                  </Typography>
                 </Box>
               </Box>
             </TabPanel>

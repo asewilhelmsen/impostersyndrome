@@ -52,7 +52,7 @@ const theme = createTheme({
           textTransform: "none",
         },
         outlined: {
-          color: "black",
+          color: "#0E056E",
           backgroundColor: "white",
           borderColor: "white",
         },

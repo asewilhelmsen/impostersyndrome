@@ -12,7 +12,10 @@ interface Svar {
 const IcebreakerSvar = ({ alleSvar }: { alleSvar: Svar[] }) => {
   return (
     <>
-      <Typography>Klikk på den du tror er en løgn på hver person!</Typography>
+      <Typography marginLeft={"5px"} variant="body2">
+        Gå gjennom hvert kort sammen og klikk individuelt på det du tror er
+        løgnen til hver person. Hvis kortet blir grønt har du gjettet riktig!
+      </Typography>
       <Grid
         container
         direction="row"
