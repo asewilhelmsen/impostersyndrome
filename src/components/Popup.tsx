@@ -6,7 +6,13 @@ import Typography from "@mui/material/Typography";
 import { IconButton, Tooltip } from "@mui/material";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 
-const Popup = () => {
+const Popup = ({
+  overskrift,
+  tekst,
+}: {
+  overskrift: string;
+  tekst: string;
+}) => {
   return (
     <Card
       sx={{
@@ -20,7 +26,7 @@ const Popup = () => {
         position: "relative",
       }}
     >
-      <Tooltip title="Her kommer det nye pop-ups på tilfeldig tidspunkt - Så følg med!">
+      <Tooltip title="Her kommer det nye pop-ups på tilfeldig tidspunkt - Følg med!">
         <IconButton
           sx={{
             position: "absolute",
@@ -36,12 +42,10 @@ const Popup = () => {
       </Tooltip>
       <CardContent>
         <Typography style={{ marginBottom: "10%" }} variant="h5">
-          Velkommen!
+          {overskrift}
         </Typography>
 
-        <Typography variant="body1">
-          Samle teamet ditt og kom i gang med start-aktiviteten
-        </Typography>
+        <Typography variant="body1">{tekst}</Typography>
       </CardContent>
     </Card>
   );
