@@ -1,5 +1,3 @@
-//import config from "./config";
-
 //For å koble teamkode sammen med epost og passord som blir brukt i Firebase authentiseringen
 export const teamInfo: Record<string, { email: string; password: string }> = {
   [process.env.T1_TEAMCODE as string]: {
