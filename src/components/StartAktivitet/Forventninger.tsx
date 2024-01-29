@@ -28,8 +28,10 @@ const expectationsList = [
 
 const Forventninger = ({
   onMaalSubmit,
+  onForventningerFerdig,
 }: {
   onMaalSubmit: (maal: Maalene[]) => void;
+  onForventningerFerdig: (disabled: boolean) => void;
 }) => {
   return (
     <Box style={{ display: "flex", flexDirection: "row" }}>
@@ -84,7 +86,10 @@ const Forventninger = ({
           >
             {"Bare ett teammedlem trenger å fylle inn målene!"}
           </Typography>
-          <Maal onMaalSubmit={onMaalSubmit} />
+          <Maal
+            onMaalSubmit={onMaalSubmit}
+            onForventningerFerdig={onForventningerFerdig}
+          />
         </Grid>
       </Grid>
 

@@ -21,7 +21,11 @@ interface Svar {
   logn: string;
 }
 
-const Icebreaker = () => {
+const Icebreaker = ({
+  onIcebreakerFerdig,
+}: {
+  onIcebreakerFerdig: (disabled: boolean) => void;
+}) => {
   //Flyttes for å bruke der man skal ha truth or lies
   const [navn, setNavn] = useState("");
   const [sannhet1, setSannhet1] = useState("");
@@ -95,6 +99,7 @@ const Icebreaker = () => {
         });
         setSvarCount(newData.length);
         setSvar(newData);
+        onIcebreakerFerdig(newData.length < teamAntall);
       });
 
       // Cleanup the listener when the component unmounts

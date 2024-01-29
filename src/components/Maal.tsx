@@ -8,8 +8,10 @@ import { Maalene } from "../interfaces";
 
 const Maal = ({
   onMaalSubmit,
+  onForventningerFerdig,
 }: {
   onMaalSubmit: (maal: Maalene[]) => void;
+  onForventningerFerdig: (disabled: boolean) => void;
 }) => {
   const [maalene, setMaalene] = useState<Maalene[]>([
     { id: uuidv4(), tekst: "" },
@@ -34,6 +36,7 @@ const Maal = ({
   };
   useEffect(() => {
     onMaalSubmit(maalene);
+    onForventningerFerdig(maalene.length < 2);
   }, [maalene]);
 
   return (

@@ -20,16 +20,29 @@ const StartAktivitet = () => {
     setMaal(maalList);
   };
 
+  const [nesteDisabled, setNesteDisabled] = useState<boolean>(false);
+
+  const handleNesteDisabled = (disabled: boolean) => {
+    setNesteDisabled(disabled);
+  };
   const stepComponents = [
-    <Icebreaker />,
+    <Icebreaker onIcebreakerFerdig={handleNesteDisabled} />,
     <IPInformasjon />,
-    <Samtalestarter />,
-    <Forventninger onMaalSubmit={handleMaalSubmit} />,
+    <Samtalestarter onSamtaleFerdig={handleNesteDisabled} />,
+    <Forventninger
+      onMaalSubmit={handleMaalSubmit}
+      onForventningerFerdig={handleNesteDisabled}
+    />,
   ];
 
   return (
     <div>
-      <Steps nameList={steps} content={stepComponents} maalData={maal} />
+      <Steps
+        nameList={steps}
+        content={stepComponents}
+        maalData={maal}
+        nesteDisabled={nesteDisabled}
+      />
     </div>
   );
 };
