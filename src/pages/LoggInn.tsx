@@ -30,7 +30,6 @@ const LoggInn = () => {
   //Hjelpefunksjon som kobler teamkoden til "fake" email og passord
   const setLoginInfo = (teamKode: string) => {
     const teamLogin = teamInfo[teamKode] || { email: "", password: "" };
-    console.log("teamLogin", teamLogin);
     return teamLogin;
   };
 
