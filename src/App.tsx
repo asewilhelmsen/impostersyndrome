@@ -16,7 +16,6 @@ function App() {
 
   onAuthStateChanged(bruker, (teamBruker) => {
     if (teamBruker) {
-      console.log("setter team bruker i App");
       setTeamBruker(teamBruker);
     } else {
     }

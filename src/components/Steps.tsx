@@ -46,7 +46,6 @@ const Steps = ({
       const docRef = doc(firestore, teamBruker.uid, "startAktivitetSteg");
 
       const unsubscribe = onSnapshot(docRef, (querySnapshot) => {
-        console.log("querysnapshot STEG Steps ", querySnapshot.data()?.steg);
         setAktivtSteg(querySnapshot.data()?.steg);
         if (
           querySnapshot.data()?.steg === 4 ||

@@ -89,7 +89,6 @@ const Icebreaker = () => {
       const ibSvarRef = collection(icebreakerRef, "svar");
 
       const unsubscribe = onSnapshot(ibSvarRef, (querySnapshot) => {
-        console.log("listener, querysnapshot: ", querySnapshot);
         const newData: any[] = [];
         querySnapshot.forEach((doc) => {
           newData.push({ id: doc.id, ...doc.data() });
