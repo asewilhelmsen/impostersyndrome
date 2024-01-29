@@ -133,10 +133,6 @@ const Icebreaker = () => {
                   required
                   variant="outlined"
                   autoFocus
-                  sx={{
-                    backgroundColor: "white",
-                    borderRadius: "6px",
-                  }}
                   value={navn}
                   onChange={handleInputChange}
                 />
@@ -162,8 +158,6 @@ const Icebreaker = () => {
                     variant="outlined"
                     autoFocus
                     sx={{
-                      backgroundColor: "white",
-                      borderRadius: "6px",
                       width: "100%",
                     }}
                     value={sannhet1}
@@ -185,8 +179,6 @@ const Icebreaker = () => {
                     variant="outlined"
                     autoFocus
                     sx={{
-                      backgroundColor: "white",
-                      borderRadius: "6px",
                       width: "100%",
                     }}
                     value={sannhet2}
@@ -207,8 +199,6 @@ const Icebreaker = () => {
                     variant="outlined"
                     autoFocus
                     sx={{
-                      backgroundColor: "white",
-                      borderRadius: "6px",
                       width: "100%",
                     }}
                     value={logn}

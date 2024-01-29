@@ -77,6 +77,15 @@ const theme = createTheme({
         },
       },
     },
+    MuiTextField: {
+      styleOverrides: {
+        root: {
+          "& .MuiOutlinedInput-root": {
+            backgroundColor: "white",
+          },
+        },
+      },
+    },
   },
 });
 

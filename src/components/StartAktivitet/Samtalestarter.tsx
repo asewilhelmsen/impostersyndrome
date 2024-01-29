@@ -39,33 +39,37 @@ const Samtalestarter = () => {
       <Typography variant="h2">Samtalestarter</Typography>
       <Typography marginLeft={"5px"} variant="body2">
         La oss snakke om hvordan dere kan jobbe bra som et team! Gå gjennom de 3
-        kortene nedenfor!
+        kortene sammen og diskuter!
       </Typography>
 
-      <Box sx={{ display: "flex", justifyContent: "center" }}>
-        <Card sx={{ width: "50%", heigh: "100px" }}>
-          <CardContent>
-            <Typography variant="h5">
-              {samtalekortArray[samtaleIndex]}
-            </Typography>
-          </CardContent>
-          <CardActions>
-            <Button
-              onClick={handleForrigeSamtale}
-              disabled={samtaleIndex === 0}
-            >
-              Forrige
-            </Button>
-
-            <Button
-              onClick={handleNesteSamtale}
-              disabled={samtaleIndex === samtalekortArray.length - 1}
-            >
-              Neste
-            </Button>
-          </CardActions>
-        </Card>
-      </Box>
+      <Card
+        sx={{
+          maxWidth: 400,
+          margin: "auto",
+          height: 220,
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
+        <CardContent sx={{ marginTop: "15px" }}>
+          <Typography variant="h5" align="center">
+            {samtalekortArray[samtaleIndex]}
+          </Typography>
+        </CardContent>
+        <CardActions
+          sx={{ justifyContent: "space-between", marginTop: "auto" }}
+        >
+          <Button onClick={handleForrigeSamtale} disabled={samtaleIndex === 0}>
+            Forrige
+          </Button>
+          <Button
+            onClick={handleNesteSamtale}
+            disabled={samtaleIndex === samtalekortArray.length - 1}
+          >
+            Neste
+          </Button>
+        </CardActions>
+      </Card>
     </>
   );
 };
