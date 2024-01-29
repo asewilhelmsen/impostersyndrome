@@ -50,9 +50,9 @@ const Hjem = ({ handleSignOut }: { handleSignOut: () => Promise<void> }) => {
     }
   };
 
-  const setPopupInnhold = async () => {
+  const setPopupInnhold = async (popupInnholdId: string) => {
     try {
-      const popupInnhold = await getPopupInnhold("velkommen");
+      const popupInnhold = await getPopupInnhold(popupInnholdId);
       if (popupInnhold) {
         setPopupOverskrift(popupInnhold.overskrift);
         setPopupTekst(popupInnhold.tekst);
@@ -64,7 +64,7 @@ const Hjem = ({ handleSignOut }: { handleSignOut: () => Promise<void> }) => {
 
   useEffect(() => {
     setTeamInfo();
-    setPopupInnhold();
+    setPopupInnhold("velkommen");
   }, []);
 
   useEffect(() => {
@@ -75,6 +75,7 @@ const Hjem = ({ handleSignOut }: { handleSignOut: () => Promise<void> }) => {
           navigate("/startaktivitet");
         } else if (querySnapshot.data()?.steg === 4) {
           setShowPopUp(true);
+          setPopupInnhold("bliKjent");
         }
       });
       return unsubscribe;
