@@ -2,7 +2,6 @@ import {
   Typography,
   Button,
   Card,
-  Box,
   CardContent,
   CardActions,
 } from "@mui/material";
@@ -22,9 +21,9 @@ const Samtalestarter = ({
   const [samtaleIndex, setSamtaleIndex] = useState(0);
   const samtalekortArray = [
     "Hvordan tror dere teamarbeid påvirker følelsen av imposter syndrome?",
-    "Har dere noen gang følt på imposter syndrome i noen settinger?",
-    "Hva kan dere gjøre for å minske imposter følelsene på teamet?",
-    "Dere har fullført alle samtalekortene! ",
+    "Ta en runde og del hver enkelts styrker og svakheter i et teamprosjekt",
+    "Hva kan dere gjøre for å minske følelsen av usikkerhet på teamet?",
+    "Dere har fullført alle samtalekortene 👏🏼",
   ];
 
   useEffect(() => {
@@ -39,6 +38,8 @@ const Samtalestarter = ({
     }
   }, [teamBruker]);
 
+  const isLastSentence = samtaleIndex === samtalekortArray.length - 1;
+
   return (
     <>
       <Typography variant="h2">Samtalestarter</Typography>
@@ -51,13 +52,17 @@ const Samtalestarter = ({
         sx={{
           maxWidth: 400,
           margin: "auto",
-          height: 220,
+          height: 230,
           display: "flex",
           flexDirection: "column",
         }}
       >
         <CardContent sx={{ marginTop: "15px" }}>
-          <Typography variant="h5" align="center">
+          <Typography
+            variant="h5"
+            align="center"
+            style={isLastSentence ? { color: "#A5D79C" } : {}}
+          >
             {samtalekortArray[samtaleIndex]}
           </Typography>
         </CardContent>
