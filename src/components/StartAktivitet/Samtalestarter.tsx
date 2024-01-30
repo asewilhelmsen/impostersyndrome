@@ -13,7 +13,11 @@ import { doc, onSnapshot } from "@firebase/firestore";
 import { firestore } from "../../firebase/firebase_setup/firebase";
 import { useTeamContext } from "../../TeamContext";
 
-const Samtalestarter = () => {
+const Samtalestarter = ({
+  onSamtaleFerdig,
+}: {
+  onSamtaleFerdig: (disabled: boolean) => void;
+}) => {
   const { teamBruker } = useTeamContext();
   const [samtaleIndex, setSamtaleIndex] = useState(0);
   const samtalekortArray = [
@@ -29,6 +33,7 @@ const Samtalestarter = () => {
       const docRef = doc(firestore, teamBruker.uid, "startAktivitetSteg");
       const unsubscribe = onSnapshot(docRef, (querySnapshot) => {
         setSamtaleIndex(querySnapshot.data()?.samtaleSteg);
+        onSamtaleFerdig(querySnapshot.data()?.samtaleSteg < 3);
       });
       return unsubscribe;
     }

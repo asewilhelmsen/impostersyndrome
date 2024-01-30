@@ -20,10 +20,12 @@ const Steps = ({
   nameList,
   content,
   maalData,
+  nesteDisabled,
 }: {
   nameList: string[];
   content: JSX.Element[];
   maalData: Maalene[];
+  nesteDisabled: boolean;
 }) => {
   const [aktivtSteg, setAktivtSteg] = useState(0);
   const navigate = useNavigate();
@@ -44,7 +46,6 @@ const Steps = ({
   useEffect(() => {
     if (teamBruker) {
       const docRef = doc(firestore, teamBruker.uid, "startAktivitetSteg");
-
       const unsubscribe = onSnapshot(docRef, (querySnapshot) => {
         setAktivtSteg(querySnapshot.data()?.steg);
         if (
@@ -108,12 +109,7 @@ const Steps = ({
             alignSelf: "flex-end",
           }}
         >
-          <Button
-            variant="contained"
-            // disabled={activeStep === 0}
-            onClick={handleBack}
-            sx={{ mr: 1 }}
-          >
+          <Button variant="contained" onClick={handleBack} sx={{ mr: 1 }}>
             Tilbake
           </Button>
         </Grid>
@@ -126,7 +122,11 @@ const Steps = ({
             alignSelf: "flex-end",
           }}
         >
-          <Button variant="contained" onClick={handleNext}>
+          <Button
+            variant="contained"
+            onClick={handleNext}
+            disabled={nesteDisabled}
+          >
             {aktivtSteg === nameList.length - 1 ? "Ferdig" : "Neste"}
           </Button>
         </Grid>
