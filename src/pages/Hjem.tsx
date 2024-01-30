@@ -21,10 +21,16 @@ import LevelPopUp from "../components/LevelPopUp";
 import handleCloseLevelPopUp from "../firebase/handles/handleCloseLevelPopUp";
 import getTeamInfo from "../firebase/getTeamInfo";
 import { useMediaQuery } from "@mui/material";
+import getPopupInnhold from "../firebase/getPopupInnhold";
 
 const Hjem = ({ handleSignOut }: { handleSignOut: () => Promise<void> }) => {
   const [teamLevel, setTeamLevel] = useState(0);
   const [teamNavn, setTeamNavn] = useState("Bachelorgruppe");
+  const [popupOverskrift, setPopupOverskrift] = useState("Velkommen!");
+  const [popupTekst, setPopupTekst] = useState(
+    "Samle teamet ditt og kom i gang med Start-aktiviteten"
+  );
+
   const [showPopUp, setShowPopUp] = useState(false);
   const { teamBruker, setTeamAntall } = useTeamContext();
   const navigate = useNavigate();
@@ -44,8 +50,21 @@ const Hjem = ({ handleSignOut }: { handleSignOut: () => Promise<void> }) => {
     }
   };
 
+  const setPopupInnhold = async (popupInnholdId: string) => {
+    try {
+      const popupInnhold = await getPopupInnhold(popupInnholdId);
+      if (popupInnhold) {
+        setPopupOverskrift(popupInnhold.overskrift);
+        setPopupTekst(popupInnhold.tekst);
+      }
+    } catch (error) {
+      console.error("Kan ikke hente popup innhold", error);
+    }
+  };
+
   useEffect(() => {
     setTeamInfo();
+    setPopupInnhold("velkommen");
   }, []);
 
   useEffect(() => {
@@ -56,6 +75,7 @@ const Hjem = ({ handleSignOut }: { handleSignOut: () => Promise<void> }) => {
           navigate("/startaktivitet");
         } else if (querySnapshot.data()?.steg === 4) {
           setShowPopUp(true);
+          setPopupInnhold("bliKjent");
         }
       });
       return unsubscribe;
@@ -159,7 +179,7 @@ const Hjem = ({ handleSignOut }: { handleSignOut: () => Promise<void> }) => {
             />
           </Grid>
           <Grid item xs={12}>
-            <Popup />
+            <Popup overskrift={popupOverskrift} tekst={popupTekst} />
           </Grid>
         </Grid>
         {showPopUp && <LevelPopUp onClose={handleClosePopUp} level={1} />}
