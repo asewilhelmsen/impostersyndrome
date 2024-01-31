@@ -27,7 +27,7 @@ const StartAktivitet = () => {
   };
   const stepComponents = [
     <Icebreaker onIcebreakerFerdig={handleNesteDisabled} />,
-    <IPInformasjon />,
+    <IPInformasjon onIPinfo={handleNesteDisabled} />,
     <Samtalestarter onSamtaleFerdig={handleNesteDisabled} />,
     <Forventninger
       onMaalSubmit={handleMaalSubmit}

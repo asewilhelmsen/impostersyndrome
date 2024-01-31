@@ -1,9 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Grid, Tab, Tabs, Typography } from "@mui/material";
 import ImposterSyndromePicture from "../../images/Information.svg";
 import { useMediaQuery } from "@mui/material";
 
-const IPInformasjon = () => {
+const IPInformasjon = ({
+  onIPinfo,
+}: {
+  onIPinfo: (disabled: boolean) => void;
+}) => {
   const [value, setValue] = useState(0);
 
   const isSmallScreen = useMediaQuery("(max-width: 900px)");
@@ -11,6 +15,10 @@ const IPInformasjon = () => {
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
+
+  useEffect(() => {
+    onIPinfo(false);
+  });
 
   const sections = [
     {
