@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box, Typography, IconButton, Modal } from "@mui/material";
+import { Box, Typography, Modal } from "@mui/material";
 import TeamConnectors_Img from "../images/teamConnectors_done.svg"; //level 1
 import CommunicationExplorers_Img from "../images/communicationExplorers_done.svg"; //level 2
 import BondBuilders_Img from "../images/bondBuilders_done.svg"; //level 3
