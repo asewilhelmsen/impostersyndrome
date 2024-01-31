@@ -35,7 +35,9 @@ const Maal = ({
   };
   useEffect(() => {
     onMaalSubmit(maalene);
-    handleAddMaal(maalene);
+    if (!(maalene.length === 1 && maalene[0].tekst.length < 1)) {
+      handleAddMaal(maalene);
+    }
   }, [maalene]);
 
   return (

@@ -8,7 +8,6 @@ import {
 } from "@mui/material";
 import A from "../../images/A.svg";
 import B from "../../images/B.svg";
-import C from "../../images/C.svg";
 import Maal from "../Maal";
 import ExpectationImg from "../../images/Expectations.svg";
 import React, { useEffect, useState } from "react";
@@ -80,7 +79,6 @@ const Forventninger = ({
         >
           <Typography variant="h2">Forventningsavklaring</Typography>
         </Grid>
-
         {expectationsList.map(({ id, text, imgSrc }) => (
           <React.Fragment key={id}>
             <Grid
@@ -132,7 +130,7 @@ const Forventninger = ({
           sx={{
             maxWidth: isSmallScreen ? "80%" : "40%",
             flexBasis: "50%",
-            marginLeft: isSmallScreen ? "10%" : 0,
+            marginLeft: "10%",
             marginTop: isSmallScreen ? "10px" : "10%",
           }}
         >
