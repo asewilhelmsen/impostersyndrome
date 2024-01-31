@@ -1,28 +1,33 @@
-import { Box, Grid, Typography } from "@mui/material";
+import {
+  Box,
+  Grid,
+  List,
+  ListItem,
+  Typography,
+  useMediaQuery,
+} from "@mui/material";
 import A from "../../images/A.svg";
 import B from "../../images/B.svg";
 import C from "../../images/C.svg";
 import Maal from "../Maal";
 import ExpectationImg from "../../images/Expectations.svg";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./Forventninger.module.css";
 import { Maalene } from "../../interfaces";
+import { useTeamContext } from "../../TeamContext";
+import { collection, doc, onSnapshot } from "@firebase/firestore";
+import { firestore } from "../../firebase/firebase_setup/firebase";
 
 const expectationsList = [
   {
     id: "A",
-    text: "Ta en runde og del hver enkelts styrker og svakheter i et teamprosjekt",
+    text: "Del forventningene dere har til de andre team-medlemmene på dette prosjektet",
     imgSrc: A,
   },
   {
     id: "B",
-    text: "Del forventningene dere har til de andre team-medlemmene på dette prosjektet",
-    imgSrc: B,
-  },
-  {
-    id: "C",
     text: "Definer og skriv konkrete mål angående samarbeid for dette prosjektet",
-    imgSrc: C,
+    imgSrc: B,
   },
 ];
 
@@ -31,8 +36,38 @@ const Forventninger = ({
 }: {
   onMaalSubmit: (maal: Maalene[]) => void;
 }) => {
+  const [lagredeMaalene, setLagredeMaalene] = useState<Maalene[]>([]);
+  const { teamBruker } = useTeamContext();
+  const isSmallScreen = useMediaQuery("(max-width: 1000px)");
+
+  useEffect(() => {
+    if (teamBruker) {
+      const teamRef = collection(firestore, teamBruker.uid);
+      const forventningerRef = doc(teamRef, "forventninger");
+      const maalRef = collection(forventningerRef, "maal");
+      const startAktRef = doc(maalRef, "startAktMaal");
+
+      const unsubscribe = onSnapshot(startAktRef, (querySnapshot) => {
+        const data = querySnapshot.data();
+        const maalene: Maalene[] = [];
+        if (data) {
+          for (const [id, tekst] of Object.entries(data)) {
+            maalene.push({ id, tekst });
+          }
+        }
+        setLagredeMaalene(maalene);
+      });
+
+      return unsubscribe;
+    }
+  }, [teamBruker]);
   return (
-    <Box style={{ display: "flex", flexDirection: "row" }}>
+    <Box
+      style={{
+        display: "flex",
+        flexDirection: isSmallScreen ? "column" : "row",
+      }}
+    >
       <Grid container>
         <Grid
           item
@@ -67,7 +102,11 @@ const Forventninger = ({
             <Grid
               item
               xs={11}
-              style={{ display: "flex", alignItems: "center", marginTop: "2%" }}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                marginTop: "2%",
+              }}
             >
               <Typography>{text}</Typography>
             </Grid>
@@ -82,18 +121,44 @@ const Forventninger = ({
               marginBottom: "20px",
             }}
           >
-            {"Bare ett teammedlem trenger å fylle inn målene!"}
+            {"Velg ett teammedlem som fyller inn målene!"}
           </Typography>
           <Maal onMaalSubmit={onMaalSubmit} />
         </Grid>
       </Grid>
 
-      <img
-        src={ExpectationImg}
-        alt="Expectation illustration"
-        className={styles.expectationImg}
-        style={{ width: "20%", paddingRight: "15%" }}
-      ></img>
+      {lagredeMaalene.length > 0 ? (
+        <Box
+          sx={{
+            maxWidth: isSmallScreen ? "80%" : "40%",
+            flexBasis: "50%",
+            marginLeft: isSmallScreen ? "10%" : 0,
+            marginTop: isSmallScreen ? "10px" : "10%",
+          }}
+        >
+          <Typography sx={{ textDecoration: "underline" }}>
+            Teamet's mål
+          </Typography>
+          <List sx={{ listStyleType: "disc" }}>
+            {lagredeMaalene.map((maal, maalIndex) => (
+              <ListItem
+                key={maalIndex}
+                alignItems="flex-start"
+                sx={{ display: "list-item" }}
+              >
+                <Typography>{`${maal.tekst}`}</Typography>
+              </ListItem>
+            ))}
+          </List>
+        </Box>
+      ) : (
+        <img
+          src={ExpectationImg}
+          alt="Expectation illustration"
+          className={styles.expectationImg}
+          style={{ width: "20%", paddingRight: "15%" }}
+        ></img>
+      )}
     </Box>
   );
 };
