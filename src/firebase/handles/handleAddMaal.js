@@ -9,7 +9,7 @@ const handleAddMaal = (maalene) => {
   const startAktMaalRef = doc(maalRef, "startAktMaal");
 
   const maalObject = maalene.reduce((acc, goal, index) => {
-    acc[`maal${index + 1}`] = goal.tekst;
+    acc[`${index + 1}`] = goal.tekst;
     return acc;
   }, {});
 

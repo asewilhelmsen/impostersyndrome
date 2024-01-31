@@ -1,5 +1,7 @@
 import {
   Box,
+  Card,
+  CardContent,
   Grid,
   List,
   ListItem,
@@ -50,8 +52,9 @@ const Forventninger = ({
         const data = querySnapshot.data();
         const maalene: Maalene[] = [];
         if (data) {
-          for (const [id, tekst] of Object.entries(data)) {
-            maalene.push({ id, tekst });
+          for (let i = 1; i <= Object.keys(data).length; i++) {
+            const key = i.toString();
+            maalene.push({ id: key, tekst: data[key] });
           }
         }
         setLagredeMaalene(maalene);
@@ -128,26 +131,44 @@ const Forventninger = ({
       {lagredeMaalene.length > 0 ? (
         <Box
           sx={{
-            maxWidth: isSmallScreen ? "80%" : "40%",
+            maxWidth: isSmallScreen ? "60%" : "40%",
             flexBasis: "50%",
-            marginLeft: "10%",
+            marginLeft: isSmallScreen ? "8%" : "0",
+            marginRight: isSmallScreen ? "8%" : "5%",
             marginTop: isSmallScreen ? "10px" : "10%",
           }}
         >
-          <Typography sx={{ textDecoration: "underline" }}>
-            Teamet's mål
-          </Typography>
-          <List sx={{ listStyleType: "disc" }}>
-            {lagredeMaalene.map((maal, maalIndex) => (
-              <ListItem
-                key={maalIndex}
-                alignItems="flex-start"
-                sx={{ display: "list-item" }}
-              >
-                <Typography>{`${maal.tekst}`}</Typography>
-              </ListItem>
-            ))}
-          </List>
+          <Card
+            sx={{
+              minHeight: 200,
+              margin: "auto",
+              height: "auto",
+              display: "flex",
+              //justifyContent: "center",
+              // textAlign: "center",
+              backgroundColor: "#CDDBF7",
+              color: "white",
+              padding: "10px",
+            }}
+          >
+            <CardContent sx={{ marginTop: "15px" }}>
+              <Typography variant="h5" sx={{ textDecoration: "underline" }}>
+                Teamet's mål
+              </Typography>
+              <List sx={{ textAlign: "center" }}>
+                {lagredeMaalene.map((maal, maalIndex) => (
+                  <ListItem key={maalIndex} sx={{ paddingLeft: "0" }}>
+                    <Typography>
+                      <span style={{ fontWeight: "bold" }}>{`Mål ${
+                        maalIndex + 1
+                      }: `}</span>
+                      {maal.tekst}
+                    </Typography>
+                  </ListItem>
+                ))}
+              </List>
+            </CardContent>
+          </Card>
         </Box>
       ) : (
         <img
