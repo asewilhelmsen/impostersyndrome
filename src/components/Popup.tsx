@@ -26,7 +26,7 @@ const Popup = ({
         position: "relative",
       }}
     >
-      <Tooltip title="Her kommer det nye pop-ups på tilfeldig tidspunkt - Følg med!">
+      <Tooltip title="Følg med her for spennende aktiviteter, informasjon og utfordringer på tilfeldige tidspunkter!">
         <IconButton
           sx={{
             position: "absolute",

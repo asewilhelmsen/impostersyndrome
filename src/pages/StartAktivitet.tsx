@@ -9,9 +9,9 @@ import { Maalene } from "../interfaces";
 const StartAktivitet = () => {
   const steps = [
     "Icebreaker",
-    "Lær mer om Imposter Syndrome",
+    "Informasjon",
     "Samtalestarter",
-    "Forventningsavklaringer",
+    "Forventningsavklaring",
   ];
   const [maal, setMaal] = useState<Maalene[]>([]);
 

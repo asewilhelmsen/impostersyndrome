@@ -96,8 +96,8 @@ const LoggInn = () => {
           >
             <Typography variant="h3">Skap Drømmeteamet!</Typography>
             <Typography variant="h6" mb={"2%"}>
-              Denne nettsiden kan bistå deg og ditt team med å forbedre
-              samarbeidet og øke bevisstheten om Imposter Syndrome.
+              Bruk denne nettsiden for å forbedre samarbeidet i teamet og øke
+              bevisstheten rundt Imposter Syndrome.
             </Typography>
 
             <TextField
@@ -128,8 +128,9 @@ const LoggInn = () => {
                   left: 0,
                   right: 0,
                   zIndex: 999,
-                  width: "50%",
+                  width: "40%",
                   margin: "auto",
+                  justifyContent: "center",
                 }}
               >
                 {

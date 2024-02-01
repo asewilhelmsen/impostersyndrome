@@ -38,7 +38,7 @@ const theme = createTheme({
       marginBottom: "1%",
     },
     body2: {
-      color: "#52505e",
+      color: "#0E056E",
       marginBottom: "2%",
     },
     fontFamily: ["Inter", "sans-serif"].join(","),

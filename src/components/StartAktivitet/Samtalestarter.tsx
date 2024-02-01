@@ -20,9 +20,9 @@ const Samtalestarter = ({
   const { teamBruker } = useTeamContext();
   const [samtaleIndex, setSamtaleIndex] = useState(0);
   const samtalekortArray = [
-    "Hvordan tror dere teamarbeid påvirker følelsen av imposter syndrome?",
-    "Ta en runde og del hver enkelts styrker og svakheter i et teamprosjekt",
-    "Hva kan dere gjøre for å minske følelsen av usikkerhet på teamet?",
+    "Hvordan tror dere teamarbeid påvirker følelsen av Imposter syndrome?",
+    "Ta en runde der hver person deler sine styrker og svakheter i et teamprosjekt",
+    "Hva kan dere gjøre for å håndtere Imposter syndrome på teamet?",
     "Dere har fullført alle samtalekortene 👏🏼",
   ];
 
@@ -42,10 +42,9 @@ const Samtalestarter = ({
 
   return (
     <>
-      <Typography variant="h2">Samtalestarter</Typography>
-      <Typography marginLeft={"5px"} variant="body2">
-        La oss snakke om hvordan dere kan jobbe bra som et team! Gå gjennom de 3
-        kortene sammen og diskuter!
+      <Typography variant="h2">Dele tanker og erfaringer</Typography>
+      <Typography marginLeft={"5px"} variant="body1">
+        Gå felles gjennom de 3 kortene og del kort hva dere tenker!
       </Typography>
 
       <Card

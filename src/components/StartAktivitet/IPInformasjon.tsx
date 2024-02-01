@@ -24,7 +24,7 @@ const IPInformasjon = ({
     {
       label: "Hva er det?",
       content: `
-      Imposter syndrome er et utbredt fenomen der individers selvtillit og prestasjon påvirkes av bekymringen for å bli avslørt som bedragere på grunn av manglende forventet kompetanse. Selv med betydelig ferdigheter undervurderer enkeltpersoner ofte seg selv og tilskriver suksess til flaks eller eksterne faktorer. \n
+      Imposter syndrome er et utbredt fenomen der individers selvtillit og prestasjon påvirkes av bekymringen for å bli avslørt som bedragere på grunn av manglende forventet kompetanse. Selv med betydelig ferdigheter undervurderer enkeltpersoner ofte seg selv og tilskriver suksess til flaks eller eksterne faktorer.
       
       På informatikkstudier med mange høyt presterende studenter er det vanlig å føle på Imposter syndrome. Dette gjelder også i IT-bransjen generelt der over 57% av utviklere i selskaper som Facebook, Microsoft og Google rapporterer å oppleve imposter syndrome i jobben sin.
       `,
@@ -86,9 +86,9 @@ const IPInformasjon = ({
   return (
     <div>
       <Typography variant="h2">Imposter Syndrome</Typography>
-      <Typography marginLeft={"5px"} variant="body2">
-        Les individuelt gjennom alle underoverskriftene, og bli felles enige om
-        å gå videre til neste steg.
+      <Typography marginLeft={"5px"} variant="body1">
+        Les og klikk individuelt gjennom: Hva er det?, Årsaker, Effekter og
+        Suksessfaktorer. Når alle er ferdige kan dere gå til neste steg.
       </Typography>
       <Grid container>
         <Grid item xs={12} md={2}>
