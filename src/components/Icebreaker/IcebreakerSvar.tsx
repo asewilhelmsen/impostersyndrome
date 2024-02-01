@@ -12,7 +12,7 @@ interface Svar {
 const IcebreakerSvar = ({ alleSvar }: { alleSvar: Svar[] }) => {
   return (
     <>
-      <Typography marginLeft={"5px"} variant="body2">
+      <Typography marginLeft={"5px"} variant="body1">
         Gå gjennom hvert kort sammen og klikk individuelt på det du tror er
         løgnen til hver person. Hvis kortet blir grønt har du gjettet riktig!
       </Typography>

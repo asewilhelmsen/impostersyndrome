@@ -22,12 +22,12 @@ import { firestore } from "../../firebase/firebase_setup/firebase";
 const expectationsList = [
   {
     id: "A",
-    text: "Del forventningene dere har til de andre team-medlemmene på dette prosjektet",
+    text: "Bruk 3 minutter til å reflektere individuelt over hva som er viktig for at du trives i et team",
     imgSrc: A,
   },
   {
     id: "B",
-    text: "Definer og skriv konkrete mål angående samarbeid for dette prosjektet",
+    text: "Del tankene og definer konkrete mål for å oppnå et godt teamsamarbeid",
     imgSrc: B,
   },
 ];
@@ -82,7 +82,7 @@ const Forventninger = ({
             gap: "2%",
           }}
         >
-          <Typography variant="h2">Forventningsavklaring</Typography>
+          <Typography variant="h2">Felles målsetting</Typography>
         </Grid>
         {expectationsList.map(({ id, text, imgSrc }) => (
           <React.Fragment key={id}>

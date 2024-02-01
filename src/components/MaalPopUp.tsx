@@ -27,7 +27,7 @@ const MaalPopUp: React.FC<{ onClose: () => void; maalene: Maalene[] }> = ({
         }}
       >
         <Typography variant="h5" sx={{ textDecoration: "underline" }}>
-          Målene deres
+          Mål etter Start-aktiviteten
         </Typography>
         <List sx={{ textAlign: "center" }}>
           {maalene.map((maal, maalIndex) => (

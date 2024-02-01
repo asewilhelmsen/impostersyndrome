@@ -112,9 +112,9 @@ const Icebreaker = ({
       <Typography variant="h2">2 Sannheter og 1 Løgn</Typography>
       {!submitted && svarCount < teamAntall ? (
         <>
-          <Typography marginLeft={"5px"} variant="body2">
-            På tide å bli bedre kjent! Del to sannheter og én løgn om deg selv,
-            og la de andre gjette løgnen din!
+          <Typography marginLeft={"5px"} variant="body1">
+            På tide å bli bedre kjent! Skriv to sannheter og én løgn om deg selv
+            og send inn.
           </Typography>
           <form onSubmit={submitSvar}>
             <Grid
