@@ -22,16 +22,22 @@ import handleCloseLevelPopUp from "../firebase/handles/handleCloseLevelPopUp";
 import getTeamInfo from "../firebase/getTeamInfo";
 import { useMediaQuery } from "@mui/material";
 import getPopupInnhold from "../firebase/getPopupInnhold";
+import getMaal from "../firebase/getMaal";
+import MaalPopUp from "../components/MaalPopUp";
+import { Maalene } from "../interfaces";
 
 const Hjem = ({ handleSignOut }: { handleSignOut: () => Promise<void> }) => {
   const [teamLevel, setTeamLevel] = useState(0);
   const [teamNavn, setTeamNavn] = useState("Bachelorgruppe");
+  const [startAktMaal, setStartAktMaal] = useState<Maalene[]>([]);
   const [popupOverskrift, setPopupOverskrift] = useState("Velkommen!");
   const [popupTekst, setPopupTekst] = useState(
     "Samle teamet ditt og kom i gang med Start-aktiviteten"
   );
 
   const [showPopUp, setShowPopUp] = useState(false);
+  const [showMaalPopUp, setShowMaalPopUp] = useState(false);
+
   const { teamBruker, setTeamAntall } = useTeamContext();
   const navigate = useNavigate();
 
@@ -62,9 +68,28 @@ const Hjem = ({ handleSignOut }: { handleSignOut: () => Promise<void> }) => {
     }
   };
 
+  const setMaal = async () => {
+    try {
+      const maal = await getMaal();
+      if (maal) {
+        const maalene: Maalene[] = [];
+        if (maal) {
+          for (let i = 1; i <= Object.keys(maal).length; i++) {
+            const key = i.toString();
+            maalene.push({ id: key, tekst: maal[key] });
+          }
+        }
+        setStartAktMaal(maalene);
+      }
+    } catch (error) {
+      console.error("Kan ikke hente målene", error);
+    }
+  };
+
   useEffect(() => {
     setTeamInfo();
     setPopupInnhold("velkommen");
+    setMaal();
   }, []);
 
   useEffect(() => {
@@ -86,7 +111,9 @@ const Hjem = ({ handleSignOut }: { handleSignOut: () => Promise<void> }) => {
     setShowPopUp(false);
     handleCloseLevelPopUp();
   };
-
+  const handleCloseMaalPopUp = () => {
+    setShowMaalPopUp(false);
+  };
   const imageStyle = {
     width: "23%",
   };
@@ -157,6 +184,7 @@ const Hjem = ({ handleSignOut }: { handleSignOut: () => Promise<void> }) => {
               src={teamLevel > 0 ? teamConnectors_done : teamConnectors}
               alt="Level 1"
               style={imageStyle}
+              onClick={() => setShowMaalPopUp(true)}
             />
             <img
               src={
@@ -183,6 +211,9 @@ const Hjem = ({ handleSignOut }: { handleSignOut: () => Promise<void> }) => {
           </Grid>
         </Grid>
         {showPopUp && <LevelPopUp onClose={handleClosePopUp} level={1} />}
+        {showMaalPopUp && teamLevel > 0 && (
+          <MaalPopUp onClose={handleCloseMaalPopUp} maalene={startAktMaal} />
+        )}
       </div>
     </div>
   );
