@@ -157,7 +157,7 @@ const Hjem = ({ handleSignOut }: { handleSignOut: () => Promise<void> }) => {
           alignItems="center"
         >
           <Grid item xs={12}>
-            <StartAktivitetButton />
+            <StartAktivitetButton level={teamLevel} />
           </Grid>
           <Grid item xs={12}>
             <RetroButton disabled={true} />

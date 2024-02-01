@@ -120,7 +120,18 @@ const LoggInn = () => {
               Bli med i teamet
             </Button>
             {error && (
-              <Alert severity="error">
+              <Alert
+                severity="error"
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  zIndex: 999,
+                  width: "50%",
+                  margin: "auto",
+                }}
+              >
                 {
                   "Noe gikk galt under innloggingen! Vennligst sjekk at du har en gyldig teamkode"
                 }

@@ -34,8 +34,10 @@ const expectationsList = [
 
 const Forventninger = ({
   onMaalSubmit,
+  onForventningerFerdig,
 }: {
   onMaalSubmit: (maal: Maalene[]) => void;
+  onForventningerFerdig: (disabled: boolean) => void;
 }) => {
   const [lagredeMaalene, setLagredeMaalene] = useState<Maalene[]>([]);
   const { teamBruker } = useTeamContext();
@@ -124,7 +126,10 @@ const Forventninger = ({
           >
             {"Velg ett teammedlem som fyller inn målene!"}
           </Typography>
-          <Maal onMaalSubmit={onMaalSubmit} />
+          <Maal
+            onMaalSubmit={onMaalSubmit}
+            onForventningerFerdig={onForventningerFerdig}
+          />
         </Grid>
       </Grid>
 

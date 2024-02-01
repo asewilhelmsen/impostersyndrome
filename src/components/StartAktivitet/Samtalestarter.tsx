@@ -2,7 +2,6 @@ import {
   Typography,
   Button,
   Card,
-  Box,
   CardContent,
   CardActions,
 } from "@mui/material";
@@ -13,14 +12,18 @@ import { doc, onSnapshot } from "@firebase/firestore";
 import { firestore } from "../../firebase/firebase_setup/firebase";
 import { useTeamContext } from "../../TeamContext";
 
-const Samtalestarter = () => {
+const Samtalestarter = ({
+  onSamtaleFerdig,
+}: {
+  onSamtaleFerdig: (disabled: boolean) => void;
+}) => {
   const { teamBruker } = useTeamContext();
   const [samtaleIndex, setSamtaleIndex] = useState(0);
   const samtalekortArray = [
     "Hvordan tror dere teamarbeid påvirker følelsen av imposter syndrome?",
-    "Har dere noen gang følt på imposter syndrome i noen settinger?",
-    "Hva kan dere gjøre for å minske imposter følelsene på teamet?",
-    "Dere har fullført alle samtalekortene! ",
+    "Ta en runde og del hver enkelts styrker og svakheter i et teamprosjekt",
+    "Hva kan dere gjøre for å minske følelsen av usikkerhet på teamet?",
+    "Dere har fullført alle samtalekortene 👏🏼",
   ];
 
   useEffect(() => {
@@ -29,10 +32,13 @@ const Samtalestarter = () => {
       const docRef = doc(firestore, teamBruker.uid, "startAktivitetSteg");
       const unsubscribe = onSnapshot(docRef, (querySnapshot) => {
         setSamtaleIndex(querySnapshot.data()?.samtaleSteg);
+        onSamtaleFerdig(querySnapshot.data()?.samtaleSteg < 3);
       });
       return unsubscribe;
     }
   }, [teamBruker]);
+
+  const isLastSentence = samtaleIndex === samtalekortArray.length - 1;
 
   return (
     <>
@@ -46,13 +52,17 @@ const Samtalestarter = () => {
         sx={{
           maxWidth: 400,
           margin: "auto",
-          height: 220,
+          height: 230,
           display: "flex",
           flexDirection: "column",
         }}
       >
         <CardContent sx={{ marginTop: "15px" }}>
-          <Typography variant="h5" align="center">
+          <Typography
+            variant="h5"
+            align="center"
+            style={isLastSentence ? { color: "#A5D79C" } : {}}
+          >
             {samtalekortArray[samtaleIndex]}
           </Typography>
         </CardContent>

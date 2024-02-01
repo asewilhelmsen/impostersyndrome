@@ -68,7 +68,7 @@ const IPInformasjon = () => {
       >
         {value === index && (
           <Box>
-            <Typography>{children}</Typography>
+            <Typography component={"span"}>{children}</Typography>
           </Box>
         )}
       </div>
@@ -101,8 +101,12 @@ const IPInformasjon = () => {
           {sections.map((section, index) => (
             <TabPanel key={index} value={value} index={index}>
               <Box width={"60%"} margin={isSmallScreen ? "auto" : "0 10%"}>
-                <Typography variant="h5">{section.label}</Typography>
-                <Typography variant="body1">{section.content}</Typography>
+                <Typography component={"span"} variant="h5">
+                  {section.label}
+                </Typography>
+                <Typography variant="body1" marginTop={"2%"}>
+                  {section.content}
+                </Typography>
                 <Box
                   padding={1}
                   borderRadius={2}
