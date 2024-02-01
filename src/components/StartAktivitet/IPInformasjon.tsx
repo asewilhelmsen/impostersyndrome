@@ -23,31 +23,45 @@ const IPInformasjon = ({
   const sections = [
     {
       label: "Hva er det?",
-      content: `
-      Imposter syndrome er et utbredt fenomen der individers selvtillit og prestasjon påvirkes av bekymringen for å bli avslørt som bedragere på grunn av manglende forventet kompetanse. Selv med betydelig ferdigheter undervurderer enkeltpersoner ofte seg selv og tilskriver suksess til flaks eller eksterne faktorer.
-      
-      På informatikkstudier med mange høyt presterende studenter er det vanlig å føle på Imposter syndrome. Dette gjelder også i IT-bransjen generelt der over 57% av utviklere i selskaper som Facebook, Microsoft og Google rapporterer å oppleve imposter syndrome i jobben sin.
-      `,
+      content: (
+        <>
+          Imposter syndrome er et utbredt fenomen der individers selvtillit og
+          prestasjon påvirkes av en bekymring for å bli gjennomskuet for å ha
+          mindre kompetanse enn det er forventet. Selv med betydelig ferdigheter
+          undervurderer enkeltpersoner ofte seg selv og tilskriver suksess til
+          flaks eller andre eksterne faktorer. På informatikkstudier med mange
+          høyt presterende studenter er det vanlig å føle på Imposter syndrome.
+          Dette gjelder også i IT-bransjen generelt der over&nbsp;
+          <a href="https://www.teamblind.com/blog/58-percent-of-tech-workers-feel-like-impostors/">
+            58%
+          </a>
+          &nbsp;av utviklere i selskaper som Facebook, Microsoft og Google
+          rapporterer å oppleve imposter syndrome i jobben sin.
+        </>
+      ),
       example:
-        "Nyutdannede Anders får en ettertraktet jobb, men tilskriver suksessen til flaks i intervjuet og undervurderer egne kvalifikasjoner. Dette fører til unødvendig stress ved karrierestart, og Anders er nervøs for å starte i ny jobb.",
+        "Nyutdannede Anders får en ettertraktet jobb, men mener han kun fikk den på grunn av flaks i intervjuspørsmålene og undervurderer egne kvalifikasjoner. Dette fører til unødvendig stress ved karrierestart, og Anders er nervøs for å starte i ny jobb.",
     },
     {
       label: "Årsaker",
       content: `
       Sammenligning med andre studenter kan føre til urealistiske forventninger og følelse av utilstrekkelighet, spesielt i samarbeidssituasjoner der man vurderer sin egen kompetanse mot andre. 
+ 
       
-      Å være en del av en underrepresentert gruppe på grunn av f.eks kjønn eller etnisitet kan forsterke imposter følelsen. Dersom individene har en følelse av å ikke høre til, kan det føre til tvil om egen kompetanse og en opplevelse av å ikke bli ansett som like dyktig som de andre på studiet.
+      Å være en del av en underrepresentert gruppe på grunn av f.eks kjønn eller etnisitet kan også forsterke imposter følelsen. Dersom individene har en følelse av å ikke høre til, kan det føre til tvil om egen kompetanse og en opplevelse av å ikke bli ansett som like dyktig som de andre på studiet.
+
 
       `,
       example:
-        "Anna, en kvinnelig informatikkstudent, tror at hun bare fikk sommerjobben som utvikler på grunn av behovet for å fylle kvinnekvoten i IT-bransjen. Hun bagatelliserer sine egne ferdigheter og tilskriver suksessen til hennes kjønn.",
+        "Anna, en kvinnelig informatikkstudent, tror at hun bare fikk sommerjobben som utvikler på grunn av behovet for å fylle kvinnekvoten i IT-bransjen. Hun undervurderer sine egne ferdigheter og tilskriver suksessen sin til sitt kjønn.",
     },
     {
       label: "Effekter",
       content: `
-      Imposter syndrome kan føre til tvil, angst og depresjon, og kan derfor påvirke studenters generelle mentale velvære. Frykten for å bli avslørt kan føre til en negativ spiral som påvirker både motivasjon og prestasjon, og derfor også hindrer læring og selvtillit.
+      Imposter syndrome kan føre til tvil, angst og depresjon, og kan derfor påvirke studenters generelle mentale helse. Frykten for å bli avslørt kan føre til en negativ spiral som påvirker både motivasjon og prestasjon, som også kan hindrer læring og selvtillit.
+
       
-      Imposter syndrome kan føre til overarbeid og overlevelsesmodus, noe som har en negativ innvirkning på studenters generelle trivsel. Dette hindrer personlig og faglig vekst ettersom studenter kan unngå nye utfordringer og muligheter, og tror at de ikke er kvalifiserte. Det kan til og med føre til at enkeltpersoner unngår teknologirelaterte yrker. 
+      Imposter syndrome kan føre til overarbeid og overlevelsesmodus, noe som har en negativ innvirkning på studenters generelle trivsel. Dette hindrer personlig og faglig vekst ettersom studenter kan unngå nye utfordringer og muligheter, og tror at de ikke er kvalifiserte. Det kan til og med føre til at enkeltpersoner unngår teknologirelaterte yrker.  
 
       `,
       example:
@@ -56,10 +70,11 @@ const IPInformasjon = ({
     {
       label: "Suksessfaktorer",
       content: `
-      Flere suksessfaktorer har blitt identifisert for å håndtere Imposter syndrome. Den første, som vi jobber med akkurat nå, er å øke bevisstheten om fenomenet og utbredelsen på informatikkstudiet. Teamarbeid og å bygge et støttende miljø er en annen suksessfaktor. Å fremme en følelse av tilhørighet og dyrke samarbeid og deling av erfaringer, i stedet for å ha et konkurransepreget miljø, er viktig. I tillegg er det essensielt å sette realistiske forventninger og gi jevnlig bekreftelse gjennom mestringsopplevelser.
+      Flere suksessfaktorer er identifisert for å håndtere Imposter syndrome. Den første, som vi jobber med akkurat nå, er å øke bevisstheten om fenomenet og utbredelsen på informatikkstudiet. Teamarbeid og å bygge et støttende miljø er en annen suksessfaktor. Å fremme en følelse av tilhørighet og dyrke samarbeid og deling av erfaringer, i stedet for å ha et konkurransepreget miljø, er viktig. I tillegg er det essensielt å sette realistiske forventninger og gi jevnlig bekreftelse gjennom mestringsopplevelser.
+
       `,
       example:
-        "Kari og Thomas samarbeider i et team. Etter at Kari fullfører en oppgave, føler Thomas at han ikke er like dyktig eller bidrar like mye. På samme måte føler Kari at hun ikke er like flink som Thomas, da han mestrer ting hun ikke kan. Etter en åpen samtale mellom dem, føler begge seg beroliget ved å oppdage at de deler de samme usikkerhetene.",
+        "Kari og Thomas samarbeider i et team. Etter at Kari fullfører en oppgave, føler Thomas at han ikke er like dyktig eller bidrar like mye. På samme måte føler Kari at hun ikke er like flink som Thomas, da han mestrer ting hun ikke kan. Etter en åpen samtale føler begge seg beroliget ved å oppdage at de deler de samme usikkerhetene.",
     },
   ];
 
@@ -90,7 +105,7 @@ const IPInformasjon = ({
         Les og klikk individuelt gjennom: Hva er det?, Årsaker, Effekter og
         Suksessfaktorer. Når alle er ferdige kan dere gå til neste steg.
       </Typography>
-      <Grid container>
+      <Grid container marginTop={"2%"}>
         <Grid item xs={12} md={2}>
           <Tabs
             orientation="vertical"
