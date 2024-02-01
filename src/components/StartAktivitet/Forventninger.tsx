@@ -1,28 +1,34 @@
-import { Box, Grid, Typography } from "@mui/material";
+import {
+  Box,
+  Card,
+  CardContent,
+  Grid,
+  List,
+  ListItem,
+  Typography,
+  useMediaQuery,
+} from "@mui/material";
 import A from "../../images/A.svg";
 import B from "../../images/B.svg";
-import C from "../../images/C.svg";
 import Maal from "../Maal";
 import ExpectationImg from "../../images/Expectations.svg";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./Forventninger.module.css";
 import { Maalene } from "../../interfaces";
+import { useTeamContext } from "../../TeamContext";
+import { collection, doc, onSnapshot } from "@firebase/firestore";
+import { firestore } from "../../firebase/firebase_setup/firebase";
 
 const expectationsList = [
   {
     id: "A",
-    text: "Ta en runde og del hver enkelts styrker og svakheter i et teamprosjekt",
+    text: "Del forventningene dere har til de andre team-medlemmene på dette prosjektet",
     imgSrc: A,
   },
   {
     id: "B",
-    text: "Del forventningene dere har til de andre team-medlemmene på dette prosjektet",
-    imgSrc: B,
-  },
-  {
-    id: "C",
     text: "Definer og skriv konkrete mål angående samarbeid for dette prosjektet",
-    imgSrc: C,
+    imgSrc: B,
   },
 ];
 
@@ -33,8 +39,39 @@ const Forventninger = ({
   onMaalSubmit: (maal: Maalene[]) => void;
   onForventningerFerdig: (disabled: boolean) => void;
 }) => {
+  const [lagredeMaalene, setLagredeMaalene] = useState<Maalene[]>([]);
+  const { teamBruker } = useTeamContext();
+  const isSmallScreen = useMediaQuery("(max-width: 1000px)");
+
+  useEffect(() => {
+    if (teamBruker) {
+      const teamRef = collection(firestore, teamBruker.uid);
+      const forventningerRef = doc(teamRef, "forventninger");
+      const maalRef = collection(forventningerRef, "maal");
+      const startAktRef = doc(maalRef, "startAktMaal");
+
+      const unsubscribe = onSnapshot(startAktRef, (querySnapshot) => {
+        const data = querySnapshot.data();
+        const maalene: Maalene[] = [];
+        if (data) {
+          for (let i = 1; i <= Object.keys(data).length; i++) {
+            const key = i.toString();
+            maalene.push({ id: key, tekst: data[key] });
+          }
+        }
+        setLagredeMaalene(maalene);
+      });
+
+      return unsubscribe;
+    }
+  }, [teamBruker]);
   return (
-    <Box style={{ display: "flex", flexDirection: "row" }}>
+    <Box
+      style={{
+        display: "flex",
+        flexDirection: isSmallScreen ? "column" : "row",
+      }}
+    >
       <Grid container>
         <Grid
           item
@@ -47,7 +84,6 @@ const Forventninger = ({
         >
           <Typography variant="h2">Forventningsavklaring</Typography>
         </Grid>
-
         {expectationsList.map(({ id, text, imgSrc }) => (
           <React.Fragment key={id}>
             <Grid
@@ -69,7 +105,11 @@ const Forventninger = ({
             <Grid
               item
               xs={11}
-              style={{ display: "flex", alignItems: "center", marginTop: "2%" }}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                marginTop: "2%",
+              }}
             >
               <Typography>{text}</Typography>
             </Grid>
@@ -84,7 +124,7 @@ const Forventninger = ({
               marginBottom: "20px",
             }}
           >
-            {"Bare ett teammedlem trenger å fylle inn målene!"}
+            {"Velg ett teammedlem som fyller inn målene!"}
           </Typography>
           <Maal
             onMaalSubmit={onMaalSubmit}
@@ -93,12 +133,56 @@ const Forventninger = ({
         </Grid>
       </Grid>
 
-      <img
-        src={ExpectationImg}
-        alt="Expectation illustration"
-        className={styles.expectationImg}
-        style={{ width: "20%", paddingRight: "15%" }}
-      ></img>
+      {lagredeMaalene.length > 0 ? (
+        <Box
+          sx={{
+            maxWidth: isSmallScreen ? "60%" : "40%",
+            flexBasis: "50%",
+            marginLeft: isSmallScreen ? "8%" : "0",
+            marginRight: isSmallScreen ? "8%" : "5%",
+            marginTop: isSmallScreen ? "10px" : "10%",
+          }}
+        >
+          <Card
+            sx={{
+              minHeight: 200,
+              margin: "auto",
+              height: "auto",
+              display: "flex",
+              //justifyContent: "center",
+              // textAlign: "center",
+              backgroundColor: "#CDDBF7",
+              color: "white",
+              padding: "10px",
+            }}
+          >
+            <CardContent sx={{ marginTop: "15px" }}>
+              <Typography variant="h5" sx={{ textDecoration: "underline" }}>
+                Teamet's mål
+              </Typography>
+              <List sx={{ textAlign: "center" }}>
+                {lagredeMaalene.map((maal, maalIndex) => (
+                  <ListItem key={maalIndex} sx={{ paddingLeft: "0" }}>
+                    <Typography>
+                      <span style={{ fontWeight: "bold" }}>{`Mål ${
+                        maalIndex + 1
+                      }: `}</span>
+                      {maal.tekst}
+                    </Typography>
+                  </ListItem>
+                ))}
+              </List>
+            </CardContent>
+          </Card>
+        </Box>
+      ) : (
+        <img
+          src={ExpectationImg}
+          alt="Expectation illustration"
+          className={styles.expectationImg}
+          style={{ width: "20%", paddingRight: "15%" }}
+        ></img>
+      )}
     </Box>
   );
 };

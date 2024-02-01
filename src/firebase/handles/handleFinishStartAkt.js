@@ -7,26 +7,26 @@ const handleFinishStartAkt = (maalData) => {
 
   //Ref steg
   const stegRef = doc(teamRef, "startAktivitetSteg");
-
-  //Ref mål
-  const forventningerRef = doc(teamRef, "forventninger");
-  const maalRef = collection(forventningerRef, "maal");
-  const startAktMaalRef = doc(maalRef, "startAktMaal");
   //Ref level
   const teamInfoRef = doc(teamRef, "teamInfo");
 
+  //Ref mål - Dette gjøres nå i egen fil som heter handleAddMaalene
+  /*const forventningerRef = doc(teamRef, "forventninger");
+  const maalRef = collection(forventningerRef, "maal");
+  const startAktMaalRef = doc(maalRef, "startAktMaal");
+ 
   //Gjøre om fra liste med mål til objekt
   const maalObject = maalData.reduce((acc, goal, index) => {
     acc[`maal${index + 1}`] = goal.tekst;
     return acc;
-  }, {});
+  }, {});*/
 
   try {
     setDoc(stegRef, {
       steg: 4,
       samtaleSteg: 0,
     });
-    setDoc(startAktMaalRef, maalObject);
+    //setDoc(startAktMaalRef, maalObject);
     updateDoc(teamInfoRef, { level: 1 });
   } catch (err) {
     console.log("Kunne ikke fullføre startaktiviteten!", err);

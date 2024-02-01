@@ -5,6 +5,7 @@ import AddCircleIcon from "@mui/icons-material/AddCircle";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import { v4 as uuidv4 } from "uuid";
 import { Maalene } from "../interfaces";
+import handleAddMaal from "../firebase/handles/handleAddMaal";
 
 const Maal = ({
   onMaalSubmit,
@@ -36,6 +37,9 @@ const Maal = ({
   };
   useEffect(() => {
     onMaalSubmit(maalene);
+    if (!(maalene.length === 1 && maalene[0].tekst.length < 1)) {
+      handleAddMaal(maalene);
+    }
     onForventningerFerdig(maalene.length < 2);
   }, [maalene]);
 
