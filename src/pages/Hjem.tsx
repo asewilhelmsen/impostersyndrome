@@ -208,7 +208,15 @@ const Hjem = ({ handleSignOut }: { handleSignOut: () => Promise<void> }) => {
             <Popup overskrift={popupOverskrift} tekst={popupTekst} />
           </Grid>
         </Grid>
-        {showPopUp && <LevelPopUp onClose={handleClosePopUp} level={1} />}
+        {showPopUp && ( //Burde sjekkes for at man er på nivå1 også. Evt lage showPopUp1
+          <LevelPopUp
+            onClose={handleClosePopUp}
+            level={1}
+            message={
+              "Målene dere satt i Start-aktiviteten finner du ved å klikke på Nivå1-ikonet på hjem-siden!"
+            }
+          />
+        )}
         {showMaalPopUp && teamLevel > 0 && (
           <MaalPopUp onClose={handleCloseMaalPopUp} maalene={startAktMaal} />
         )}

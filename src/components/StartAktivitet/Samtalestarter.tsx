@@ -51,16 +51,17 @@ const Samtalestarter = ({
         sx={{
           maxWidth: 400,
           margin: "auto",
+          marginTop: "4%",
           height: 230,
           display: "flex",
           flexDirection: "column",
         }}
       >
-        <CardContent sx={{ marginTop: "15px" }}>
+        <CardContent sx={{ marginTop: "30px" }}>
           <Typography
             variant="h5"
             align="center"
-            style={isLastSentence ? { color: "#A5D79C" } : {}}
+            style={isLastSentence ? { color: "#77BC6B" } : {}}
           >
             {samtalekortArray[samtaleIndex]}
           </Typography>
