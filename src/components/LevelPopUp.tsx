@@ -5,10 +5,11 @@ import CommunicationExplorers_Img from "../images/communicationExplorers_done.sv
 import BondBuilders_Img from "../images/bondBuilders_done.svg"; //level 3
 import DreamTeam_Img from "../images/dreamTeam_done.svg"; //level 4
 
-const LevelPopUp: React.FC<{ onClose: () => void; level: number }> = ({
-  onClose,
-  level,
-}) => {
+const LevelPopUp: React.FC<{
+  onClose: () => void;
+  level: number;
+  message: string;
+}> = ({ onClose, level, message }) => {
   const [levelImage, setLevelImage] = useState<string | null>(null);
 
   useEffect(() => {
@@ -56,6 +57,11 @@ const LevelPopUp: React.FC<{ onClose: () => void; level: number }> = ({
         <Typography variant="h5">Teamet har nådd et nytt nivå 🎉</Typography>
         {levelImage && (
           <img width={"60%"} src={levelImage} alt={`Level ${level} image`} />
+        )}
+        {message && (
+          <Typography textAlign={"center"} variant="body1">
+            {message}
+          </Typography>
         )}
       </Box>
     </Modal>
