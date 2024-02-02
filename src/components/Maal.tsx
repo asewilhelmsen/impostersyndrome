@@ -35,12 +35,12 @@ const Maal = ({
   const removeMaal = (maalId: string) => {
     setMaalene((prevMaal) => prevMaal.filter((maal) => maal.id !== maalId));
   };
+
   useEffect(() => {
     onMaalSubmit(maalene);
     if (!(maalene.length === 1 && maalene[0].tekst.length < 1)) {
       handleAddMaal(maalene);
     }
-    onForventningerFerdig(maalene.length < 2);
   }, [maalene]);
 
   return (
