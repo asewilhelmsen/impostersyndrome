@@ -65,6 +65,11 @@ const Forventninger = ({
       return unsubscribe;
     }
   }, [teamBruker]);
+
+  useEffect(() => {
+    onForventningerFerdig(lagredeMaalene.length < 2);
+  }, [lagredeMaalene]);
+
   return (
     <Box
       style={{
@@ -149,8 +154,6 @@ const Forventninger = ({
               margin: "auto",
               height: "auto",
               display: "flex",
-              //justifyContent: "center",
-              // textAlign: "center",
               backgroundColor: "#CDDBF7",
               color: "white",
               padding: "10px",

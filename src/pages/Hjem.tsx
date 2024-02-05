@@ -1,4 +1,4 @@
-import { Button, Grid, Typography } from "@mui/material";
+import { Button, Grid, Tooltip, Typography } from "@mui/material";
 import wave from "../wave.svg";
 import Popup from "../components/Popup";
 import teamConnectors from "../images/teamConnectors.svg";
@@ -178,31 +178,98 @@ const Hjem = ({ handleSignOut }: { handleSignOut: () => Promise<void> }) => {
           }}
         >
           <Grid item xs={12}>
-            <img
-              src={teamLevel > 0 ? teamConnectors_done : teamConnectors}
-              alt="Level 1"
-              style={imageStyle}
-              onClick={() => setShowMaalPopUp(true)}
-            />
-            <img
-              src={
-                teamLevel > 1
-                  ? communicationExplorers_done
-                  : communicationExplorers
+            <Tooltip
+              sx={{ backgroundColor: "red" }}
+              title={
+                <Typography
+                  style={{
+                    fontSize: "12px",
+                    color: "white",
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                >
+                  For å låse opp dette nivået må teamet fullføre
+                  start-aktiviteten
+                </Typography>
               }
-              alt="Level 2"
-              style={imageStyle}
-            />
-            <img
-              src={teamLevel > 2 ? bondBuilders_done : bondBuilders}
-              alt="Level 3"
-              style={imageStyle}
-            />
-            <img
-              src={teamLevel > 3 ? dreamTeam_done : dreamTeam}
-              alt="Level 4"
-              style={imageStyle}
-            />
+            >
+              <img
+                src={teamLevel > 0 ? teamConnectors_done : teamConnectors}
+                alt="Level 1"
+                style={imageStyle}
+                onClick={() => setShowMaalPopUp(true)}
+              />
+            </Tooltip>
+            <Tooltip
+              sx={{ backgroundColor: "red" }}
+              title={
+                <Typography
+                  style={{
+                    fontSize: "12px",
+                    color: "white",
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                >
+                  For å låse opp dette nivået må teamet fullføre en retrospektiv
+                </Typography>
+              }
+            >
+              <img
+                src={
+                  teamLevel > 1
+                    ? communicationExplorers_done
+                    : communicationExplorers
+                }
+                alt="Level 2"
+                style={imageStyle}
+              />
+            </Tooltip>
+            <Tooltip
+              sx={{ backgroundColor: "red" }}
+              title={
+                <Typography
+                  style={{
+                    fontSize: "12px",
+                    color: "white",
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                >
+                  For å låse opp dette nivået må teamet fullføre en
+                  teambuildingsøvelse
+                </Typography>
+              }
+            >
+              <img
+                src={teamLevel > 2 ? bondBuilders_done : bondBuilders}
+                alt="Level 3"
+                style={imageStyle}
+              />
+            </Tooltip>
+            <Tooltip
+              sx={{ backgroundColor: "red" }}
+              title={
+                <Typography
+                  style={{
+                    fontSize: "12px",
+                    color: "white",
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                >
+                  For å låse opp dette nivået må teamet fullføre 2
+                  retrospektiver eller 2 teambuildingsøvelser
+                </Typography>
+              }
+            >
+              <img
+                src={teamLevel > 3 ? dreamTeam_done : dreamTeam}
+                alt="Level 4"
+                style={imageStyle}
+              />
+            </Tooltip>
           </Grid>
           <Grid item xs={12}>
             <Popup overskrift={popupOverskrift} tekst={popupTekst} />
