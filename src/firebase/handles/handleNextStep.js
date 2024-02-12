@@ -1,10 +1,10 @@
 import { collection, doc, updateDoc, increment } from "@firebase/firestore";
 import { firestore, auth } from "../firebase_setup/firebase";
 
-const handleNextStep = () => {
+const handleNextStep = (aktivitet) => {
   const teamId = auth.currentUser?.uid;
   const teamRef = collection(firestore, teamId);
-  const stegRef = doc(teamRef, "startAktivitetSteg");
+  const stegRef = doc(teamRef, aktivitet);
 
   try {
     updateDoc(stegRef, {

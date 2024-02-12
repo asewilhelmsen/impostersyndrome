@@ -35,12 +35,12 @@ const Steps = ({
     if (aktivtSteg === nameList.length - 1) {
       handleFinishStartAkt(maalData);
     } else {
-      handleNextStep();
+      handleNextStep("startAktivitetSteg");
     }
   };
 
   const handleBack = () => {
-    handleBackStep();
+    handleBackStep("startAktivitetSteg");
   };
 
   useEffect(() => {

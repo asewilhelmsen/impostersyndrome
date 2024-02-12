@@ -160,7 +160,7 @@ const Hjem = ({ handleSignOut }: { handleSignOut: () => Promise<void> }) => {
             <StartAktivitetButton level={teamLevel} />
           </Grid>
           <Grid item xs={12}>
-            <RetroButton disabled={true} />
+            <RetroButton />
           </Grid>
           <Grid item xs={12}>
             <TeambuildingButton disabled={true} />

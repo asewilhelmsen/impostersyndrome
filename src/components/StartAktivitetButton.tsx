@@ -13,7 +13,7 @@ const StartAktivitetButton = ({ level }: { level: number }) => {
 
   const handleClick = () => {
     navigate("/startaktivitet");
-    handleNextStep();
+    handleNextStep("startAktivitetSteg");
   };
 
   return (
