@@ -1,19 +1,16 @@
 import { useState } from "react";
 import GikkBraSkriv from "../components/Retro/GikkBraSkriv";
 import StepsRetro from "../components/StepsRetro";
+import GikkBraDiskuter from "../components/Retro/GikkBraDiskuter";
 
 const Retro = () => {
-  const steps = [
-    /* "Mål siden sist",
-    "Positive",*/
-    "Hva gikk bra? - Skriv" /*
-    Hva gikk bra? - Diskuter",
-    "Hva kunne gått bedre? - Skriv",
+  /* "Mål siden sist",
+    "Positive",  "Hva kunne gått bedre? - Skriv",
     "Hva kunne gått bedre? - Diskuter",
     "Kategoriser",
     "Tiltak",
-    "Mål framover",*/,
-  ];
+    "Mål framover",*/
+  const steps = ["Hva gikk bra? - Skriv", "Hva gikk bra? - Diskuter"];
 
   const [nesteDisabled, setNesteDisabled] = useState<boolean>(false);
   const handleNesteDisabled = (disabled: boolean) => {
@@ -22,6 +19,7 @@ const Retro = () => {
 
   const stepComponents = [
     <GikkBraSkriv onBraSkrivFerdig={handleNesteDisabled} />,
+    <GikkBraDiskuter onBraSkrivFerdig={handleNesteDisabled} />,
   ];
 
   return (

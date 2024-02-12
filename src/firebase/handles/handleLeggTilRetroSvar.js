@@ -12,7 +12,7 @@ const handleLeggTilRetroSvar = (braListe) => {
   const svarRef = doc(braRef, nyId);
 
   const braObject = braListe.reduce((acc, curr, index) => {
-    acc[`item${index + 1}`] = curr;
+    acc[`svar${index + 1}`] = curr;
     return acc;
   }, {});
 

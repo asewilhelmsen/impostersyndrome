@@ -1,12 +1,13 @@
 import { Typography, TextField, Grid, Button } from "@mui/material";
 import { FormEvent, useEffect, useState } from "react";
 import { useTeamContext } from "../../TeamContext";
-import PostIt from "./PostIt";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import { collection, doc, onSnapshot } from "@firebase/firestore";
 import { firestore } from "../../firebase/firebase_setup/firebase";
 import handleSettRetroTimer from "../../firebase/handles/handleSettRetroTimer";
 import handleLeggTilRetroSvar from "../../firebase/handles/handleLeggTilRetroSvar";
+import TavlePostIt from "./TavlePostIt";
+import handleNextStep from "../../firebase/handles/handleNextStep";
 
 const GikkBraSkriv = ({
   onBraSkrivFerdig,
@@ -57,6 +58,7 @@ const GikkBraSkriv = ({
     if (tidIgjen === 0 && braListe.length > 0) {
       console.log("legger til");
       handleLeggTilRetroSvar(braListe);
+      handleNextStep("retroSteg");
     }
     return () => clearInterval(intervalId);
   }, [tidStartet, tidIgjen]);
@@ -97,6 +99,11 @@ const GikkBraSkriv = ({
           <Typography marginLeft={"5px"} variant="body1">
             Sett en nedtelling på 5 minutes og skriv individuelt hva som har
             gått bra i denne sprinten. Legg til så mange lapper du ønsker.
+          </Typography>
+          <br></br>
+          <Typography marginLeft={"5px"} variant="body2">
+            Svarene vil deles anonymt og du kan ikke legge inn flere når tiden
+            er ute.
           </Typography>
           <Grid
             item
@@ -152,26 +159,7 @@ const GikkBraSkriv = ({
             <div></div>
           )}
         </Grid>
-        <Grid item xs={8}>
-          <div
-            style={{
-              border: "5px solid ",
-              borderColor: "lightgrey",
-              borderRadius: "20px",
-              padding: "20px",
-              backgroundColor: "white",
-              minHeight: "400px",
-            }}
-          >
-            <Grid container spacing={4}>
-              {braListe.map((tekst: string, index: number) => (
-                <Grid item xs={2} key={index}>
-                  <PostIt tekst={tekst} />
-                </Grid>
-              ))}
-            </Grid>
-          </div>
-        </Grid>
+        <TavlePostIt liste={braListe} />
       </Grid>
     </>
   );
