@@ -9,13 +9,19 @@ import handleLeggTilRetroSvar from "../../firebase/handles/handleLeggTilRetroSva
 import TavlePostIt from "./TavlePostIt";
 import handleNextStep from "../../firebase/handles/handleNextStep";
 
-const GikkBraSkriv = ({
-  onBraSkrivFerdig,
+const SkrivLapper = ({
+  overskrift,
+  forklaring,
+  aktivitet,
+  onSkrivFerdig,
 }: {
-  onBraSkrivFerdig: (disabled: boolean) => void;
+  overskrift: string;
+  forklaring: string;
+  aktivitet: string;
+  onSkrivFerdig: (disabled: boolean) => void;
 }) => {
-  const [braInput, setBraInput] = useState("");
-  const [braListe, setBraListe] = useState<string[]>([]);
+  const [input, setInput] = useState("");
+  const [liste, setListe] = useState<string[]>([]);
 
   //Hvor mye tid som er igjen og om tiden har startet
   const [tidIgjen, setTidIgjen] = useState(-1);
@@ -27,13 +33,13 @@ const GikkBraSkriv = ({
   //Til å sende liste over alle bra ting
   const submitBra = (e: FormEvent) => {
     e.preventDefault();
-    setBraListe([...braListe, braInput]);
-    setBraInput("");
+    setListe([...liste, input]);
+    setInput("");
   };
 
   //Oppdatere staten når det skrives inn i input feltet, kan sikkert løses bedre
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setBraInput(e.target.value);
+    setInput(e.target.value);
   };
 
   //For at man kan klikke enter for å legge til
@@ -46,6 +52,7 @@ const GikkBraSkriv = ({
 
   // Timer funksjonalitet
   useEffect(() => {
+    onSkrivFerdig(!tidStartet || tidIgjen > 0);
     let intervalId: NodeJS.Timeout;
     if (tidStartet && tidIgjen > 0) {
       intervalId = setInterval(() => {
@@ -55,9 +62,8 @@ const GikkBraSkriv = ({
       handleSettRetroTimer(false);
       // clearInterval(intervalId);
     }
-    if (tidIgjen === 0 && braListe.length > 0) {
-      console.log("legger til");
-      handleLeggTilRetroSvar(braListe);
+    if (tidIgjen === 0 && liste.length > 0) {
+      handleLeggTilRetroSvar(liste, aktivitet);
       handleNextStep("retroSteg");
     }
     return () => clearInterval(intervalId);
@@ -69,7 +75,6 @@ const GikkBraSkriv = ({
       const retroRef = doc(teamRef, "retrospektiv");
 
       const unsubscribe = onSnapshot(retroRef, (querySnapshot) => {
-        console.log(!querySnapshot.data()?.braTimerStartet, tidIgjen);
         if (querySnapshot.data()?.braTimerStartet) {
           setTidStartet(true);
           setTidIgjen(5); // 5 min (5 * 60), 5 sek for test nå
@@ -92,13 +97,12 @@ const GikkBraSkriv = ({
   return (
     <>
       <Typography variant="h2" sx={{ marginBottom: "20px" }}>
-        Hva gikk bra? - Skriv
+        {overskrift}
       </Typography>
       <Grid container direction="row" spacing={4}>
         <Grid item xs={4}>
           <Typography marginLeft={"5px"} variant="body1">
-            Sett en nedtelling på 5 minutes og skriv individuelt hva som har
-            gått bra i denne sprinten. Legg til så mange lapper du ønsker.
+            {forklaring}
           </Typography>
           <br></br>
           <Typography marginLeft={"5px"} variant="body2">
@@ -144,8 +148,9 @@ const GikkBraSkriv = ({
                     variant="outlined"
                     autoFocus
                     label="Skriv her"
-                    value={braInput}
+                    value={input}
                     onChange={handleInputChange}
+                    inputProps={{ maxLength: 30 }}
                   />
                 </Grid>
                 <Grid item>
@@ -159,10 +164,10 @@ const GikkBraSkriv = ({
             <div></div>
           )}
         </Grid>
-        <TavlePostIt liste={braListe} />
+        <TavlePostIt liste={liste} />
       </Grid>
     </>
   );
 };
 
-export default GikkBraSkriv;
+export default SkrivLapper;

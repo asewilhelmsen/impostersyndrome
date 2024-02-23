@@ -7,12 +7,20 @@ import { firestore } from "../../firebase/firebase_setup/firebase";
 
 import TavlePostIt from "./TavlePostIt";
 
-const GikkBraDiskuter = ({
-  onBraSkrivFerdig,
+const DiskuterLapper = ({
+  overskrift,
+  forklaring,
+  filtrer,
+  onDiskuterFerdig,
+  onOppdatertListe,
 }: {
-  onBraSkrivFerdig: (disabled: boolean) => void;
+  overskrift: string;
+  forklaring: string;
+  filtrer: boolean;
+  onDiskuterFerdig: (disabled: boolean) => void;
+  onOppdatertListe: (liste: string[]) => void;
 }) => {
-  const [braListe, setBraListe] = useState<string[]>([]);
+  const [liste, setListe] = useState<string[]>([]);
 
   //Brukeren som er logget inn på og antall team medlemmer
   const { teamBruker } = useTeamContext();
@@ -21,33 +29,54 @@ const GikkBraDiskuter = ({
     if (teamBruker) {
       const teamRef = collection(firestore, teamBruker.uid);
       const retroRef = doc(teamRef, "retrospektiv");
-      const svarRef = collection(retroRef, "braLapper");
+
+      let svarRef = collection(retroRef, "braLapper");
+
+      //Er på "Hva kunne gått bedre" steg
+      if (filtrer) {
+        svarRef = collection(retroRef, "bedreLapper");
+      }
 
       const unsubscribe = onSnapshot(svarRef, (querySnapshot) => {
         const nyBraListe = querySnapshot.docs.flatMap((doc) =>
           Object.values(doc.data())
         );
-        setBraListe(nyBraListe);
+        setListe(nyBraListe);
       });
+
       return unsubscribe;
     }
   }, [teamBruker]);
 
+  const handleDelete = (index: number) => {
+    const updatedList = [...liste];
+    updatedList.splice(index, 1);
+    setListe(updatedList);
+  };
+
+  useEffect(() => {
+    console.log("liste", liste);
+    onOppdatertListe(liste);
+  }, [liste]);
   return (
     <>
       <Typography variant="h2" sx={{ marginBottom: "20px" }}>
-        Hva gikk bra? - Diskuter
+        {overskrift}
       </Typography>
       <Grid container direction="row" spacing={4}>
         <Grid item xs={4}>
           <Typography marginLeft={"5px"} variant="body1">
-            Gå gjennom lappene og diskuter!
+            {forklaring}
           </Typography>
         </Grid>
-        <TavlePostIt liste={braListe} />
+        {filtrer ? (
+          <TavlePostIt liste={liste} onDelete={handleDelete} />
+        ) : (
+          <TavlePostIt liste={liste} />
+        )}
       </Grid>
     </>
   );
 };
 
-export default GikkBraDiskuter;
+export default DiskuterLapper;

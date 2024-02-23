@@ -13,23 +13,31 @@ import { doc, onSnapshot } from "@firebase/firestore";
 import { firestore } from "../firebase/firebase_setup/firebase";
 import handleNextStep from "../firebase/handles/handleNextStep";
 import handleBackStep from "../firebase/handles/handleBackStep";
+import handleLeggTilRetroSvar from "../firebase/handles/handleLeggTilRetroSvar";
 
 const StepsRetro = ({
   nameList,
   content,
   nesteDisabled,
+  oppdatertListe,
 }: {
   nameList: string[];
   content: JSX.Element[];
   nesteDisabled: boolean;
+  oppdatertListe: string[];
 }) => {
   const [aktivtSteg, setAktivtSteg] = useState(0);
+  const [filtrertListe, setFiltrertListe] = useState<string[]>();
+
   const navigate = useNavigate();
   const { teamBruker } = useTeamContext();
 
   const handleNext = () => {
-    if (aktivtSteg === nameList.length - 1) {
-      // handleFinishStartAkt(maalData);
+    if (aktivtSteg === 3) {
+      handleLeggTilRetroSvar(filtrertListe, "filtrertBedreLapper");
+      handleNextStep("retroSteg");
+    } else if (aktivtSteg === 8) {
+      //Håndtere at retro er ferdig
     } else {
       handleNextStep("retroSteg");
     }
@@ -45,7 +53,8 @@ const StepsRetro = ({
       const unsubscribe = onSnapshot(docRef, (querySnapshot) => {
         setAktivtSteg(querySnapshot.data()?.steg);
         if (
-          querySnapshot.data()?.steg === 4 ||
+          //Oppdater til antall steg vi får
+          querySnapshot.data()?.steg === 8 ||
           querySnapshot.data()?.steg === -1
         ) {
           navigate("/");
@@ -55,6 +64,10 @@ const StepsRetro = ({
       return unsubscribe;
     }
   }, [teamBruker]);
+
+  useEffect(() => {
+    setFiltrertListe(oppdatertListe);
+  }, [oppdatertListe]);
 
   return (
     <Box

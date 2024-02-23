@@ -1,7 +1,13 @@
 import { Grid } from "@mui/material";
 import PostIt from "./PostIt";
 
-const TavlePostIt = ({ liste }: { liste: string[] }) => {
+const TavlePostIt = ({
+  liste,
+  onDelete,
+}: {
+  liste: string[];
+  onDelete?: (index: number) => void;
+}) => {
   return (
     <Grid item xs={8}>
       <div
@@ -16,8 +22,11 @@ const TavlePostIt = ({ liste }: { liste: string[] }) => {
       >
         <Grid container spacing={4}>
           {liste.map((tekst: string, index: number) => (
-            <Grid item xs={2} md={3} key={index}>
-              <PostIt tekst={tekst} />
+            <Grid item xs={4} md={2} key={index}>
+              <PostIt
+                tekst={tekst}
+                onDelete={onDelete ? () => onDelete(index) : undefined}
+              />
             </Grid>
           ))}
         </Grid>
