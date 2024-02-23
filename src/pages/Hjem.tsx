@@ -92,16 +92,37 @@ const Hjem = ({ handleSignOut }: { handleSignOut: () => Promise<void> }) => {
 
   useEffect(() => {
     if (teamBruker) {
-      const docRef = doc(firestore, teamBruker.uid, "startAktivitetSteg");
-      const unsubscribe = onSnapshot(docRef, (querySnapshot) => {
-        if (querySnapshot.data()?.steg === 0) {
-          navigate("/startaktivitet");
-        } else if (querySnapshot.data()?.steg === 4) {
-          setShowPopUp(true);
-          setPopupInnhold("bliKjent");
+      const startAktivitetDocRef = doc(
+        firestore,
+        teamBruker.uid,
+        "startAktivitetSteg"
+      );
+      const startAktivitetUnsubscribe = onSnapshot(
+        startAktivitetDocRef,
+        (querySnapshot) => {
+          if (querySnapshot.data()?.steg === 0) {
+            navigate("/startaktivitet");
+          } else if (querySnapshot.data()?.steg === 4) {
+            setShowPopUp(true);
+            setPopupInnhold("bliKjent");
+          }
         }
-      });
-      return unsubscribe;
+      );
+      const retroStegDocRef = doc(firestore, teamBruker.uid, "retroSteg");
+      const retroStegUnsubscribe = onSnapshot(
+        retroStegDocRef,
+        (querySnapshot) => {
+          if (querySnapshot.data()?.steg === 0) {
+            navigate("/retrospektiv");
+          } else if (querySnapshot.data()?.steg === 4) {
+            //Bytte til antall steg vi får og hva som skal skje når man er ferdig
+          }
+        }
+      );
+      return () => {
+        startAktivitetUnsubscribe();
+        retroStegUnsubscribe();
+      };
     }
   }, [teamBruker]);
 
@@ -160,7 +181,7 @@ const Hjem = ({ handleSignOut }: { handleSignOut: () => Promise<void> }) => {
             <StartAktivitetButton level={teamLevel} />
           </Grid>
           <Grid item xs={12}>
-            <RetroButton disabled={true} />
+            <RetroButton />
           </Grid>
           <Grid item xs={12}>
             <TeambuildingButton disabled={true} />

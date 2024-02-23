@@ -1,10 +1,18 @@
-import { Button, Grid } from "@mui/material";
+import { Button } from "@mui/material";
 import retro from "../images/retro.svg";
-import retro_disabled from "../images/retro_disabled.svg";
+import { useNavigate } from "react-router-dom";
+import handleNextStep from "../firebase/handles/handleNextStep";
 
-const RetroButton = ({ disabled }: { disabled: boolean }) => {
+const RetroButton = () => {
   const imageStyle = {
     width: "30%",
+  };
+
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate("/retrospektiv");
+    handleNextStep("retroSteg");
   };
 
   return (
@@ -22,13 +30,9 @@ const RetroButton = ({ disabled }: { disabled: boolean }) => {
         alt="Button illustration"
         style={imageStyle}
       ></img>
-      {disabled ? (
-        <Button variant="contained" disabled>
-          RETROSPEKTIV
-        </Button>
-      ) : (
-        <Button variant="contained">RETROSPEKTIV</Button>
-      )}
+      <Button variant="contained" onClick={handleClick}>
+        RETROSPEKTIV
+      </Button>
     </div>
   );
 };

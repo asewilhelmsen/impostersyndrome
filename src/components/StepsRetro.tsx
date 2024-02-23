@@ -13,43 +13,48 @@ import { doc, onSnapshot } from "@firebase/firestore";
 import { firestore } from "../firebase/firebase_setup/firebase";
 import handleNextStep from "../firebase/handles/handleNextStep";
 import handleBackStep from "../firebase/handles/handleBackStep";
-import handleFinishStartAkt from "../firebase/handles/handleFinishStartAkt";
-import { Maalene } from "../interfaces";
+import handleLeggTilRetroSvar from "../firebase/handles/handleLeggTilRetroSvar";
 
-const Steps = ({
+const StepsRetro = ({
   nameList,
   content,
-  maalData,
   nesteDisabled,
+  oppdatertListe,
 }: {
   nameList: string[];
   content: JSX.Element[];
-  maalData: Maalene[];
   nesteDisabled: boolean;
+  oppdatertListe: string[];
 }) => {
   const [aktivtSteg, setAktivtSteg] = useState(0);
+  const [filtrertListe, setFiltrertListe] = useState<string[]>();
+
   const navigate = useNavigate();
   const { teamBruker } = useTeamContext();
 
   const handleNext = () => {
-    if (aktivtSteg === nameList.length - 1) {
-      handleFinishStartAkt(maalData);
+    if (aktivtSteg === 3) {
+      handleLeggTilRetroSvar(filtrertListe, "filtrertBedreLapper");
+      handleNextStep("retroSteg");
+    } else if (aktivtSteg === 8) {
+      //Håndtere at retro er ferdig
     } else {
-      handleNextStep("startAktivitetSteg");
+      handleNextStep("retroSteg");
     }
   };
 
   const handleBack = () => {
-    handleBackStep("startAktivitetSteg");
+    handleBackStep("retroSteg");
   };
 
   useEffect(() => {
     if (teamBruker) {
-      const docRef = doc(firestore, teamBruker.uid, "startAktivitetSteg");
+      const docRef = doc(firestore, teamBruker.uid, "retroSteg");
       const unsubscribe = onSnapshot(docRef, (querySnapshot) => {
         setAktivtSteg(querySnapshot.data()?.steg);
         if (
-          querySnapshot.data()?.steg === 4 ||
+          //Oppdater til antall steg vi får
+          querySnapshot.data()?.steg === 8 ||
           querySnapshot.data()?.steg === -1
         ) {
           navigate("/");
@@ -59,6 +64,10 @@ const Steps = ({
       return unsubscribe;
     }
   }, [teamBruker]);
+
+  useEffect(() => {
+    setFiltrertListe(oppdatertListe);
+  }, [oppdatertListe]);
 
   return (
     <Box
@@ -88,7 +97,6 @@ const Steps = ({
         </Grid>
       </Grid>
 
-      {/* Grid with the content and next/back button */}
       <Grid
         container
         sx={{
@@ -135,4 +143,4 @@ const Steps = ({
   );
 };
 
-export default Steps;
+export default StepsRetro;
