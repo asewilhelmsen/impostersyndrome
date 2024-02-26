@@ -29,12 +29,11 @@ const DiskuterLapper = ({
     if (teamBruker) {
       const teamRef = collection(firestore, teamBruker.uid);
       const retroRef = doc(teamRef, "retrospektiv");
+      let svarRef = collection(retroRef, "braPostIts");
 
-      let svarRef = collection(retroRef, "braLapper");
-
-      //Er på "Hva kunne gått bedre" steg
+      //Er på "Hva kunne gått bedre" steg - gjort så man kan bruke komponentet på begge stegene
       if (filtrer) {
-        svarRef = collection(retroRef, "bedreLapper");
+        svarRef = collection(retroRef, "bedrePostIts");
       }
 
       const unsubscribe = onSnapshot(svarRef, (querySnapshot) => {
@@ -55,8 +54,9 @@ const DiskuterLapper = ({
   };
 
   useEffect(() => {
-    console.log("liste", liste);
     onOppdatertListe(liste);
+    //for å ta bort at knappen er disabled
+    onDiskuterFerdig(false);
   }, [liste]);
   return (
     <>

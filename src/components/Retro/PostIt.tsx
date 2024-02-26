@@ -3,18 +3,23 @@ import CloseIcon from "@mui/icons-material/Close";
 
 const PostIt = ({
   tekst,
+  onClick,
+  selected,
   onDelete,
 }: {
   tekst: string;
+  onClick?: () => void;
+  selected?: boolean;
   onDelete?: () => void;
 }) => {
   return (
     <Card
       style={{
-        backgroundColor: "#ffff99",
+        backgroundColor: selected ? "#7D97F4" : "#ffff99",
         height: "100px",
         position: "relative",
       }}
+      onClick={onClick}
     >
       <CardContent>
         <Typography width={"100%"} textAlign={"center"} variant="body1">

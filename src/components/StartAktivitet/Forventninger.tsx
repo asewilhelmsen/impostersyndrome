@@ -131,10 +131,7 @@ const Forventninger = ({
           >
             {"Velg ett teammedlem som fyller inn målene!"}
           </Typography>
-          <Maal
-            onMaalSubmit={onMaalSubmit}
-            onForventningerFerdig={onForventningerFerdig}
-          />
+          <Maal onMaalSubmit={onMaalSubmit} aktivitet="startAkt" />
         </Grid>
       </Grid>
 

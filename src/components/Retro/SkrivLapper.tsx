@@ -64,7 +64,11 @@ const SkrivLapper = ({
     }
     if (tidIgjen === 0 && liste.length > 0) {
       handleLeggTilRetroSvar(liste, aktivitet);
-      handleNextStep("retroSteg");
+      if (aktivitet === "braPostIts") {
+        handleNextStep("retroSteg", 3);
+      } else if (aktivitet === "bedrePostIts") {
+        handleNextStep("retroSteg", 5);
+      }
     }
     return () => clearInterval(intervalId);
   }, [tidStartet, tidIgjen]);

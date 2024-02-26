@@ -7,14 +7,14 @@ const handleLeggTilRetroSvar = (liste, steg) => {
   const teamRef = collection(firestore, teamId);
   const retroRef = doc(teamRef, "retrospektiv");
 
-  let stegRef = collection(retroRef, "braLapper");
+  let stegRef = collection(retroRef, "braPostIts");
 
-  if (steg === "bra") {
-    stegRef = collection(retroRef, "braLapper");
-  } else if (steg === "bedreLapper") {
-    stegRef = collection(retroRef, "bedreLapper");
-  } else if (steg === "filtrertBedreLapper") {
-    stegRef = collection(retroRef, "filtrertBedreLapper");
+  if (steg === "bedrePostIts") {
+    stegRef = collection(retroRef, "bedrePostIts");
+  } else if (steg === "filtrertBedrePostIts") {
+    stegRef = collection(retroRef, "filtrertBedrePostIts");
+  } else if (steg === "dotVotingPostIts") {
+    stegRef = collection(retroRef, "dotVotingPostIts");
   }
 
   const nyId = uuidv4();

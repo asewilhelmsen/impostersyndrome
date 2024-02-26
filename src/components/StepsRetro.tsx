@@ -27,17 +27,18 @@ const StepsRetro = ({
   oppdatertListe: string[];
 }) => {
   const [aktivtSteg, setAktivtSteg] = useState(0);
-  const [filtrertListe, setFiltrertListe] = useState<string[]>();
+  const [nyListe, setNyListe] = useState<string[]>();
 
   const navigate = useNavigate();
   const { teamBruker } = useTeamContext();
 
   const handleNext = () => {
     if (aktivtSteg === 3) {
-      handleLeggTilRetroSvar(filtrertListe, "filtrertBedreLapper");
+      handleLeggTilRetroSvar(nyListe, "filtrertBedrePostIts");
       handleNextStep("retroSteg");
     } else if (aktivtSteg === 8) {
       //Håndtere at retro er ferdig
+      handleNextStep("retroSteg", -1);
     } else {
       handleNextStep("retroSteg");
     }
@@ -66,7 +67,7 @@ const StepsRetro = ({
   }, [teamBruker]);
 
   useEffect(() => {
-    setFiltrertListe(oppdatertListe);
+    setNyListe(oppdatertListe);
   }, [oppdatertListe]);
 
   return (
