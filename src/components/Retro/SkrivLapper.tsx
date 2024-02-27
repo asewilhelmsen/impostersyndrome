@@ -28,7 +28,7 @@ const SkrivLapper = ({
   const [tidStartet, setTidStartet] = useState(false);
 
   //Brukeren som er logget inn på og antall team medlemmer
-  const { teamBruker } = useTeamContext();
+  const { teamBruker, retroNummer } = useTeamContext();
 
   //Konstanter for å regne ut minutter og sekunder av tiden på timeren
   const minutes = Math.floor(tidIgjen / 60);
@@ -63,11 +63,11 @@ const SkrivLapper = ({
         setTidIgjen((prevSeconds) => prevSeconds - 1);
       }, 1000);
     } else if (tidIgjen === 0) {
-      handleSettRetroTimer(false);
+      handleSettRetroTimer(retroNummer, false);
       // clearInterval(intervalId);
     }
     if (tidIgjen === 0 && liste.length > 0) {
-      handleLeggTilRetroSvar(liste, aktivitet);
+      handleLeggTilRetroSvar(retroNummer, liste, aktivitet);
       if (aktivitet === "braPostIts") {
         handleNextStep("retroSteg", 3);
       } else if (aktivitet === "bedrePostIts") {
@@ -80,7 +80,7 @@ const SkrivLapper = ({
   useEffect(() => {
     if (teamBruker) {
       const teamRef = collection(firestore, teamBruker.uid);
-      const retroRef = doc(teamRef, "retrospektiv");
+      const retroRef = doc(teamRef, "retrospektiv" + retroNummer);
 
       const unsubscribe = onSnapshot(retroRef, (querySnapshot) => {
         if (querySnapshot.data()?.timerStartet) {
@@ -93,7 +93,7 @@ const SkrivLapper = ({
   }, [teamBruker]);
 
   const startTimer = () => {
-    handleSettRetroTimer(true);
+    handleSettRetroTimer(retroNummer, true);
     //Trenger kanskje egt ikke gjøre dette både her og i useEffecten
     //setTidStartet(true);
     //setTidIgjen(5); // 5 minutes in seconds (5 * 60)

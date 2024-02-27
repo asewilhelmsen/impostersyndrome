@@ -27,7 +27,7 @@ const NyeMaal = ({
   const [lagredeMaalene, setLagredeMaalene] = useState<Maalene[]>([]);
   const [dotVotingPostIts, setDotVotingPostIts] = useState<string[]>([]);
 
-  const { teamBruker } = useTeamContext();
+  const { teamBruker, retroNummer } = useTeamContext();
   const isSmallScreen = useMediaQuery("(max-width: 1000px)");
 
   useEffect(() => {
@@ -37,7 +37,7 @@ const NyeMaal = ({
       const maalRef = collection(forventningerRef, "maal");
       const startAktRef = doc(maalRef, "retroMaal");
 
-      const retroRef = doc(teamRef, "retrospektiv");
+      const retroRef = doc(teamRef, "retrospektiv" + retroNummer);
       const svarRef = collection(retroRef, "dotVotingPostIts");
 
       const tidligereMaalUnsubscribe = onSnapshot(
@@ -96,131 +96,123 @@ const NyeMaal = ({
         basert på de postItene som fikk flest stemmer
       </Typography>
 
-      <Box
-        style={{
-          display: "flex",
-          marginTop: "50px",
-          flexDirection: isSmallScreen ? "column" : "row",
-        }}
-      >
-        <Grid container spacing={2}>
-          <Grid item xs={4}>
-            <Card
-              sx={{
-                minHeight: 500,
-                display: "flex",
-                backgroundColor: "#CDDBF7",
-                color: "white",
-                padding: "10px",
-              }}
-            >
-              <CardContent sx={{ marginTop: "15px" }}>
-                <Typography variant="h5" sx={{ textDecoration: "underline" }}>
-                  Sett nye mål
-                </Typography>
-                <Typography
-                  sx={{
-                    color: "text.secondary",
-                    marginTop: "20px",
-                    marginBottom: "20px",
-                  }}
-                >
-                  {"Velg ett teammedlem som fyller inn målene!"}
-                </Typography>
-                <Maal onMaalSubmit={onMaalSubmit} aktivitet="retro" />
-              </CardContent>
-            </Card>
-          </Grid>
-
-          <Grid item xs={4}>
-            <Card
-              sx={{
-                minHeight: 500,
-                backgroundColor: "#CDDBF7",
-                color: "white",
-                padding: "10px",
-              }}
-            >
-              <CardContent sx={{ marginTop: "15px" }}>
-                <Typography variant="h5" sx={{ textDecoration: "underline" }}>
-                  Teamet's mål
-                </Typography>
-                <List sx={{ textAlign: "center" }}>
-                  {lagredeMaalene.map((maal, maalIndex) => (
-                    <ListItem key={maalIndex} sx={{ paddingLeft: "0" }}>
-                      <Typography>
-                        <span style={{ fontWeight: "bold" }}>{`Mål ${
-                          maalIndex + 1
-                        }: `}</span>
-                        {maal.tekst}
-                      </Typography>
-                    </ListItem>
-                  ))}
-                </List>
-              </CardContent>
-            </Card>
-          </Grid>
-          <Grid item xs={4}>
-            <Card
-              sx={{
-                minHeight: 500,
-                display: "flex",
-                backgroundColor: "#CDDBF7",
-                color: "white",
-                padding: "10px",
-              }}
-            >
-              <CardContent sx={{ marginTop: "15px" }}>
-                <Typography variant="h5" sx={{ textDecoration: "underline" }}>
-                  De mest stemte postItsene
-                </Typography>
-                <Grid container spacing={2} justifyContent="center">
-                  {topp5postIts.map(([tekst, count], index) => (
-                    <Grid item key={index}>
-                      <Card
-                        style={{
-                          backgroundColor: "#ffff99",
-                          height: "200px",
-                          width: "200px",
-                          position: "relative",
-                          margin: "10px",
-                        }}
-                      >
-                        <CardContent>
-                          <Typography
-                            width={"100%"}
-                            textAlign={"center"}
-                            variant="body1"
-                          >
-                            {tekst}
-                          </Typography>
-                          <div
-                            style={{
-                              position: "absolute",
-                              top: "5px",
-                              right: "5px",
-                              backgroundColor: "#ff1493",
-                              borderRadius: "50%",
-                              width: "30px",
-                              height: "30px",
-                              display: "flex",
-                              justifyContent: "center",
-                              alignItems: "center",
-                              color: "white",
-                            }}
-                          >
-                            {count}
-                          </div>
-                        </CardContent>
-                      </Card>
-                    </Grid>
-                  ))}
-                </Grid>
-              </CardContent>
-            </Card>
-          </Grid>
+      <Grid container spacing={2} direction={isSmallScreen ? "column" : "row"}>
+        <Grid item xs={4}>
+          <Card
+            sx={{
+              minHeight: 500,
+              display: "flex",
+              backgroundColor: "#CDDBF7",
+              color: "white",
+              padding: "10px",
+            }}
+          >
+            <CardContent sx={{ marginTop: "15px" }}>
+              <Typography variant="h5" sx={{ textDecoration: "underline" }}>
+                Sett nye mål
+              </Typography>
+              <Typography
+                sx={{
+                  color: "text.secondary",
+                  marginTop: "20px",
+                  marginBottom: "20px",
+                }}
+              >
+                {"Velg ett teammedlem som fyller inn målene!"}
+              </Typography>
+              <Maal onMaalSubmit={onMaalSubmit} aktivitet="retro" />
+            </CardContent>
+          </Card>
         </Grid>
-      </Box>
+
+        <Grid item xs={4}>
+          <Card
+            sx={{
+              minHeight: 500,
+              backgroundColor: "#CDDBF7",
+              color: "white",
+              padding: "10px",
+            }}
+          >
+            <CardContent sx={{ marginTop: "15px" }}>
+              <Typography variant="h5" sx={{ textDecoration: "underline" }}>
+                Teamet's mål
+              </Typography>
+              <List sx={{ textAlign: "center" }}>
+                {lagredeMaalene.map((maal, maalIndex) => (
+                  <ListItem key={maalIndex} sx={{ paddingLeft: "0" }}>
+                    <Typography>
+                      <span style={{ fontWeight: "bold" }}>{`Mål ${
+                        maalIndex + 1
+                      }: `}</span>
+                      {maal.tekst}
+                    </Typography>
+                  </ListItem>
+                ))}
+              </List>
+            </CardContent>
+          </Card>
+        </Grid>
+        <Grid item xs={4}>
+          <Card
+            sx={{
+              minHeight: 500,
+              display: "flex",
+              backgroundColor: "#CDDBF7",
+              color: "white",
+              padding: "10px",
+            }}
+          >
+            <CardContent sx={{ marginTop: "15px" }}>
+              <Typography variant="h5" sx={{ textDecoration: "underline" }}>
+                De mest stemte postItsene
+              </Typography>
+              <Grid container spacing={2} justifyContent="center">
+                {topp5postIts.map(([tekst, count], index) => (
+                  <Grid item key={index}>
+                    <Card
+                      style={{
+                        backgroundColor: "#ffff99",
+                        height: "100px",
+                        width: "200px",
+                        position: "relative",
+                        margin: "10px",
+                      }}
+                    >
+                      <CardContent>
+                        <Typography
+                          width={"100%"}
+                          textAlign={"center"}
+                          variant="body1"
+                        >
+                          {tekst}
+                        </Typography>
+                        <div
+                          style={{
+                            position: "absolute",
+                            top: "5px",
+                            right: "5px",
+                            backgroundColor: "#ff1493",
+                            borderRadius: "50%",
+                            width: "30px",
+                            height: "30px",
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            color: "white",
+                          }}
+                        >
+                          {count}
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </Grid>
+                ))}
+              </Grid>
+            </CardContent>
+          </Card>
+        </Grid>
+      </Grid>
     </>
   );
 };

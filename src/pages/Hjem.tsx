@@ -42,7 +42,8 @@ const Hjem = ({ handleSignOut }: { handleSignOut: () => Promise<void> }) => {
 
   const [showMaalPopUp, setShowMaalPopUp] = useState(false);
 
-  const { teamBruker, setTeamAntall } = useTeamContext();
+  const { teamBruker, retroNummer, setTeamAntall, setRetroNummer } =
+    useTeamContext();
   const navigate = useNavigate();
 
   const isSmallScreen = useMediaQuery("(max-width: 1000px)");
@@ -54,6 +55,7 @@ const Hjem = ({ handleSignOut }: { handleSignOut: () => Promise<void> }) => {
         setTeamLevel(teamInfo.level);
         setTeamNavn(teamInfo.teamNavn);
         setTeamAntall(teamInfo.antallMedlemmer);
+        setRetroNummer(teamInfo.retroNummer);
       }
     } catch (error) {
       console.error("Kan ikke hente level", error);
@@ -119,7 +121,7 @@ const Hjem = ({ handleSignOut }: { handleSignOut: () => Promise<void> }) => {
         (querySnapshot) => {
           if (querySnapshot.data()?.steg === 0) {
             navigate("/retrospektiv");
-          } else if (querySnapshot.data()?.steg === 8) {
+          } else if (querySnapshot.data()?.steg === 8 && retroNummer === 1) {
             //Bytte til antall steg vi får og hva som skal skje når man er ferdig
             setShowPopUpLevel2(true);
             handleNextStep("retroSteg", -1);

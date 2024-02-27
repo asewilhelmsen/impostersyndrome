@@ -14,6 +14,7 @@ import { firestore } from "../firebase/firebase_setup/firebase";
 import handleNextStep from "../firebase/handles/handleNextStep";
 import handleBackStep from "../firebase/handles/handleBackStep";
 import handleUpdateLevel from "../firebase/handles/handleUpdateLevel";
+import handleOppdaterRetroNummer from "../firebase/handles/handleOppdaterRetroNummer";
 
 const StepsRetro = ({
   nameList,
@@ -40,6 +41,7 @@ const StepsRetro = ({
       //Håndtere at retro er ferdig
       handleNextStep("retroSteg", 8);
       handleUpdateLevel(2);
+      handleOppdaterRetroNummer(2);
     } else {
       handleNextStep("retroSteg");
     }

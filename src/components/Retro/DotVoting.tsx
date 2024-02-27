@@ -20,12 +20,12 @@ const DotVoting = ({
 
   const [sendtInn, setSendtInn] = useState(false);
 
-  const { teamBruker } = useTeamContext();
+  const { teamBruker, retroNummer } = useTeamContext();
 
   useEffect(() => {
     if (teamBruker) {
       const teamRef = collection(firestore, teamBruker.uid);
-      const retroRef = doc(teamRef, "retrospektiv");
+      const retroRef = doc(teamRef, "retrospektiv" + retroNummer);
       const svarRef = collection(retroRef, "filtrertBedrePostIts");
 
       const unsubscribe = onSnapshot(svarRef, (querySnapshot) => {
@@ -55,7 +55,7 @@ const DotVoting = ({
   };
 
   const handleSendInn = () => {
-    handleLeggTilRetroSvar(valgtePostIts, "dotVotingPostIts");
+    handleLeggTilRetroSvar(retroNummer, valgtePostIts, "dotVotingPostIts");
     setSendtInn(true);
     onVotingFerdig(false);
   };

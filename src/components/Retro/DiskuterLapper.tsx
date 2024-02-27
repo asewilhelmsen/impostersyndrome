@@ -25,12 +25,12 @@ const DiskuterLapper = ({
   const [lapperErFjernet, setLapperErFjernet] = useState<boolean>(false);
 
   //Brukeren som er logget inn på og antall team medlemmer
-  const { teamBruker } = useTeamContext();
+  const { teamBruker, retroNummer } = useTeamContext();
 
   useEffect(() => {
     if (teamBruker) {
       const teamRef = collection(firestore, teamBruker.uid);
-      const retroRef = doc(teamRef, "retrospektiv");
+      const retroRef = doc(teamRef, "retrospektiv" + retroNummer);
       let svarRef = collection(retroRef, "braPostIts");
 
       //Er på "Hva kunne gått bedre" steg - gjort så man kan bruke komponentet på begge stegene
@@ -56,7 +56,7 @@ const DiskuterLapper = ({
   };
   const handleLapperFjernet = () => {
     onDiskuterFerdig(false);
-    handleLeggTilRetroSvar(liste, "filtrertBedrePostIts");
+    handleLeggTilRetroSvar(retroNummer, liste, "filtrertBedrePostIts");
     setLapperErFjernet(true);
   };
 
