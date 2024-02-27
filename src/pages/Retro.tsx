@@ -22,7 +22,7 @@ const Retro = () => {
     "Hva kunne gått bedre? - Skriv",
     "Hva kunne gått bedre? - Diskuter",
     "Dot voting",
-    "Mål",
+    "Ny målsetting",
   ];
 
   const [nesteDisabled, setNesteDisabled] = useState<boolean>(false);
@@ -66,7 +66,13 @@ const Retro = () => {
     <DiskuterLapper
       onDiskuterFerdig={handleNesteDisabled}
       overskrift="Hva kunne gått bedre? -Diskuter"
-      forklaring="Gå gjennom lappene og diskuter hva som gikk bra. Velg en person som fjerner de lappene som er like og klikker neste når alle er enig. "
+      forklaring={
+        <>
+          Gå gjennom lappene og diskuter hva som gikk bra. <br />
+          <br /> Velg en person som fjerner de lappene som er like og klikker
+          neste når alle er enig.
+        </>
+      }
       filtrer={true}
       onOppdatertListe={handleOppdatertListe}
     />,

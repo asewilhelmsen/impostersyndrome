@@ -1,4 +1,4 @@
-import { Typography, Grid } from "@mui/material";
+import { Typography, Grid, Button, Tooltip } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useTeamContext } from "../../TeamContext";
 
@@ -6,6 +6,7 @@ import { collection, doc, onSnapshot } from "@firebase/firestore";
 import { firestore } from "../../firebase/firebase_setup/firebase";
 
 import TavlePostIt from "./TavlePostIt";
+import handleLeggTilRetroSvar from "../../firebase/handles/handleLeggTilRetroSvar";
 
 const DiskuterLapper = ({
   overskrift,
@@ -15,12 +16,13 @@ const DiskuterLapper = ({
   onOppdatertListe,
 }: {
   overskrift: string;
-  forklaring: string;
+  forklaring: any;
   filtrer: boolean;
   onDiskuterFerdig: (disabled: boolean) => void;
   onOppdatertListe: (liste: string[]) => void;
 }) => {
   const [liste, setListe] = useState<string[]>([]);
+  const [lapperErFjernet, setLapperErFjernet] = useState<boolean>(false);
 
   //Brukeren som er logget inn på og antall team medlemmer
   const { teamBruker } = useTeamContext();
@@ -52,11 +54,16 @@ const DiskuterLapper = ({
     updatedList.splice(index, 1);
     setListe(updatedList);
   };
+  const handleLapperFjernet = () => {
+    onDiskuterFerdig(false);
+    handleLeggTilRetroSvar(liste, "filtrertBedrePostIts");
+    setLapperErFjernet(true);
+  };
 
   useEffect(() => {
     onOppdatertListe(liste);
-    //for å ta bort at knappen er disabled
-    onDiskuterFerdig(false);
+    //for å ta bort at knappen er disabled når man ikke er på filtrer steget
+    onDiskuterFerdig(filtrer);
   }, [liste]);
   return (
     <>
@@ -68,6 +75,41 @@ const DiskuterLapper = ({
           <Typography marginLeft={"5px"} variant="body1">
             {forklaring}
           </Typography>
+          {filtrer && (
+            <Grid
+              item
+              sx={{
+                marginTop: "50px",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              {lapperErFjernet ? (
+                <Typography>Gå videre til neste steg</Typography>
+              ) : (
+                <Tooltip
+                  title={
+                    <Typography
+                      style={{
+                        fontSize: "12px",
+                        color: "white",
+                        display: "flex",
+                        alignItems: "center",
+                      }}
+                    >
+                      Klikk på denne hvis det er du som har fjernet lapper på
+                      vegne av gruppen
+                    </Typography>
+                  }
+                >
+                  <Button variant="contained" onClick={handleLapperFjernet}>
+                    Lapper fjernet
+                  </Button>
+                </Tooltip>
+              )}
+            </Grid>
+          )}
         </Grid>
         {filtrer ? (
           <TavlePostIt liste={liste} onDelete={handleDelete} />

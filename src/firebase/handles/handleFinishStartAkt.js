@@ -1,33 +1,16 @@
-import { collection, doc, setDoc, updateDoc } from "@firebase/firestore";
+import { collection, doc, setDoc } from "@firebase/firestore";
 import { firestore, auth } from "../firebase_setup/firebase";
 
-const handleFinishStartAkt = (maalData) => {
+const handleFinishStartAkt = (steg) => {
   const teamId = auth.currentUser?.uid;
   const teamRef = collection(firestore, teamId);
-
-  //Ref steg
   const stegRef = doc(teamRef, "startAktivitetSteg");
-  //Ref level
-  const teamInfoRef = doc(teamRef, "teamInfo");
-
-  //Ref mål - Dette gjøres nå i egen fil som heter handleAddMaalene
-  /*const forventningerRef = doc(teamRef, "forventninger");
-  const maalRef = collection(forventningerRef, "maal");
-  const startAktMaalRef = doc(maalRef, "startAktMaal");
- 
-  //Gjøre om fra liste med mål til objekt
-  const maalObject = maalData.reduce((acc, goal, index) => {
-    acc[`maal${index + 1}`] = goal.tekst;
-    return acc;
-  }, {});*/
 
   try {
     setDoc(stegRef, {
-      steg: 4,
+      steg: steg,
       samtaleSteg: 0,
     });
-    //setDoc(startAktMaalRef, maalObject);
-    updateDoc(teamInfoRef, { level: 1 });
   } catch (err) {
     console.log("Kunne ikke fullføre startaktiviteten!", err);
   }

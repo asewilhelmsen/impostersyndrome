@@ -27,10 +27,10 @@ const PostIt = ({
         </Typography>
         {onDelete && (
           <IconButton
-            style={{ position: "absolute", top: 0, right: 0 }}
+            style={{ position: "absolute", top: -5, right: -5 }}
             onClick={onDelete}
           >
-            <CloseIcon />
+            <CloseIcon fontSize="small" />
           </IconButton>
         )}
       </CardContent>

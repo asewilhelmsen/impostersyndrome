@@ -30,6 +30,10 @@ const SkrivLapper = ({
   //Brukeren som er logget inn på og antall team medlemmer
   const { teamBruker } = useTeamContext();
 
+  //Konstanter for å regne ut minutter og sekunder av tiden på timeren
+  const minutes = Math.floor(tidIgjen / 60);
+  const seconds = tidIgjen % 60;
+
   //Til å sende liste over alle bra ting
   const submitBra = (e: FormEvent) => {
     e.preventDefault();
@@ -79,7 +83,7 @@ const SkrivLapper = ({
       const retroRef = doc(teamRef, "retrospektiv");
 
       const unsubscribe = onSnapshot(retroRef, (querySnapshot) => {
-        if (querySnapshot.data()?.braTimerStartet) {
+        if (querySnapshot.data()?.timerStartet) {
           setTidStartet(true);
           setTidIgjen(5); // 5 min (5 * 60), 5 sek for test nå
         }
@@ -88,14 +92,11 @@ const SkrivLapper = ({
     }
   }, [teamBruker]);
 
-  const minutes = Math.floor(tidIgjen / 60);
-  const seconds = tidIgjen % 60;
-
   const startTimer = () => {
     handleSettRetroTimer(true);
     //Trenger kanskje egt ikke gjøre dette både her og i useEffecten
-    setTidStartet(true);
-    setTidIgjen(5); // 5 minutes in seconds (5 * 60)
+    //setTidStartet(true);
+    //setTidIgjen(5); // 5 minutes in seconds (5 * 60)
   };
 
   return (
@@ -119,13 +120,19 @@ const SkrivLapper = ({
               marginTop: "50px",
               display: "flex",
               justifyContent: "center",
+              alignItems: "center",
             }}
           >
             {tidStartet ? (
-              <Typography>
-                <AccessTimeIcon />
-                {minutes}:{seconds < 10 ? `0${seconds}` : seconds} igjen
-              </Typography>
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <AccessTimeIcon color="primary" fontSize="large" />
+                <Typography
+                  variant="h5"
+                  sx={{ marginLeft: "10px", marginTop: "5px" }}
+                >
+                  {minutes}:{seconds < 10 ? `0${seconds}` : seconds} igjen
+                </Typography>
+              </div>
             ) : (
               <Button
                 onClick={startTimer}
@@ -151,10 +158,13 @@ const SkrivLapper = ({
                     required
                     variant="outlined"
                     autoFocus
-                    label="Skriv her"
                     value={input}
                     onChange={handleInputChange}
-                    inputProps={{ maxLength: 30 }}
+                    inputProps={{ maxLength: 26 }}
+                    error={input.length > 25}
+                    label={
+                      input.length > 25 ? "Maks 25 karakterer" : "Skriv her"
+                    }
                   />
                 </Grid>
                 <Grid item>

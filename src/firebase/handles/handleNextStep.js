@@ -15,6 +15,7 @@ const handleNextStep = (aktivitet, steg) => {
       console.log("Kunne ikke oppdatere steg!", err);
     }
   } else {
+    //Om steget ikke er spesifisert, øker med 1
     try {
       updateDoc(stegRef, {
         steg: increment(1),

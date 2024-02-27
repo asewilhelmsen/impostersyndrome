@@ -8,7 +8,7 @@ const handleSettRetroTimer = (startet) => {
 
   try {
     updateDoc(retroRef, {
-      braTimerStartet: startet,
+      timerStartet: startet,
     });
   } catch (err) {
     console.log("Kunne ikke oppdatere timer til retro", err);

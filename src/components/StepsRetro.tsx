@@ -13,7 +13,7 @@ import { doc, onSnapshot } from "@firebase/firestore";
 import { firestore } from "../firebase/firebase_setup/firebase";
 import handleNextStep from "../firebase/handles/handleNextStep";
 import handleBackStep from "../firebase/handles/handleBackStep";
-import handleLeggTilRetroSvar from "../firebase/handles/handleLeggTilRetroSvar";
+import handleUpdateLevel from "../firebase/handles/handleUpdateLevel";
 
 const StepsRetro = ({
   nameList,
@@ -33,12 +33,13 @@ const StepsRetro = ({
   const { teamBruker } = useTeamContext();
 
   const handleNext = () => {
-    if (aktivtSteg === 3) {
-      handleLeggTilRetroSvar(nyListe, "filtrertBedrePostIts");
+    if (aktivtSteg === 5) {
+      //Gjøres nå i komponentet
       handleNextStep("retroSteg");
-    } else if (aktivtSteg === 8) {
+    } else if (aktivtSteg === 7) {
       //Håndtere at retro er ferdig
-      handleNextStep("retroSteg", -1);
+      handleNextStep("retroSteg", 8);
+      handleUpdateLevel(2);
     } else {
       handleNextStep("retroSteg");
     }

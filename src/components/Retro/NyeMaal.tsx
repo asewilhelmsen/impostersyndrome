@@ -176,7 +176,7 @@ const NyeMaal = ({
                 </Typography>
                 <Grid container spacing={2} justifyContent="center">
                   {topp5postIts.map(([tekst, count], index) => (
-                    <Grid item>
+                    <Grid item key={index}>
                       <Card
                         style={{
                           backgroundColor: "#ffff99",
