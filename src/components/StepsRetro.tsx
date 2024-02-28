@@ -13,7 +13,8 @@ import { doc, onSnapshot } from "@firebase/firestore";
 import { firestore } from "../firebase/firebase_setup/firebase";
 import handleNextStep from "../firebase/handles/handleNextStep";
 import handleBackStep from "../firebase/handles/handleBackStep";
-import handleLeggTilRetroSvar from "../firebase/handles/handleLeggTilRetroSvar";
+import handleUpdateLevel from "../firebase/handles/handleUpdateLevel";
+import handleOppdaterRetroNummer from "../firebase/handles/handleOppdaterRetroNummer";
 
 const StepsRetro = ({
   nameList,
@@ -27,17 +28,20 @@ const StepsRetro = ({
   oppdatertListe: string[];
 }) => {
   const [aktivtSteg, setAktivtSteg] = useState(0);
-  const [filtrertListe, setFiltrertListe] = useState<string[]>();
+  const [nyListe, setNyListe] = useState<string[]>();
 
   const navigate = useNavigate();
   const { teamBruker } = useTeamContext();
 
   const handleNext = () => {
-    if (aktivtSteg === 3) {
-      handleLeggTilRetroSvar(filtrertListe, "filtrertBedreLapper");
+    if (aktivtSteg === 5) {
+      //Gjøres nå i komponentet
       handleNextStep("retroSteg");
-    } else if (aktivtSteg === 8) {
+    } else if (aktivtSteg === 7) {
       //Håndtere at retro er ferdig
+      handleNextStep("retroSteg", 8);
+      handleUpdateLevel(2);
+      handleOppdaterRetroNummer(2);
     } else {
       handleNextStep("retroSteg");
     }
@@ -66,7 +70,7 @@ const StepsRetro = ({
   }, [teamBruker]);
 
   useEffect(() => {
-    setFiltrertListe(oppdatertListe);
+    setNyListe(oppdatertListe);
   }, [oppdatertListe]);
 
   return (

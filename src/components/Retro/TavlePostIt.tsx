@@ -3,9 +3,13 @@ import PostIt from "./PostIt";
 
 const TavlePostIt = ({
   liste,
+  onClick,
+  selectedPostIts,
   onDelete,
 }: {
   liste: string[];
+  onClick?: (tekst: string) => void;
+  selectedPostIts?: string[];
   onDelete?: (index: number) => void;
 }) => {
   return (
@@ -25,6 +29,8 @@ const TavlePostIt = ({
             <Grid item xs={4} md={2} key={index}>
               <PostIt
                 tekst={tekst}
+                onClick={onClick ? () => onClick(tekst) : undefined}
+                selected={selectedPostIts?.includes(tekst)}
                 onDelete={onDelete ? () => onDelete(index) : undefined}
               />
             </Grid>

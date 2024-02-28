@@ -15,6 +15,7 @@ import handleNextStep from "../firebase/handles/handleNextStep";
 import handleBackStep from "../firebase/handles/handleBackStep";
 import handleFinishStartAkt from "../firebase/handles/handleFinishStartAkt";
 import { Maalene } from "../interfaces";
+import handleUpdateLevel from "../firebase/handles/handleUpdateLevel";
 
 const Steps = ({
   nameList,
@@ -33,7 +34,10 @@ const Steps = ({
 
   const handleNext = () => {
     if (aktivtSteg === nameList.length - 1) {
-      handleFinishStartAkt(maalData);
+      //Setter steg
+      handleFinishStartAkt(4);
+      //Oppdaterer level
+      handleUpdateLevel(1);
     } else {
       handleNextStep("startAktivitetSteg");
     }

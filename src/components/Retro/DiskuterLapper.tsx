@@ -1,4 +1,4 @@
-import { Typography, Grid } from "@mui/material";
+import { Typography, Grid, Button, Tooltip } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useTeamContext } from "../../TeamContext";
 
@@ -6,6 +6,7 @@ import { collection, doc, onSnapshot } from "@firebase/firestore";
 import { firestore } from "../../firebase/firebase_setup/firebase";
 
 import TavlePostIt from "./TavlePostIt";
+import handleLeggTilRetroSvar from "../../firebase/handles/handleLeggTilRetroSvar";
 
 const DiskuterLapper = ({
   overskrift,
@@ -15,26 +16,26 @@ const DiskuterLapper = ({
   onOppdatertListe,
 }: {
   overskrift: string;
-  forklaring: string;
+  forklaring: any;
   filtrer: boolean;
   onDiskuterFerdig: (disabled: boolean) => void;
   onOppdatertListe: (liste: string[]) => void;
 }) => {
   const [liste, setListe] = useState<string[]>([]);
+  const [lapperErFjernet, setLapperErFjernet] = useState<boolean>(false);
 
   //Brukeren som er logget inn på og antall team medlemmer
-  const { teamBruker } = useTeamContext();
+  const { teamBruker, retroNummer } = useTeamContext();
 
   useEffect(() => {
     if (teamBruker) {
       const teamRef = collection(firestore, teamBruker.uid);
-      const retroRef = doc(teamRef, "retrospektiv");
+      const retroRef = doc(teamRef, "retrospektiv" + retroNummer);
+      let svarRef = collection(retroRef, "braPostIts");
 
-      let svarRef = collection(retroRef, "braLapper");
-
-      //Er på "Hva kunne gått bedre" steg
+      //Er på "Hva kunne gått bedre" steg - gjort så man kan bruke komponentet på begge stegene
       if (filtrer) {
-        svarRef = collection(retroRef, "bedreLapper");
+        svarRef = collection(retroRef, "bedrePostIts");
       }
 
       const unsubscribe = onSnapshot(svarRef, (querySnapshot) => {
@@ -53,10 +54,16 @@ const DiskuterLapper = ({
     updatedList.splice(index, 1);
     setListe(updatedList);
   };
+  const handleLapperFjernet = () => {
+    onDiskuterFerdig(false);
+    handleLeggTilRetroSvar(retroNummer, liste, "filtrertBedrePostIts");
+    setLapperErFjernet(true);
+  };
 
   useEffect(() => {
-    console.log("liste", liste);
     onOppdatertListe(liste);
+    //for å ta bort at knappen er disabled når man ikke er på filtrer steget
+    onDiskuterFerdig(filtrer);
   }, [liste]);
   return (
     <>
@@ -68,6 +75,41 @@ const DiskuterLapper = ({
           <Typography marginLeft={"5px"} variant="body1">
             {forklaring}
           </Typography>
+          {filtrer && (
+            <Grid
+              item
+              sx={{
+                marginTop: "50px",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              {lapperErFjernet ? (
+                <Typography>Gå videre til neste steg</Typography>
+              ) : (
+                <Tooltip
+                  title={
+                    <Typography
+                      style={{
+                        fontSize: "12px",
+                        color: "white",
+                        display: "flex",
+                        alignItems: "center",
+                      }}
+                    >
+                      Klikk på denne hvis det er du som har fjernet lapper på
+                      vegne av gruppen
+                    </Typography>
+                  }
+                >
+                  <Button variant="contained" onClick={handleLapperFjernet}>
+                    Lapper fjernet
+                  </Button>
+                </Tooltip>
+              )}
+            </Grid>
+          )}
         </Grid>
         {filtrer ? (
           <TavlePostIt liste={liste} onDelete={handleDelete} />

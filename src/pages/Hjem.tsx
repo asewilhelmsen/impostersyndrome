@@ -25,6 +25,8 @@ import getPopupInnhold from "../firebase/getPopupInnhold";
 import getMaal from "../firebase/getMaal";
 import MaalPopUp from "../components/MaalPopUp";
 import { Maalene } from "../interfaces";
+import handleFinishStartAkt from "../firebase/handles/handleFinishStartAkt";
+import handleNextStep from "../firebase/handles/handleNextStep";
 
 const Hjem = ({ handleSignOut }: { handleSignOut: () => Promise<void> }) => {
   const [teamLevel, setTeamLevel] = useState(0);
@@ -35,10 +37,13 @@ const Hjem = ({ handleSignOut }: { handleSignOut: () => Promise<void> }) => {
     "Samle teamet ditt og kom i gang med Start-aktiviteten"
   );
 
-  const [showPopUp, setShowPopUp] = useState(false);
+  const [showPopUpLevel1, setShowPopUpLevel1] = useState(false);
+  const [showPopUpLevel2, setShowPopUpLevel2] = useState(false);
+
   const [showMaalPopUp, setShowMaalPopUp] = useState(false);
 
-  const { teamBruker, setTeamAntall } = useTeamContext();
+  const { teamBruker, retroNummer, setTeamAntall, setRetroNummer } =
+    useTeamContext();
   const navigate = useNavigate();
 
   const isSmallScreen = useMediaQuery("(max-width: 1000px)");
@@ -50,6 +55,7 @@ const Hjem = ({ handleSignOut }: { handleSignOut: () => Promise<void> }) => {
         setTeamLevel(teamInfo.level);
         setTeamNavn(teamInfo.teamNavn);
         setTeamAntall(teamInfo.antallMedlemmer);
+        setRetroNummer(teamInfo.retroNummer);
       }
     } catch (error) {
       console.error("Kan ikke hente level", error);
@@ -103,8 +109,9 @@ const Hjem = ({ handleSignOut }: { handleSignOut: () => Promise<void> }) => {
           if (querySnapshot.data()?.steg === 0) {
             navigate("/startaktivitet");
           } else if (querySnapshot.data()?.steg === 4) {
-            setShowPopUp(true);
+            setShowPopUpLevel1(true);
             setPopupInnhold("bliKjent");
+            handleFinishStartAkt(-1);
           }
         }
       );
@@ -114,8 +121,10 @@ const Hjem = ({ handleSignOut }: { handleSignOut: () => Promise<void> }) => {
         (querySnapshot) => {
           if (querySnapshot.data()?.steg === 0) {
             navigate("/retrospektiv");
-          } else if (querySnapshot.data()?.steg === 4) {
+          } else if (querySnapshot.data()?.steg === 8 && retroNummer === 1) {
             //Bytte til antall steg vi får og hva som skal skje når man er ferdig
+            setShowPopUpLevel2(true);
+            handleNextStep("retroSteg", -1);
           }
         }
       );
@@ -127,8 +136,9 @@ const Hjem = ({ handleSignOut }: { handleSignOut: () => Promise<void> }) => {
   }, [teamBruker]);
 
   const handleClosePopUp = () => {
-    setShowPopUp(false);
-    handleCloseLevelPopUp();
+    setShowPopUpLevel1(false);
+    setShowPopUpLevel2(false);
+    // handleCloseLevelPopUp();
   };
   const handleCloseMaalPopUp = () => {
     setShowMaalPopUp(false);
@@ -296,7 +306,7 @@ const Hjem = ({ handleSignOut }: { handleSignOut: () => Promise<void> }) => {
             <Popup overskrift={popupOverskrift} tekst={popupTekst} />
           </Grid>
         </Grid>
-        {showPopUp && ( //Burde sjekkes for at man er på nivå1 også. Evt lage showPopUp1
+        {showPopUpLevel1 && (
           <LevelPopUp
             onClose={handleClosePopUp}
             level={1}
@@ -307,6 +317,15 @@ const Hjem = ({ handleSignOut }: { handleSignOut: () => Promise<void> }) => {
         )}
         {showMaalPopUp && teamLevel > 0 && (
           <MaalPopUp onClose={handleCloseMaalPopUp} maalene={startAktMaal} />
+        )}
+        {showPopUpLevel2 && (
+          <LevelPopUp
+            onClose={handleClosePopUp}
+            level={2}
+            message={
+              "Målene dere satt i retrospektiven finner du ved å klikke på Nivå2-ikonet på hjem-siden!"
+            }
+          />
         )}
       </div>
     </div>
