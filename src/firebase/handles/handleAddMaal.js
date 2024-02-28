@@ -13,6 +13,10 @@ const handleAddMaal = (maalene, aktivitet) => {
     aktivitetRef = doc(maalRef, "retroMaal");
   }
 
+  if (aktivitet === "retroMaalStatus") {
+    aktivitetRef = doc(maalRef, "retroMaalStatus");
+  }
+
   const maalObject = maalene.reduce((acc, goal, index) => {
     acc[`${index + 1}`] = goal.tekst;
     return acc;
