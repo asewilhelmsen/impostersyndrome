@@ -113,7 +113,7 @@ const StatusMaal = () => {
           src={ExpectationImg}
           className={styles.expectationImg}
           alt="Expectation illustration"
-          style={{ width: "50%", margin: "auto" }}
+          style={{ width: "250px", margin: "auto" }}
         ></img>
       </Grid>
     </Grid>
