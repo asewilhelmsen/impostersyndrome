@@ -3,20 +3,38 @@ import { useState, useEffect } from "react";
 import { useTeamContext } from "../../TeamContext";
 import { collection, doc, updateDoc, getDoc } from "firebase/firestore";
 
-const PositivTenking = () => {
+const PositivTenking = ({
+  onSendInn,
+}: {
+  onSendInn: (disabled: boolean) => void;
+}) => {
   const { teamBruker } = useTeamContext();
   const [selectedCards, setSelectedCards] = useState<string[]>([]);
   const [showStatistics, setShowStatistics] = useState(false);
   const [statistics, setStatistics] = useState<{ [key: string]: number }>({});
 
   useEffect(() => {
+    onSendInn(true);
+  }, []);
+
+  useEffect(() => {
     //fetch statistics
   }, [showStatistics]);
 
-  const cardNames: string[] = [];
-  for (let i = 1; i <= 12; i++) {
-    cardNames.push(`Positiv tenking tekst ${i}`);
-  }
+  const affirmations: string[] = [
+    "Vi kommuniserer godt",
+    "Vi støtter og oppmuntrer hverandre",
+    "Alle meninger blir hørt",
+    "Ingen spørsmål i teamet er dumme",
+    "Vi er åpne for konstruktiv tilbakemelding",
+    "Vi er gode til å stille spørsmål",
+    "Gjennom godt samarbeid overvinner vi utfordringer",
+    "Vi er flinke til å lære av våre feil",
+    "Vi søker mot å skape et miljø med tillit",
+    "Vi motiverer hverandre til å prestere vårt beste",
+    "Vi er flinke til å gi hverandre komplimenter for arbeidet",
+    "Vi verdsetter og respekterer hverandres kompetanse",
+  ];
 
   const handleCardClick = (cardName: string) => {
     if (selectedCards.includes(cardName)) {
@@ -30,13 +48,14 @@ const PositivTenking = () => {
 
   const handleSendInn = async () => {
     setShowStatistics(true);
+    onSendInn(false);
   };
 
   return (
     <>
       <Typography variant="h2">Positiv tenking</Typography>
       <Typography marginLeft={"5px"} variant="body1">
-        Velg individuelt opptil 3 kort som du mener teamet har vært flinke på
+        Velg individuelt inntil 3 kort som du mener teamet har vært flinke på
         frem til nå.
       </Typography>
       {!showStatistics && (
@@ -50,7 +69,7 @@ const PositivTenking = () => {
           }}
         >
           <Grid container spacing={2}>
-            {cardNames.map((cardName, index) => (
+            {affirmations.map((cardName, index) => (
               <Grid
                 item
                 xs={3}
