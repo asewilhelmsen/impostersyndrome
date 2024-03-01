@@ -15,7 +15,7 @@ import { firestore } from "../../firebase/firebase_setup/firebase";
 import handleAddMaal from "../../firebase/handles/handleAddMaal";
 import ExpectationImg from "../../images/Expectations.svg";
 
-const StatusMaal = () => {
+const StatusMaal = ({ onLagre }: { onLagre: (disabled: boolean) => void }) => {
   const { teamBruker } = useTeamContext();
   const [maalene, setMaalene] = useState<Maalene[]>([]);
   const [checkedItems, setCheckedItems] = useState<{ [key: string]: boolean }>(
@@ -23,6 +23,7 @@ const StatusMaal = () => {
   );
 
   useEffect(() => {
+    onLagre(true);
     if (teamBruker) {
       const teamRef = collection(firestore, teamBruker.uid);
       const forventningerRef = doc(teamRef, "forventninger");
@@ -58,6 +59,7 @@ const StatusMaal = () => {
   const handleClick = () => {
     const uncheckedMaalene = maalene.filter((maal) => !checkedItems[maal.id]);
     handleAddMaal(uncheckedMaalene, "retroMaalStatus");
+    onLagre(false);
   };
 
   return (
