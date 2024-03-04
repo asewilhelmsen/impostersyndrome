@@ -25,15 +25,11 @@ const PositivTenking = ({
     "Vi kommuniserer godt",
     "Vi støtter og oppmuntrer hverandre",
     "Alle meninger blir hørt",
-    "Ingen spørsmål i teamet er dumme",
     "Vi er åpne for konstruktiv tilbakemelding",
     "Vi er gode til å stille spørsmål",
     "Gjennom godt samarbeid overvinner vi utfordringer",
-    "Vi er flinke til å lære av våre feil",
     "Vi søker mot å skape et miljø med tillit",
-    "Vi motiverer hverandre til å prestere vårt beste",
     "Vi er flinke til å gi hverandre komplimenter for arbeidet",
-    "Vi verdsetter og respekterer hverandres kompetanse",
   ];
 
   const handleCardClick = (cardName: string) => {
@@ -55,8 +51,8 @@ const PositivTenking = ({
     <>
       <Typography variant="h2">Positiv tenking</Typography>
       <Typography marginLeft={"5px"} variant="body1">
-        Velg individuelt inntil 3 kort som du mener teamet har vært flinke på
-        frem til nå.
+        Velg individuelt inntil 3 kort som motiverer deg til å prestere i et
+        team.
       </Typography>
       {!showStatistics && (
         <div
