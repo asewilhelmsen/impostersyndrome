@@ -1,14 +1,14 @@
 import { Typography, Button, Grid } from "@mui/material";
 import { useState, useEffect } from "react";
 import { useTeamContext } from "../../TeamContext";
-import { collection, doc, updateDoc, getDoc } from "firebase/firestore";
+import handleLeggTilRetroSvar from "../../firebase/handles/handleLeggTilRetroSvar";
 
 const PositivTenking = ({
   onSendInn,
 }: {
   onSendInn: (disabled: boolean) => void;
 }) => {
-  const { teamBruker } = useTeamContext();
+  const { teamBruker, retroNummer } = useTeamContext();
   const [selectedCards, setSelectedCards] = useState<string[]>([]);
   const [showStatistics, setShowStatistics] = useState(false);
   const [statistics, setStatistics] = useState<{ [key: string]: number }>({});
@@ -43,6 +43,7 @@ const PositivTenking = ({
   };
 
   const handleSendInn = async () => {
+    handleLeggTilRetroSvar(retroNummer, selectedCards, "positivTenking");
     setShowStatistics(true);
     onSendInn(false);
   };

@@ -15,6 +15,8 @@ const handleLeggTilRetroSvar = (retroNummer, liste, steg) => {
     stegRef = collection(retroRef, "filtrertBedrePostIts");
   } else if (steg === "dotVotingPostIts") {
     stegRef = collection(retroRef, "dotVotingPostIts");
+  } else if (steg === "positivTenking") {
+    stegRef = collection(retroRef, "positivTenking");
   }
 
   const nyId = uuidv4();
