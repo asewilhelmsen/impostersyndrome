@@ -6,6 +6,7 @@ import DotVoting from "../components/Retro/DotVoting";
 import NyeMaal from "../components/Retro/NyeMaal";
 import StatusMaal from "../components/Retro/StatusMaal";
 import PositivTenking from "../components/Retro/PositivTenking";
+import RetroStart from "../components/Retro/RetroStart";
 
 const Retro = () => {
   /* "Mål siden sist",
@@ -27,6 +28,7 @@ const Retro = () => {
 
   const [nesteDisabled, setNesteDisabled] = useState<boolean>(false);
   const [oppdatertListe, setOppdatertListe] = useState<string[]>([]);
+  const [startetRetro, setStartetRetro] = useState<boolean>(false);
 
   const handleNesteDisabled = (disabled: boolean) => {
     setNesteDisabled(disabled);
@@ -37,6 +39,10 @@ const Retro = () => {
   };
   //Tror ikke vi trenger denne men må se litt nærmere på dette
   const handleMaalSubmit = () => {};
+
+  const handleRetroStart = (started: boolean) => {
+    setStartetRetro(started);
+  };
 
   const stepComponents = [
     <StatusMaal onLagre={handleNesteDisabled} />,
@@ -87,14 +93,18 @@ const Retro = () => {
   ];
 
   return (
-    <div>
-      <StepsRetro
-        nameList={steps}
-        content={stepComponents}
-        nesteDisabled={nesteDisabled}
-        oppdatertListe={oppdatertListe}
-      />
-    </div>
+    <>
+      {startetRetro ? (
+        <StepsRetro
+          nameList={steps}
+          content={stepComponents}
+          nesteDisabled={nesteDisabled}
+          oppdatertListe={oppdatertListe}
+        />
+      ) : (
+        <RetroStart onRetroStart={handleRetroStart} />
+      )}
+    </>
   );
 };
 

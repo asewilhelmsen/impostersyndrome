@@ -16,7 +16,7 @@ import handleAddMaal from "../../firebase/handles/handleAddMaal";
 import ExpectationImg from "../../images/Expectations.svg";
 
 const StatusMaal = ({ onLagre }: { onLagre: (disabled: boolean) => void }) => {
-  const { teamBruker } = useTeamContext();
+  const { teamBruker, retroNummer } = useTeamContext();
   const [maalene, setMaalene] = useState<Maalene[]>([]);
   const [checkedItems, setCheckedItems] = useState<{ [key: string]: boolean }>(
     {}
@@ -28,10 +28,16 @@ const StatusMaal = ({ onLagre }: { onLagre: (disabled: boolean) => void }) => {
       const teamRef = collection(firestore, teamBruker.uid);
       const forventningerRef = doc(teamRef, "forventninger");
       const maalRef = collection(forventningerRef, "maal");
-      const startAktRef = doc(maalRef, "startAktMaal");
+
+      const refString = "retroMaal" + (retroNummer - 1).toString();
+
+      let tidligereMaalRef = doc(maalRef, refString);
+      if (retroNummer === 1) {
+        tidligereMaalRef = doc(maalRef, "startAktMaal");
+      }
 
       const tidligereMaalUnsubscribe = onSnapshot(
-        startAktRef,
+        tidligereMaalRef,
         (querySnapshot) => {
           const data = querySnapshot.data();
           const maalene: Maalene[] = [];
@@ -58,7 +64,7 @@ const StatusMaal = ({ onLagre }: { onLagre: (disabled: boolean) => void }) => {
 
   const handleClick = () => {
     const uncheckedMaalene = maalene.filter((maal) => !checkedItems[maal.id]);
-    handleAddMaal(uncheckedMaalene, "retroMaalStatus");
+    handleAddMaal(uncheckedMaalene, "retro", "retroMaal" + retroNummer);
     onLagre(false);
   };
 
