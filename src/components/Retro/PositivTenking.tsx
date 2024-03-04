@@ -2,6 +2,7 @@ import { Typography, Button, Grid } from "@mui/material";
 import { useState, useEffect } from "react";
 import { useTeamContext } from "../../TeamContext";
 import handleLeggTilRetroSvar from "../../firebase/handles/handleLeggTilRetroSvar";
+import PositivTenkingStatistikk from "./PositivTenkingStatistikk";
 
 const PositivTenking = ({
   onSendInn,
@@ -107,11 +108,7 @@ const PositivTenking = ({
           </Button>
         </div>
       )}
-      {showStatistics && (
-        <div>
-          <Typography variant="h3">Statistics:</Typography>
-        </div>
-      )}
+      {showStatistics && <PositivTenkingStatistikk></PositivTenkingStatistikk>}
     </>
   );
 };
