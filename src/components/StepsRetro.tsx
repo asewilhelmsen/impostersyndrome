@@ -91,7 +91,7 @@ const StepsRetro = ({
           </Typography>
         </Grid>
         <Grid item xs={12}>
-          <Stepper activeStep={aktivtSteg} sx={{ width: "30%", mt: 0 }}>
+          <Stepper activeStep={aktivtSteg} sx={{ width: "40%", mt: 0 }}>
             {nameList.map((label) => (
               <Step key={label}>
                 <StepLabel>{/*{label}*/}</StepLabel>
