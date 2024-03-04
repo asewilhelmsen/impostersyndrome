@@ -52,10 +52,12 @@ const PositivTenking = ({
   return (
     <>
       <Typography variant="h2">Positiv tenking</Typography>
-      <Typography marginLeft={"5px"} variant="body1">
-        Velg individuelt inntil 3 kort som motiverer deg til å prestere i et
-        team.
-      </Typography>
+      {!showStatistics && (
+        <Typography marginLeft={"5px"} variant="body1">
+          Velg individuelt inntil 3 kort som motiverer deg til å prestere i et
+          team.
+        </Typography>
+      )}
       {!showStatistics && (
         <div
           style={{
