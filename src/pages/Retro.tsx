@@ -86,10 +86,7 @@ const Retro = () => {
       onOppdatertListe={handleOppdatertListe}
       onVotingFerdig={handleNesteDisabled}
     />,
-    <NyeMaal
-      onMaalSubmit={handleMaalSubmit}
-      onMaalFerdig={handleNesteDisabled}
-    />,
+    <NyeMaal onMaalFerdig={handleNesteDisabled} />,
   ];
 
   return (

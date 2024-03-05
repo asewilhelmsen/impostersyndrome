@@ -121,7 +121,7 @@ const Hjem = ({ handleSignOut }: { handleSignOut: () => Promise<void> }) => {
         (querySnapshot) => {
           if (querySnapshot.data()?.steg === 0) {
             navigate("/retrospektiv");
-          } else if (querySnapshot.data()?.steg === 8 && retroNummer === 1) {
+          } else if (querySnapshot.data()?.steg === 9 && retroNummer === 1) {
             //Bytte til antall steg vi får og hva som skal skje når man er ferdig
             setShowPopUpLevel2(true);
             handleNextStep("retroSteg", -1);

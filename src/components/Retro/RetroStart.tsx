@@ -12,7 +12,10 @@ import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { useEffect, useState } from "react";
 import { useTeamContext } from "../../TeamContext";
 import { useNavigate } from "react-router-dom";
-import handleBackStep from "../../firebase/handles/handleBackStep";
+import getTeamInfo from "../../firebase/getTeamInfo";
+import handleNextStep from "../../firebase/handles/handleNextStep";
+import { doc, onSnapshot } from "@firebase/firestore";
+import { firestore } from "../../firebase/firebase_setup/firebase";
 
 const RetroStart = ({
   onRetroStart,
@@ -26,7 +29,10 @@ const RetroStart = ({
   const isSmallScreen = useMediaQuery("(max-width: 1000px)");
 
   const [retroer, setRetroer] = useState<string[]>(["Retrospektiv 1"]);
-  const { retroNummer, setRetroNummer } = useTeamContext();
+  const [antallRetroerGjennomfort, setAntallRetroerGjennomfort] =
+    useState<number>(0);
+
+  const { teamBruker, setRetroNummer } = useTeamContext();
   const navigate = useNavigate();
 
   const addNyRetro = () => {
@@ -34,23 +40,57 @@ const RetroStart = ({
     setRetroer((prev) => [...prev, newString]);
   };
 
-  const startRetro = () => {
+  const startRetro = (index: number) => {
     onRetroStart(true);
-    setRetroNummer(retroer.length);
+    setRetroNummer(index + 1);
+    handleNextStep("retroSteg");
   };
 
-  const handleBack = () => {
-    handleBackStep("retroSteg");
+  const handleBackToHomePage = () => {
+    handleNextStep("retroSteg", -1);
     navigate("/");
   };
 
+  const setAntallRetroer = async () => {
+    try {
+      const teamInfo = await getTeamInfo();
+      if (teamInfo) {
+        setAntallRetroerGjennomfort(teamInfo.antallRetroerGjennomfort);
+      }
+    } catch (error) {
+      console.error("Kan ikke hente målene", error);
+    }
+  };
+
+  useEffect(() => {
+    setAntallRetroer();
+  }, []);
+
   useEffect(() => {
     const newRetroer = [];
-    for (let i = 1; i <= retroNummer; i++) {
+    for (let i = 1; i <= antallRetroerGjennomfort + 1; i++) {
       newRetroer.push("Retrospektiv " + i);
     }
     setRetroer(newRetroer);
-  }, []);
+  }, [antallRetroerGjennomfort]);
+
+  useEffect(() => {
+    if (teamBruker) {
+      const docRef = doc(firestore, teamBruker.uid, "retroSteg");
+      const unsubscribe = onSnapshot(docRef, (querySnapshot) => {
+        if (
+          //Oppdater til antall steg vi får
+          querySnapshot.data()?.steg === -1
+        ) {
+          navigate("/");
+        } else if (querySnapshot.data()?.steg !== 0) {
+          onRetroStart(true);
+        }
+      });
+
+      return unsubscribe;
+    }
+  }, [teamBruker]);
 
   return (
     <div
@@ -71,7 +111,7 @@ const RetroStart = ({
           </Typography>
         </Grid>
         <Grid item xs={2} style={{ textAlign: "right", paddingRight: "2%" }}>
-          <Button variant="contained" onClick={handleBack}>
+          <Button variant="contained" onClick={handleBackToHomePage}>
             Tilbake
           </Button>
         </Grid>
@@ -118,7 +158,7 @@ const RetroStart = ({
           </Grid>
           {retroer.map((tekst, index) => (
             <Grid item xs={12}>
-              <Button variant="contained" key={index + 1} onClick={startRetro}>
+              <Button variant="contained" onClick={() => startRetro(index)}>
                 {tekst}
               </Button>
             </Grid>

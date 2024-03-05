@@ -7,7 +7,7 @@ const handleOppdaterRetroNummer = (nummer) => {
   const teamInfoRef = doc(teamRef, "teamInfo");
 
   try {
-    updateDoc(teamInfoRef, { retroNummer: nummer });
+    updateDoc(teamInfoRef, { antallRetroerGjennomfort: nummer });
   } catch (err) {
     console.log("Kunne ikke oppdatere retro nummer!", err);
   }

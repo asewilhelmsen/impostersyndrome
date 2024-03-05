@@ -1,5 +1,4 @@
 import {
-  Box,
   Card,
   CardContent,
   Grid,
@@ -8,20 +7,16 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
-import A from "../../images/A.svg";
-import B from "../../images/B.svg";
-import Maal from "../Maal";
 import React, { useEffect, useState } from "react";
 import { Maalene } from "../../interfaces";
 import { useTeamContext } from "../../TeamContext";
 import { collection, doc, onSnapshot } from "@firebase/firestore";
 import { firestore } from "../../firebase/firebase_setup/firebase";
+import MaalRetro from "../MaalRetro";
 
 const NyeMaal = ({
-  onMaalSubmit,
   onMaalFerdig,
 }: {
-  onMaalSubmit: (maal: Maalene[]) => void;
   onMaalFerdig: (disabled: boolean) => void;
 }) => {
   const [lagredeMaalene, setLagredeMaalene] = useState<Maalene[]>([]);
@@ -30,18 +25,22 @@ const NyeMaal = ({
   const { teamBruker, retroNummer } = useTeamContext();
   const isSmallScreen = useMediaQuery("(max-width: 1000px)");
 
+  const onMaalSubmit = (maalene: Maalene[]) => {
+    setLagredeMaalene(maalene);
+  };
+
   useEffect(() => {
     if (teamBruker) {
       const teamRef = collection(firestore, teamBruker.uid);
       const forventningerRef = doc(teamRef, "forventninger");
       const maalRef = collection(forventningerRef, "maal");
-      const startAktRef = doc(maalRef, "retroMaal");
+      const retroMaalRef = doc(maalRef, "retroMaal" + retroNummer);
 
       const retroRef = doc(teamRef, "retrospektiv" + retroNummer);
       const svarRef = collection(retroRef, "dotVotingPostIts");
 
       const tidligereMaalUnsubscribe = onSnapshot(
-        startAktRef,
+        retroMaalRef,
         (querySnapshot) => {
           const data = querySnapshot.data();
           const maalene: Maalene[] = [];
@@ -120,7 +119,12 @@ const NyeMaal = ({
               >
                 {"Velg ett teammedlem som fyller inn målene!"}
               </Typography>
-              <Maal onMaalSubmit={onMaalSubmit} aktivitet="retro" />
+              {lagredeMaalene && (
+                <MaalRetro
+                  onMaalSubmit={onMaalSubmit}
+                  tidligereMaal={lagredeMaalene}
+                />
+              )}
             </CardContent>
           </Card>
         </Grid>
