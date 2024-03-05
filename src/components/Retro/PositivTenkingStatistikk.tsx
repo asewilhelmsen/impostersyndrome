@@ -50,6 +50,7 @@ const PositivTenkingStatistikk = ({}) => {
           justifyContent="center"
           alignItems="flex-end"
           marginBottom={"2%"}
+          marginTop={"2%"}
         >
           {reorderedTopp3svar.map(([tekst, count], index) => (
             <Grid item key={index}>
@@ -77,8 +78,8 @@ const PositivTenkingStatistikk = ({}) => {
                   <div
                     style={{
                       position: "absolute",
-                      top: "5px",
-                      right: "5px",
+                      top: "2px",
+                      right: "2px",
                       backgroundColor: "#FF7C72",
                       borderRadius: "50%",
                       width: "30px",
@@ -101,11 +102,12 @@ const PositivTenkingStatistikk = ({}) => {
         sx={{
           border: "2px solid ",
           borderColor: "primary.main",
-          width: "650px",
-          height: "160px",
+          width: "55%",
+          maxWidth: "740px",
+          minHeighteight: "160px",
           borderRadius: "6px",
-          textAlign: "center",
-          padding: "20px",
+          textAlign: "justify",
+          padding: "30px",
           margin: "auto",
           position: "relative",
         }}
@@ -120,16 +122,20 @@ const PositivTenkingStatistikk = ({}) => {
             maxWidth: "120px",
           }}
         />
-        <Typography variant="h5">
+        <Typography variant="h5" style={{ textAlign: "center" }}>
           Imposter Syndrome og positiv tenking
         </Typography>
 
-        <Typography>
-          Når alle har svart vil kortet med flest stemmer stå over. Lorem ipsum
-          dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor
-          incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-          quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-          commodo consequat.
+        <Typography variant="body2" marginBottom={0}>
+          Når alle har svart vil kortet med flest stemmer vises over. Teamet
+          oppmuntres til å støtte og annerkjenne de mest motiverende utsagene,
+          og dermed styrke følelsen av positivitet og fellesskap. Positiv
+          tenking er en teknikk som tar sikte på å utfordre negative tanker. Når
+          man gjentar slike bekreftelser regelmessig, begynner hjernen å
+          internalisere dem, og de blir gradvis en del av ens tro og
+          selvoppfatning. Dette verktøyet kan hjelpe med å endre tankemønstre og
+          bryte den negative tankespiralen som ofte oppstår ved Imposter
+          Syndrome. Dette kan fremme bedre mental helse og trivsel.
         </Typography>
       </Box>
     </>

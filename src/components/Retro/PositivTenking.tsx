@@ -62,7 +62,7 @@ const PositivTenking = ({
         <div
           style={{
             width: "100%",
-            marginTop: "1%",
+            marginTop: "5%",
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
