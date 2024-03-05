@@ -39,7 +39,7 @@ const Retro = () => {
   const handleMaalSubmit = () => {};
 
   const stepComponents = [
-    <StatusMaal />,
+    <StatusMaal onLagre={handleNesteDisabled} />,
     <PositivTenking onSendInn={handleNesteDisabled} />,
     <SkrivLapper
       onSkrivFerdig={handleNesteDisabled}
