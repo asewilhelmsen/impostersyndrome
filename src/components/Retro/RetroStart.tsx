@@ -16,11 +16,12 @@ import getTeamInfo from "../../firebase/getTeamInfo";
 import handleNextStep from "../../firebase/handles/handleNextStep";
 import { doc, onSnapshot } from "@firebase/firestore";
 import { firestore } from "../../firebase/firebase_setup/firebase";
+import handleOppdaterRetroNummer from "../../firebase/handles/handleOppdaterRetroNummer";
 
 const RetroStart = ({
   onRetroStart,
 }: {
-  onRetroStart: (stared: boolean) => void;
+  onRetroStart: (started: boolean) => void;
 }) => {
   const imageStyle = {
     width: "23%",
@@ -42,7 +43,9 @@ const RetroStart = ({
 
   const startRetro = (index: number) => {
     onRetroStart(true);
+    //Må man gjøre det på begge her?
     setRetroNummer(index + 1);
+    handleOppdaterRetroNummer(index + 1, "retroNummer");
     handleNextStep("retroSteg");
   };
 
@@ -76,19 +79,32 @@ const RetroStart = ({
 
   useEffect(() => {
     if (teamBruker) {
-      const docRef = doc(firestore, teamBruker.uid, "retroSteg");
-      const unsubscribe = onSnapshot(docRef, (querySnapshot) => {
+      const stegRef = doc(firestore, teamBruker.uid, "retroSteg");
+      const nummerRef = doc(firestore, teamBruker.uid, "teamInfo");
+
+      const retroStegUnsubscribe = onSnapshot(stegRef, (querySnapshot) => {
         if (
           //Oppdater til antall steg vi får
           querySnapshot.data()?.steg === -1
         ) {
           navigate("/");
-        } else if (querySnapshot.data()?.steg !== 0) {
+        } else if (querySnapshot.data()?.steg === 0) {
+          navigate("/retrospektiv");
+          onRetroStart(false);
+        } else {
           onRetroStart(true);
         }
       });
+      const retroNummerUnsubscribe = onSnapshot(nummerRef, (querySnapshot) => {
+        if (querySnapshot) {
+          setRetroNummer(querySnapshot.data()?.retroNummer);
+        }
+      });
 
-      return unsubscribe;
+      return () => {
+        retroStegUnsubscribe();
+        retroNummerUnsubscribe();
+      };
     }
   }, [teamBruker]);
 

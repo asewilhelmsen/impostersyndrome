@@ -21,17 +21,19 @@ const StepsRetro = ({
   content,
   nesteDisabled,
   oppdatertListe,
+  onRetroStart,
 }: {
   nameList: string[];
   content: JSX.Element[];
   nesteDisabled: boolean;
   oppdatertListe: string[];
+  onRetroStart: (started: boolean) => void;
 }) => {
   const [aktivtSteg, setAktivtSteg] = useState(1);
   const [nyListe, setNyListe] = useState<string[]>();
 
   const navigate = useNavigate();
-  const { teamBruker } = useTeamContext();
+  const { teamBruker, retroNummer } = useTeamContext();
 
   const handleNext = () => {
     if (aktivtSteg === 5) {
@@ -40,9 +42,13 @@ const StepsRetro = ({
     } else if (aktivtSteg === 8) {
       //Håndtere at retro er ferdig
       handleNextStep("retroSteg", 9);
-      handleUpdateLevel(2);
-      //Oppdaterer til at 1 retro er gjennomført, må endres senere når man gjøre flere enn 1
-      handleOppdaterRetroNummer(1);
+      if (retroNummer === 1) {
+        handleOppdaterRetroNummer(1, "antallRetroerGjennomfort");
+        handleUpdateLevel(2);
+      } else if (retroNummer === 2) {
+        handleOppdaterRetroNummer(2, "antallRetroerGjennomfort");
+        handleUpdateLevel(3);
+      }
     } else {
       handleNextStep("retroSteg");
     }
@@ -60,12 +66,13 @@ const StepsRetro = ({
         if (
           //Oppdater til antall steg vi får
           querySnapshot.data()?.steg === 9 ||
-          querySnapshot.data()?.steg === 0
+          querySnapshot.data()?.steg === -1
           //eller -1 her, var det før
         ) {
           navigate("/");
         } else if (querySnapshot.data()?.steg === 0) {
           navigate("/retrospektiv");
+          onRetroStart(false);
         }
       });
 
@@ -143,7 +150,7 @@ const StepsRetro = ({
             onClick={handleNext}
             disabled={nesteDisabled}
           >
-            {aktivtSteg === nameList.length - 1 ? "Ferdig" : "Neste"}
+            {aktivtSteg === nameList.length ? "Ferdig" : "Neste"}
           </Button>
         </Grid>
       </Grid>

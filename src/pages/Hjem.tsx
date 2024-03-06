@@ -18,7 +18,6 @@ import { firestore } from "../firebase/firebase_setup/firebase";
 import { doc, onSnapshot } from "@firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import LevelPopUp from "../components/LevelPopUp";
-import handleCloseLevelPopUp from "../firebase/handles/handleCloseLevelPopUp";
 import getTeamInfo from "../firebase/getTeamInfo";
 import { useMediaQuery } from "@mui/material";
 import getPopupInnhold from "../firebase/getPopupInnhold";
@@ -39,6 +38,7 @@ const Hjem = ({ handleSignOut }: { handleSignOut: () => Promise<void> }) => {
 
   const [showPopUpLevel1, setShowPopUpLevel1] = useState(false);
   const [showPopUpLevel2, setShowPopUpLevel2] = useState(false);
+  const [showPopUpLevel3, setShowPopUpLevel3] = useState(false);
 
   const [showMaalPopUp, setShowMaalPopUp] = useState(false);
 
@@ -122,8 +122,10 @@ const Hjem = ({ handleSignOut }: { handleSignOut: () => Promise<void> }) => {
           if (querySnapshot.data()?.steg === 0) {
             navigate("/retrospektiv");
           } else if (querySnapshot.data()?.steg === 9 && retroNummer === 1) {
-            //Bytte til antall steg vi får og hva som skal skje når man er ferdig
             setShowPopUpLevel2(true);
+            handleNextStep("retroSteg", -1);
+          } else if (querySnapshot.data()?.steg === 9 && retroNummer === 2) {
+            setShowPopUpLevel3(true);
             handleNextStep("retroSteg", -1);
           }
         }
@@ -138,7 +140,7 @@ const Hjem = ({ handleSignOut }: { handleSignOut: () => Promise<void> }) => {
   const handleClosePopUp = () => {
     setShowPopUpLevel1(false);
     setShowPopUpLevel2(false);
-    // handleCloseLevelPopUp();
+    setShowPopUpLevel3(false);
   };
   const handleCloseMaalPopUp = () => {
     setShowMaalPopUp(false);
@@ -324,6 +326,15 @@ const Hjem = ({ handleSignOut }: { handleSignOut: () => Promise<void> }) => {
             level={2}
             message={
               "Målene dere satt i retrospektiven finner du ved å klikke på Nivå2-ikonet på hjem-siden!"
+            }
+          />
+        )}
+        {showPopUpLevel3 && (
+          <LevelPopUp
+            onClose={handleClosePopUp}
+            level={3}
+            message={
+              "Målene dere satt i retrospektiven finner du ved å klikke på Nivå3-ikonet på hjem-siden!"
             }
           />
         )}

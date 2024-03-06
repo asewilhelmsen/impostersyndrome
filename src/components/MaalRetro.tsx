@@ -3,6 +3,7 @@ import { Box, TextField, Button } from "@mui/material";
 import { v4 as uuidv4 } from "uuid";
 import { Maalene } from "../interfaces";
 import handleAddMaal from "../firebase/handles/handleAddMaal";
+import { useTeamContext } from "../TeamContext";
 
 const MaalRetro = ({
   onMaalSubmit,
@@ -16,6 +17,7 @@ const MaalRetro = ({
     tidligereMaal || [{ id: uuidv4(), tekst: "" }]
   );
   const [maalInput, setMaalInput] = useState<string>("");
+  const { retroNummer } = useTeamContext();
 
   const addMaal = () => {
     const nyMaalId = uuidv4();
@@ -24,7 +26,7 @@ const MaalRetro = ({
     handleAddMaal(
       [...maalene, { id: nyMaalId, tekst: maalInput }],
       "retro",
-      "retroMaal1"
+      "retroMaal" + retroNummer
     );
     setMaalInput("");
   };

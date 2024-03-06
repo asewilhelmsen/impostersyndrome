@@ -6,7 +6,7 @@ import { collection, doc, onSnapshot } from "@firebase/firestore";
 import { firestore } from "../../firebase/firebase_setup/firebase";
 
 import TavlePostIt from "./TavlePostIt";
-import handleLeggTilRetroSvar from "../../firebase/handles/handleLeggTilRetroSvar";
+import handleFjernPostIt from "../../firebase/handles/handleFjernPostIt";
 
 const DiskuterLapper = ({
   overskrift,
@@ -31,21 +31,23 @@ const DiskuterLapper = ({
     if (teamBruker) {
       const teamRef = collection(firestore, teamBruker.uid);
       const retroRef = doc(teamRef, "retrospektiv" + retroNummer);
-      let svarRef = collection(retroRef, "braPostIts");
-
-      //Er på "Hva kunne gått bedre" steg - gjort så man kan bruke komponentet på begge stegene
       if (filtrer) {
-        svarRef = collection(retroRef, "bedrePostIts");
+        const unsubscribe = onSnapshot(retroRef, (querySnapshot) => {
+          const data = querySnapshot.data();
+          if (data && data.bedrePostIts) {
+            setListe(data.bedrePostIts);
+          }
+        });
+        return unsubscribe;
+      } else {
+        const unsubscribe = onSnapshot(retroRef, (querySnapshot) => {
+          const data = querySnapshot.data();
+          if (data && data.braPostIts) {
+            setListe(data.braPostIts);
+          }
+        });
+        return unsubscribe;
       }
-
-      const unsubscribe = onSnapshot(svarRef, (querySnapshot) => {
-        const nyBraListe = querySnapshot.docs.flatMap((doc) =>
-          Object.values(doc.data())
-        );
-        setListe(nyBraListe);
-      });
-
-      return unsubscribe;
     }
   }, [teamBruker]);
 
@@ -53,17 +55,11 @@ const DiskuterLapper = ({
     const updatedList = [...liste];
     updatedList.splice(index, 1);
     setListe(updatedList);
-  };
-  const handleLapperFjernet = () => {
-    onDiskuterFerdig(false);
-    handleLeggTilRetroSvar(retroNummer, liste, "filtrertBedrePostIts");
-    setLapperErFjernet(true);
+    handleFjernPostIt(retroNummer, updatedList);
   };
 
   useEffect(() => {
     onOppdatertListe(liste);
-    //for å ta bort at knappen er disabled når man ikke er på filtrer steget
-    onDiskuterFerdig(filtrer);
   }, [liste]);
   return (
     <>
@@ -75,44 +71,13 @@ const DiskuterLapper = ({
           <Typography marginLeft={"5px"} variant="body1">
             {forklaring}
           </Typography>
-          {filtrer && (
-            <Grid
-              item
-              sx={{
-                marginTop: "50px",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              {lapperErFjernet ? (
-                <Typography>Gå videre til neste steg</Typography>
-              ) : (
-                <Tooltip
-                  title={
-                    <Typography
-                      style={{
-                        fontSize: "12px",
-                        color: "white",
-                        display: "flex",
-                        alignItems: "center",
-                      }}
-                    >
-                      Klikk på denne hvis det er du som har fjernet lapper på
-                      vegne av gruppen
-                    </Typography>
-                  }
-                >
-                  <Button variant="contained" onClick={handleLapperFjernet}>
-                    Lapper fjernet
-                  </Button>
-                </Tooltip>
-              )}
-            </Grid>
-          )}
         </Grid>
         {filtrer ? (
-          <TavlePostIt liste={liste} onDelete={handleDelete} />
+          <TavlePostIt
+            key={JSON.stringify(liste)}
+            liste={liste}
+            onDelete={handleDelete}
+          />
         ) : (
           <TavlePostIt liste={liste} />
         )}

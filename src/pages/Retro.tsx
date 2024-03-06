@@ -97,6 +97,7 @@ const Retro = () => {
           content={stepComponents}
           nesteDisabled={nesteDisabled}
           oppdatertListe={oppdatertListe}
+          onRetroStart={handleRetroStart}
         />
       ) : (
         <RetroStart onRetroStart={handleRetroStart} />

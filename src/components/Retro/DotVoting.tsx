@@ -1,12 +1,10 @@
 import { Typography, Grid, Button, Box } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useTeamContext } from "../../TeamContext";
-
 import { collection, doc, onSnapshot } from "@firebase/firestore";
 import { firestore } from "../../firebase/firebase_setup/firebase";
-
 import TavlePostIt from "./TavlePostIt";
-import handleLeggTilRetroSvar from "../../firebase/handles/handleLeggTilRetroSvar";
+import handleLeggTilDotvotingStemmer from "../../firebase/handles/handleLeggTilDotvotingStemmer";
 
 const DotVoting = ({
   onOppdatertListe,
@@ -26,13 +24,10 @@ const DotVoting = ({
     if (teamBruker) {
       const teamRef = collection(firestore, teamBruker.uid);
       const retroRef = doc(teamRef, "retrospektiv" + retroNummer);
-      const svarRef = collection(retroRef, "filtrertBedrePostIts");
 
-      const unsubscribe = onSnapshot(svarRef, (querySnapshot) => {
-        const nyListe = querySnapshot.docs.flatMap((doc) =>
-          Object.values(doc.data())
-        );
-        setListe(nyListe);
+      const unsubscribe = onSnapshot(retroRef, (querySnapshot) => {
+        const postIts = querySnapshot.data()?.bedrePostIts;
+        setListe(postIts);
       });
 
       return unsubscribe;
@@ -55,7 +50,7 @@ const DotVoting = ({
   };
 
   const handleSendInn = () => {
-    handleLeggTilRetroSvar(retroNummer, valgtePostIts, "dotVotingPostIts");
+    handleLeggTilDotvotingStemmer(retroNummer, valgtePostIts);
     setSendtInn(true);
     onVotingFerdig(false);
   };
