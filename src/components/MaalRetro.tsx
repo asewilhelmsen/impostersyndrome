@@ -44,15 +44,17 @@ const MaalRetro = ({
       sx={{
         display: "flex",
         flexDirection: "column",
+        textAlign: "center",
       }}
     >
       <TextField
         variant="outlined"
-        sx={{ marginTop: "5px" }}
+        sx={{ marginTop: "5px", marginBottom: "10px" }}
         value={maalInput}
+        label={"Skriv inn her"}
         onChange={(e) => setMaalInput(e.target.value)}
       />
-      <Button variant="contained" onClick={addMaal}>
+      <Button variant="contained" onClick={addMaal} sx={{ width: "150px" }}>
         Legg til mål
       </Button>
     </Box>

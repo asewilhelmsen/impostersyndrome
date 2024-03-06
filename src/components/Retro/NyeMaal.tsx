@@ -84,9 +84,20 @@ const NyeMaal = ({
     (a, b) => b[1] - a[1]
   );
 
+  // const thirdHighestCount = sortedWordCounts[2][1];
+
   // Plukke ut de 5 mest stemte
   const topp5postIts = sortedWordCounts.slice(0, 5);
 
+  const fifthPostItCount = topp5postIts[4]?.[1] || 0; // Get the count of the 5th post-it, or 0 if it doesn't exist
+  const postItsOfInterest = sortedWordCounts.filter(
+    ([_, count]) => count === fifthPostItCount
+  );
+  // const postItsOfInterest = sortedWordCounts.filter( ([_, count]) => count >= thirdHighestCount );
+  const extendedTop5PostIts = [
+    ...topp5postIts,
+    ...postItsOfInterest.filter((postIt) => !topp5postIts.includes(postIt)),
+  ];
   return (
     <>
       <Typography variant="h2">Ny målsetting</Typography>
@@ -94,12 +105,12 @@ const NyeMaal = ({
         Se på de målene dere tar med fra forrige sprint og lag noen ny mål
         basert på de postItene som fikk flest stemmer
       </Typography>
-
       <Grid container spacing={2} direction={isSmallScreen ? "column" : "row"}>
         <Grid item xs={4}>
           <Card
             sx={{
               minHeight: 500,
+              height: "100%",
               display: "flex",
               backgroundColor: "#CDDBF7",
               color: "white",
@@ -111,13 +122,13 @@ const NyeMaal = ({
                 De mest stemte postItsene
               </Typography>
               <Grid container spacing={2} justifyContent="center">
-                {topp5postIts.map(([tekst, count], index) => (
+                {extendedTop5PostIts.map(([tekst, count], index) => (
                   <Grid item key={index}>
                     <Card
                       style={{
                         backgroundColor: "#ffff99",
                         height: "100px",
-                        width: "200px",
+                        width: "150px",
                         position: "relative",
                         margin: "10px",
                       }}
@@ -133,8 +144,8 @@ const NyeMaal = ({
                         <div
                           style={{
                             position: "absolute",
-                            top: "5px",
-                            right: "5px",
+                            top: "0px",
+                            right: "0px",
                             backgroundColor: "#ff1493",
                             borderRadius: "50%",
                             width: "30px",
@@ -159,6 +170,7 @@ const NyeMaal = ({
           <Card
             sx={{
               minHeight: 500,
+              height: "100%",
               display: "flex",
               backgroundColor: "#CDDBF7",
               color: "white",
@@ -192,6 +204,7 @@ const NyeMaal = ({
           <Card
             sx={{
               minHeight: 500,
+              height: "100%",
               backgroundColor: "#CDDBF7",
               color: "white",
               padding: "10px",
