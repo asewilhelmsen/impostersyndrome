@@ -76,7 +76,7 @@ const Hjem = ({ handleSignOut }: { handleSignOut: () => Promise<void> }) => {
 
   const setMaal = async () => {
     try {
-      const maal = await getMaal();
+      const maal = await getMaal("startAktMaal");
       if (maal) {
         const maalene: Maalene[] = [];
         for (let i = 1; i <= Object.keys(maal).length; i++) {

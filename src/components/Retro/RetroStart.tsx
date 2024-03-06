@@ -1,14 +1,6 @@
-import {
-  Button,
-  Grid,
-  IconButton,
-  Tooltip,
-  Typography,
-  useMediaQuery,
-} from "@mui/material";
+import { Button, Grid, Typography, useMediaQuery } from "@mui/material";
 import wave from "../../wave.svg";
 import retro from "../../images/retro.svg";
-import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { useEffect, useState } from "react";
 import { useTeamContext } from "../../TeamContext";
 import { useNavigate } from "react-router-dom";
@@ -17,6 +9,7 @@ import handleNextStep from "../../firebase/handles/handleNextStep";
 import { doc, onSnapshot } from "@firebase/firestore";
 import { firestore } from "../../firebase/firebase_setup/firebase";
 import handleOppdaterRetroNummer from "../../firebase/handles/handleOppdaterRetroNummer";
+import RetroOppsummering from "./RetroOppsummering";
 
 const RetroStart = ({
   onRetroStart,
@@ -33,20 +26,21 @@ const RetroStart = ({
   const [antallRetroerGjennomfort, setAntallRetroerGjennomfort] =
     useState<number>(0);
 
-  const { teamBruker, setRetroNummer } = useTeamContext();
+  const [visOppsummering, setVisOppsummering] = useState<boolean>(false);
+
+  const { teamBruker, retroNummer, setRetroNummer } = useTeamContext();
   const navigate = useNavigate();
 
-  const addNyRetro = () => {
-    const newString = "Retrospektiv " + (retroer.length + 1);
-    setRetroer((prev) => [...prev, newString]);
-  };
-
   const startRetro = (index: number) => {
-    onRetroStart(true);
-    //Må man gjøre det på begge her?
     setRetroNummer(index + 1);
-    handleOppdaterRetroNummer(index + 1, "retroNummer");
-    handleNextStep("retroSteg");
+    if (index + 1 > antallRetroerGjennomfort) {
+      onRetroStart(true);
+      //Må man gjøre det på begge her?
+      handleOppdaterRetroNummer(index + 1, "retroNummer");
+      handleNextStep("retroSteg");
+    } else {
+      setVisOppsummering(true);
+    }
   };
 
   const handleBackToHomePage = () => {
@@ -54,6 +48,9 @@ const RetroStart = ({
     navigate("/");
   };
 
+  const handleOppsummeringLukk = () => {
+    setVisOppsummering(false);
+  };
   const setAntallRetroer = async () => {
     try {
       const teamInfo = await getTeamInfo();
@@ -109,86 +106,97 @@ const RetroStart = ({
   }, [teamBruker]);
 
   return (
-    <div
-      style={{
-        height: "100vh",
-        overflow: "auto",
-        display: "flex",
-        flexDirection: "column",
-      }}
-    >
-      <Grid container alignItems="center" marginTop={"1%"}>
-        <Grid item xs={10}>
-          <Typography
-            variant="h2"
-            style={{ marginBottom: "1%", marginLeft: "5%" }}
-          >
-            Retrospektiv
-          </Typography>
-        </Grid>
-        <Grid item xs={2} style={{ textAlign: "right", paddingRight: "2%" }}>
-          <Button variant="contained" onClick={handleBackToHomePage}>
-            Tilbake
-          </Button>
-        </Grid>
-      </Grid>
-      <div
-        style={{
-          flex: 1,
-          backgroundImage: `url(${wave})`,
-          backgroundSize: "cover",
-          display: "flex",
-          flexDirection: "column",
-          paddingTop: isSmallScreen ? "10%" : "6%",
-          paddingLeft: "5%",
-          paddingRight: "5%",
-        }}
-      >
-        <Grid
-          container //container 1
-          spacing={2}
-          textAlign="center"
+    <>
+      {visOppsummering ? (
+        <RetroOppsummering
+          retroNummer={retroNummer}
+          onOppsummeringLukk={handleOppsummeringLukk}
+        />
+      ) : (
+        <div
+          style={{
+            height: "100vh",
+            overflow: "auto",
+            display: "flex",
+            flexDirection: "column",
+          }}
         >
-          <Grid item xs={12}>
-            <img src={retro} alt="Retro illustration" style={imageStyle}></img>
-          </Grid>
-          <Grid
-            item
-            xs={12}
-            sx={{
-              paddingLeft: "20%",
-              paddingReight: "20%",
-            }}
-          >
-            <Typography variant="body1">
-              En retrospektiv er et møte der man regelmessig reflekterer over
-              samarbeidet i teamet for å oppnå kontinuerlige forbedringer. Målet
-              er at alle på teamet kan dele tanker og sine synspunkter, at alle
-              får innsikt i hva de andre tenker og å utvikle målrettede tiltak
-              for fremtidig forbedring. Vi vil at dere skaper et rom for å
-              sammenligne perspektiver innad i teamet som kan føre til økt
-              tillit og bedre teamutvikling. Retrospektiver bidrar også til å
-              forbedre Psykologisk sikkerhet i teamnoe som beviselig er
-              avgjørende for teamets langsiktige suksess.
-            </Typography>
-          </Grid>
-          {retroer.map((tekst, index) => (
-            <Grid item xs={12}>
-              <Button variant="contained" onClick={() => startRetro(index)}>
-                {tekst}
+          <Grid container alignItems="center" marginTop={"1%"}>
+            <Grid item xs={10}>
+              <Typography
+                variant="h2"
+                style={{ marginBottom: "1%", marginLeft: "5%" }}
+              >
+                Retrospektiv
+              </Typography>
+            </Grid>
+            <Grid
+              item
+              xs={2}
+              style={{ textAlign: "right", paddingRight: "2%" }}
+            >
+              <Button variant="contained" onClick={handleBackToHomePage}>
+                Tilbake
               </Button>
             </Grid>
-          ))}
-          <Grid item xs={12}>
-            <Tooltip title="Start en ny retrospektiv">
-              <IconButton onClick={addNyRetro}>
-                <AddCircleIcon fontSize="large" />
-              </IconButton>
-            </Tooltip>
           </Grid>
-        </Grid>
-      </div>
-    </div>
+          <div
+            style={{
+              flex: 1,
+              backgroundImage: `url(${wave})`,
+              backgroundSize: "cover",
+              display: "flex",
+              flexDirection: "column",
+              paddingTop: isSmallScreen ? "10%" : "6%",
+              paddingLeft: "5%",
+              paddingRight: "5%",
+            }}
+          >
+            <Grid
+              container //container 1
+              spacing={2}
+              textAlign="center"
+            >
+              <Grid item xs={12}>
+                <img
+                  src={retro}
+                  alt="Retro illustration"
+                  style={imageStyle}
+                ></img>
+              </Grid>
+              <Grid
+                item
+                xs={12}
+                sx={{
+                  paddingLeft: "20%",
+                  paddingReight: "20%",
+                }}
+              >
+                <Typography variant="body1">
+                  En retrospektiv er et møte der man regelmessig reflekterer
+                  over samarbeidet i teamet for å oppnå kontinuerlige
+                  forbedringer. Målet er at alle på teamet kan dele tanker og
+                  sine synspunkter, at alle får innsikt i hva de andre tenker og
+                  å utvikle målrettede tiltak for fremtidig forbedring. Vi vil
+                  at dere skaper et rom for å sammenligne perspektiver innad i
+                  teamet som kan føre til økt tillit og bedre teamutvikling.
+                  Retrospektiver bidrar også til å forbedre Psykologisk
+                  sikkerhet i teamnoe som beviselig er avgjørende for teamets
+                  langsiktige suksess.
+                </Typography>
+              </Grid>
+              {retroer.map((tekst, index) => (
+                <Grid item xs={12}>
+                  <Button variant="contained" onClick={() => startRetro(index)}>
+                    {tekst}
+                  </Button>
+                </Grid>
+              ))}
+            </Grid>
+          </div>
+        </div>
+      )}
+    </>
   );
 };
 
