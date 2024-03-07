@@ -1,7 +1,7 @@
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
-import { Box, Grid } from "@mui/material";
+import { Box, Grid, List, ListItem } from "@mui/material";
 import { countStrings, sortMostVoted } from "../../constants";
 import { useEffect, useState } from "react";
 import { useTeamContext } from "../../TeamContext";
@@ -135,20 +135,29 @@ const PositivTenkingStatistikk = ({}) => {
           }}
         />
         <Typography variant="h5" style={{ textAlign: "center" }}>
-          Imposter Syndrome og positiv tenking
+          Visste du at?
         </Typography>
-
-        <Typography variant="body2" marginBottom={0}>
-          Når alle har svart vil kortet med flest stemmer vises over. Teamet
-          oppmuntres til å støtte og annerkjenne de mest motiverende utsagene,
-          og dermed styrke følelsen av positivitet og fellesskap. Positiv
-          tenking er en teknikk som tar sikte på å utfordre negative tanker. Når
-          man gjentar slike bekreftelser regelmessig, begynner hjernen å
-          internalisere dem, og de blir gradvis en del av ens tro og
-          selvoppfatning. Dette verktøyet kan hjelpe med å endre tankemønstre og
-          bryte den negative tankespiralen som ofte oppstår ved Imposter
-          Syndrome. Dette kan fremme bedre mental helse og trivsel.
-        </Typography>
+        <List sx={{ listStyleType: "disc", pl: 4 }}>
+          <ListItem sx={{ display: "list-item", color: "text.primary" }}>
+            <Typography variant="body1">
+              Positiv tenking er en teknikk som tar sikte på å utfordre negative
+              tanker.
+            </Typography>
+          </ListItem>
+          <ListItem sx={{ display: "list-item", color: "text.primary" }}>
+            <Typography variant="body1">
+              Når man gjentar slike bekreftelser regelmessig, begynner hjernen å
+              internalisere dem, og de blir gradvis en del av ens tro og
+              selvoppfatning.
+            </Typography>
+          </ListItem>
+          <ListItem sx={{ display: "list-item", color: "text.primary" }}>
+            <Typography variant="body1">
+              Dette verktøyet kan hjelpe med å endre tankemønstre og bryte den
+              negative tankespiralen som ofte oppstår ved Imposter Syndrome.
+            </Typography>
+          </ListItem>
+        </List>
       </Box>
     </>
   );
