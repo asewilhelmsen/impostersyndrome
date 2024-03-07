@@ -18,13 +18,14 @@ import { firestore } from "../firebase/firebase_setup/firebase";
 import { doc, onSnapshot } from "@firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import LevelPopUp from "../components/LevelPopUp";
-import handleCloseLevelPopUp from "../firebase/handles/handleCloseLevelPopUp";
 import getTeamInfo from "../firebase/getTeamInfo";
 import { useMediaQuery } from "@mui/material";
 import getPopupInnhold from "../firebase/getPopupInnhold";
 import getMaal from "../firebase/getMaal";
 import MaalPopUp from "../components/MaalPopUp";
 import { Maalene } from "../interfaces";
+import handleFinishStartAkt from "../firebase/handles/handleFinishStartAkt";
+import handleNextStep from "../firebase/handles/handleNextStep";
 
 const Hjem = ({ handleSignOut }: { handleSignOut: () => Promise<void> }) => {
   const [teamLevel, setTeamLevel] = useState(0);
@@ -35,10 +36,14 @@ const Hjem = ({ handleSignOut }: { handleSignOut: () => Promise<void> }) => {
     "Samle teamet ditt og kom i gang med Start-aktiviteten"
   );
 
-  const [showPopUp, setShowPopUp] = useState(false);
+  const [showPopUpLevel1, setShowPopUpLevel1] = useState(false);
+  const [showPopUpLevel2, setShowPopUpLevel2] = useState(false);
+  const [showPopUpLevel3, setShowPopUpLevel3] = useState(false);
+
   const [showMaalPopUp, setShowMaalPopUp] = useState(false);
 
-  const { teamBruker, setTeamAntall } = useTeamContext();
+  const { teamBruker, retroNummer, setTeamAntall, setRetroNummer } =
+    useTeamContext();
   const navigate = useNavigate();
 
   const isSmallScreen = useMediaQuery("(max-width: 1000px)");
@@ -50,6 +55,7 @@ const Hjem = ({ handleSignOut }: { handleSignOut: () => Promise<void> }) => {
         setTeamLevel(teamInfo.level);
         setTeamNavn(teamInfo.teamNavn);
         setTeamAntall(teamInfo.antallMedlemmer);
+        setRetroNummer(teamInfo.retroNummer);
       }
     } catch (error) {
       console.error("Kan ikke hente level", error);
@@ -70,7 +76,7 @@ const Hjem = ({ handleSignOut }: { handleSignOut: () => Promise<void> }) => {
 
   const setMaal = async () => {
     try {
-      const maal = await getMaal();
+      const maal = await getMaal("startAktMaal");
       if (maal) {
         const maalene: Maalene[] = [];
         for (let i = 1; i <= Object.keys(maal).length; i++) {
@@ -92,22 +98,49 @@ const Hjem = ({ handleSignOut }: { handleSignOut: () => Promise<void> }) => {
 
   useEffect(() => {
     if (teamBruker) {
-      const docRef = doc(firestore, teamBruker.uid, "startAktivitetSteg");
-      const unsubscribe = onSnapshot(docRef, (querySnapshot) => {
-        if (querySnapshot.data()?.steg === 0) {
-          navigate("/startaktivitet");
-        } else if (querySnapshot.data()?.steg === 4) {
-          setShowPopUp(true);
-          setPopupInnhold("bliKjent");
+      const startAktivitetDocRef = doc(
+        firestore,
+        teamBruker.uid,
+        "startAktivitetSteg"
+      );
+      const startAktivitetUnsubscribe = onSnapshot(
+        startAktivitetDocRef,
+        (querySnapshot) => {
+          if (querySnapshot.data()?.steg === 0) {
+            navigate("/startaktivitet");
+          } else if (querySnapshot.data()?.steg === 4) {
+            setShowPopUpLevel1(true);
+            setPopupInnhold("bliKjent");
+            handleFinishStartAkt(-1);
+          }
         }
-      });
-      return unsubscribe;
+      );
+      const retroStegDocRef = doc(firestore, teamBruker.uid, "retroSteg");
+      const retroStegUnsubscribe = onSnapshot(
+        retroStegDocRef,
+        (querySnapshot) => {
+          if (querySnapshot.data()?.steg === 0) {
+            navigate("/retrospektiv");
+          } else if (querySnapshot.data()?.steg === 9 && retroNummer === 1) {
+            setShowPopUpLevel2(true);
+            handleNextStep("retroSteg", -1);
+          } else if (querySnapshot.data()?.steg === 9 && retroNummer === 2) {
+            setShowPopUpLevel3(true);
+            handleNextStep("retroSteg", -1);
+          }
+        }
+      );
+      return () => {
+        startAktivitetUnsubscribe();
+        retroStegUnsubscribe();
+      };
     }
   }, [teamBruker]);
 
   const handleClosePopUp = () => {
-    setShowPopUp(false);
-    handleCloseLevelPopUp();
+    setShowPopUpLevel1(false);
+    setShowPopUpLevel2(false);
+    setShowPopUpLevel3(false);
   };
   const handleCloseMaalPopUp = () => {
     setShowMaalPopUp(false);
@@ -160,7 +193,7 @@ const Hjem = ({ handleSignOut }: { handleSignOut: () => Promise<void> }) => {
             <StartAktivitetButton level={teamLevel} />
           </Grid>
           <Grid item xs={12}>
-            <RetroButton disabled={true} />
+            <RetroButton />
           </Grid>
           <Grid item xs={12}>
             <TeambuildingButton disabled={true} />
@@ -275,7 +308,7 @@ const Hjem = ({ handleSignOut }: { handleSignOut: () => Promise<void> }) => {
             <Popup overskrift={popupOverskrift} tekst={popupTekst} />
           </Grid>
         </Grid>
-        {showPopUp && ( //Burde sjekkes for at man er på nivå1 også. Evt lage showPopUp1
+        {showPopUpLevel1 && (
           <LevelPopUp
             onClose={handleClosePopUp}
             level={1}
@@ -286,6 +319,24 @@ const Hjem = ({ handleSignOut }: { handleSignOut: () => Promise<void> }) => {
         )}
         {showMaalPopUp && teamLevel > 0 && (
           <MaalPopUp onClose={handleCloseMaalPopUp} maalene={startAktMaal} />
+        )}
+        {showPopUpLevel2 && (
+          <LevelPopUp
+            onClose={handleClosePopUp}
+            level={2}
+            message={
+              "En oppsummering av retrospektiven finner du i listen over retrospektiver!"
+            }
+          />
+        )}
+        {showPopUpLevel3 && (
+          <LevelPopUp
+            onClose={handleClosePopUp}
+            level={3}
+            message={
+              "En oppsummering av retrospektiven finner du i listen over retrospektiver!"
+            }
+          />
         )}
       </div>
     </div>

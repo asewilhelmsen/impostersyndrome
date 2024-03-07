@@ -3,7 +3,7 @@ import { getDoc, doc } from "@firebase/firestore";
 
 //Returnerer team infoen (level)
 const getTeamInfo = async () => {
-  const teamId = auth.currentUser.uid;
+  const teamId = auth.currentUser?.uid;
 
   try {
     const docRef = doc(firestore, teamId, "teamInfo");

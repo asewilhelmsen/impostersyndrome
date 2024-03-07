@@ -9,10 +9,10 @@ import handleAddMaal from "../firebase/handles/handleAddMaal";
 
 const Maal = ({
   onMaalSubmit,
-  onForventningerFerdig,
+  aktivitet,
 }: {
   onMaalSubmit: (maal: Maalene[]) => void;
-  onForventningerFerdig: (disabled: boolean) => void;
+  aktivitet: string;
 }) => {
   const [maalene, setMaalene] = useState<Maalene[]>([
     { id: uuidv4(), tekst: "" },
@@ -39,7 +39,7 @@ const Maal = ({
   useEffect(() => {
     onMaalSubmit(maalene);
     if (!(maalene.length === 1 && maalene[0].tekst.length < 1)) {
-      handleAddMaal(maalene);
+      handleAddMaal(maalene, aktivitet);
     }
   }, [maalene]);
 

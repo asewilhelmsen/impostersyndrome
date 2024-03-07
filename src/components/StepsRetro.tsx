@@ -13,56 +13,76 @@ import { doc, onSnapshot } from "@firebase/firestore";
 import { firestore } from "../firebase/firebase_setup/firebase";
 import handleNextStep from "../firebase/handles/handleNextStep";
 import handleBackStep from "../firebase/handles/handleBackStep";
-import handleFinishStartAkt from "../firebase/handles/handleFinishStartAkt";
-import { Maalene } from "../interfaces";
 import handleUpdateLevel from "../firebase/handles/handleUpdateLevel";
+import handleOppdaterRetroNummer from "../firebase/handles/handleOppdaterRetroNummer";
 
-const Steps = ({
+const StepsRetro = ({
   nameList,
   content,
-  maalData,
   nesteDisabled,
+  oppdatertListe,
+  onRetroStart,
 }: {
   nameList: string[];
   content: JSX.Element[];
-  maalData: Maalene[];
   nesteDisabled: boolean;
+  oppdatertListe: string[];
+  onRetroStart: (started: boolean) => void;
 }) => {
-  const [aktivtSteg, setAktivtSteg] = useState(0);
+  const [aktivtSteg, setAktivtSteg] = useState(1);
+  const [nyListe, setNyListe] = useState<string[]>();
+
   const navigate = useNavigate();
-  const { teamBruker } = useTeamContext();
+  const { teamBruker, retroNummer } = useTeamContext();
 
   const handleNext = () => {
-    if (aktivtSteg === nameList.length - 1) {
-      //Setter steg
-      handleFinishStartAkt(4);
-      //Oppdaterer level
-      handleUpdateLevel(1);
+    if (aktivtSteg === 5) {
+      //Gjøres nå i komponentet
+      handleNextStep("retroSteg");
+    } else if (aktivtSteg === 8) {
+      //Håndtere at retro er ferdig
+      handleNextStep("retroSteg", 9);
+      if (retroNummer === 1) {
+        handleOppdaterRetroNummer(1, "antallRetroerGjennomfort");
+        handleUpdateLevel(2);
+      } else if (retroNummer === 2) {
+        handleOppdaterRetroNummer(2, "antallRetroerGjennomfort");
+        handleUpdateLevel(3);
+      }
     } else {
-      handleNextStep("startAktivitetSteg");
+      handleNextStep("retroSteg");
     }
   };
 
   const handleBack = () => {
-    handleBackStep("startAktivitetSteg");
+    handleBackStep("retroSteg");
   };
 
   useEffect(() => {
     if (teamBruker) {
-      const docRef = doc(firestore, teamBruker.uid, "startAktivitetSteg");
+      const docRef = doc(firestore, teamBruker.uid, "retroSteg");
       const unsubscribe = onSnapshot(docRef, (querySnapshot) => {
         setAktivtSteg(querySnapshot.data()?.steg);
         if (
-          querySnapshot.data()?.steg === 4 ||
+          //Oppdater til antall steg vi får
+          querySnapshot.data()?.steg === 9 ||
           querySnapshot.data()?.steg === -1
+          //eller -1 her, var det før
         ) {
           navigate("/");
+        } else if (querySnapshot.data()?.steg === 0) {
+          navigate("/retrospektiv");
+          onRetroStart(false);
         }
       });
 
       return unsubscribe;
     }
   }, [teamBruker]);
+
+  useEffect(() => {
+    setNyListe(oppdatertListe);
+  }, [oppdatertListe]);
 
   return (
     <Box
@@ -78,11 +98,11 @@ const Steps = ({
       <Grid container sx={{ backgroundColor: "white", padding: 3 }}>
         <Grid item xs={12}>
           <Typography variant="h6">
-            <b>Steg {aktivtSteg + 1}:</b> {nameList[aktivtSteg]}
+            <b>Steg {aktivtSteg}:</b> {nameList[aktivtSteg - 1]}
           </Typography>
         </Grid>
         <Grid item xs={12}>
-          <Stepper activeStep={aktivtSteg} sx={{ width: "30%", mt: 0 }}>
+          <Stepper activeStep={aktivtSteg - 1} sx={{ width: "50%", mt: 0 }}>
             {nameList.map((label) => (
               <Step key={label}>
                 <StepLabel>{/*{label}*/}</StepLabel>
@@ -92,7 +112,6 @@ const Steps = ({
         </Grid>
       </Grid>
 
-      {/* Grid with the content and next/back button */}
       <Grid
         container
         sx={{
@@ -101,7 +120,7 @@ const Steps = ({
         }}
       >
         <Grid item xs={12}>
-          <Box sx={{ pb: 5 }}>{content[aktivtSteg]}</Box>
+          <Box sx={{ pb: 5 }}>{content[aktivtSteg - 1]}</Box>
         </Grid>
 
         <Grid
@@ -131,7 +150,7 @@ const Steps = ({
             onClick={handleNext}
             disabled={nesteDisabled}
           >
-            {aktivtSteg === nameList.length - 1 ? "Ferdig" : "Neste"}
+            {aktivtSteg === nameList.length ? "Ferdig" : "Neste"}
           </Button>
         </Grid>
       </Grid>
@@ -139,4 +158,4 @@ const Steps = ({
   );
 };
 
-export default Steps;
+export default StepsRetro;
