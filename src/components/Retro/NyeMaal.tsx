@@ -16,6 +16,7 @@ import { Maalene } from "../../interfaces";
 import { useTeamContext } from "../../TeamContext";
 import { collection, doc, onSnapshot } from "@firebase/firestore";
 import { firestore } from "../../firebase/firebase_setup/firebase";
+import { countStrings, sortMostVoted } from "../../constants";
 
 const NyeMaal = ({
   onMaalSubmit,
@@ -74,19 +75,12 @@ const NyeMaal = ({
     // onMaalFerdig(lagredeMaalene.length <2 );
   }, [lagredeMaalene]);
 
-  // For å telle hvilke lapper som er mest stemt på under dotvoting
-  const postItCount: { [tekst: string]: number } = {};
-  dotVotingPostIts.forEach((tekst) => {
-    postItCount[tekst] = (postItCount[tekst] || 0) + 1;
-  });
-
-  // Sortere i synkende rekkefølge
-  const sortedWordCounts = Object.entries(postItCount).sort(
-    (a, b) => b[1] - a[1]
-  );
+  //Telle stemmer
+  const countedStrings = countStrings(dotVotingPostIts);
+  const sortedmostVoted = sortMostVoted(countedStrings);
 
   // Plukke ut de 5 mest stemte
-  const topp5postIts = sortedWordCounts.slice(0, 5);
+  const topp5postIts = sortedmostVoted.slice(0, 5);
 
   return (
     <>
