@@ -66,7 +66,7 @@ const DotVoting = ({
         Individuell avstemning
       </Typography>
       <Grid container direction="row" spacing={4}>
-        <Grid item xs={4}>
+        <Grid item xs={3}>
           <Typography marginLeft={"5px"} variant="body1">
             Hva er viktigst for deg å forbedre framover?
           </Typography>

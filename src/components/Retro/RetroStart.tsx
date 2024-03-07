@@ -1,4 +1,11 @@
-import { Button, Grid, Typography, useMediaQuery } from "@mui/material";
+import {
+  Button,
+  Grid,
+  List,
+  ListItem,
+  Typography,
+  useMediaQuery,
+} from "@mui/material";
 import wave from "../../wave.svg";
 import retro from "../../images/retro.svg";
 import { useEffect, useState } from "react";
@@ -173,20 +180,21 @@ const RetroStart = ({
                 }}
               >
                 <Typography variant="body1">
-                  En retrospektiv er et møte der man regelmessig reflekterer
-                  over samarbeidet i teamet for å oppnå kontinuerlige
-                  forbedringer. Målet er at alle på teamet kan dele tanker og
-                  sine synspunkter, at alle får innsikt i hva de andre tenker og
-                  å utvikle målrettede tiltak for fremtidig forbedring. Vi vil
-                  at dere skaper et rom for å sammenligne perspektiver innad i
-                  teamet som kan føre til økt tillit og bedre teamutvikling.
-                  Retrospektiver bidrar også til å forbedre Psykologisk
-                  sikkerhet i teamnoe som beviselig er avgjørende for teamets
-                  langsiktige suksess.
+                  En <b>retrospektiv</b> er et møte der man regelmessig
+                  reflekterer over samarbeidet i teamet for å oppnå
+                  kontinuerlige forbedringer for hver sprint. Målet er at alle
+                  på teamet kan dele tanker og sine synspunkter, får innsikt i
+                  hva de andre tenker og at dere utvikler målrettede tiltak for
+                  fremtidig forbedring. Vi vil at dere skaper et rom for å
+                  sammenligne perspektiver innad i teamet som kan føre til økt
+                  tillit og bedre teamutvikling. Dette kan være avgjørende for
+                  teamets langsiktige suksess.
                 </Typography>
+
+                <Typography variant="body1"></Typography>
               </Grid>
               {retroer.map((tekst, index) => (
-                <Grid item xs={12}>
+                <Grid item xs={12} key={index}>
                   <Button variant="contained" onClick={() => startRetro(index)}>
                     {tekst}
                   </Button>
