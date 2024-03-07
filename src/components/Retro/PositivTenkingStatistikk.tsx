@@ -30,16 +30,28 @@ const PositivTenkingStatistikk = ({}) => {
     }
   }, [teamBruker]);
 
+  const rearrangeTop3Answers = (
+    top3Answers: [string, number][]
+  ): [string, number][] => {
+    if (top3Answers.length === 3) {
+      const reorderedTop3Answers = [
+        top3Answers[1],
+        top3Answers[0],
+        top3Answers[2],
+      ];
+      return reorderedTop3Answers;
+    } else {
+      return top3Answers;
+    }
+  };
+
   //Telle stemmer
   const countedStrings = countStrings(svarListe);
   const sortedmostVoted = sortMostVoted(countedStrings);
 
   // Plukke ut de 5 mest stemte
   const topp3svar = sortedmostVoted.slice(0, 3);
-  const reorderedTopp3svar = [];
-  //reorderedTopp3svar.push(topp3svar[1]);
-  //reorderedTopp3svar.push(topp3svar[0]);
-  //reorderedTopp3svar.push(topp3svar[2]);
+  const reorderedTopp3svar = rearrangeTop3Answers(topp3svar);
 
   return (
     <>
@@ -52,7 +64,7 @@ const PositivTenkingStatistikk = ({}) => {
           marginBottom={"2%"}
           marginTop={"2%"}
         >
-          {topp3svar.map(([tekst, count], index) => (
+          {reorderedTopp3svar.map(([tekst, count], index) => (
             <Grid item key={index}>
               <Card
                 style={{
