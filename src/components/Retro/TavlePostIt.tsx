@@ -13,7 +13,7 @@ const TavlePostIt = ({
   onDelete?: (index: number) => void;
 }) => {
   return (
-    <Grid item xs={8}>
+    <Grid item xs={9}>
       <div
         style={{
           border: "5px solid ",
@@ -21,13 +21,13 @@ const TavlePostIt = ({
           borderRadius: "20px",
           padding: "20px",
           backgroundColor: "white",
-          minHeight: "400px",
+          minHeight: "350px",
         }}
       >
-        <Grid container spacing={4}>
+        <Grid container spacing={2} justifyContent="flex-start">
           {liste &&
             liste.map((tekst: string, index: number) => (
-              <Grid item xs={4} md={2} key={index}>
+              <Grid item xs={12} md={2} key={index}>
                 <PostIt
                   tekst={tekst}
                   onClick={onClick ? () => onClick(tekst) : undefined}

@@ -111,7 +111,7 @@ const DiskuterLapper = ({
         {overskrift}
       </Typography>
       <Grid container direction="row" spacing={4}>
-        <Grid item xs={4}>
+        <Grid item xs={3}>
           <Typography marginLeft={"5px"} variant="body1">
             {forklaring}
           </Typography>
