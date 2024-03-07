@@ -17,12 +17,18 @@ const PostIt = ({
       style={{
         backgroundColor: selected ? "#7D97F4" : "#ffff99",
         height: "100px",
+        width: "150px",
         position: "relative",
       }}
       onClick={onClick}
     >
       <CardContent>
-        <Typography width={"100%"} textAlign={"center"} variant="body1">
+        <Typography
+          width={"100%"}
+          textAlign={"center"}
+          variant="body2"
+          style={{ overflowWrap: "break-word" }}
+        >
           {tekst}
         </Typography>
         {onDelete && (

@@ -105,7 +105,7 @@ const SkrivLapper = ({
         {overskrift}
       </Typography>
       <Grid container direction="row" spacing={4}>
-        <Grid item xs={4}>
+        <Grid item xs={3}>
           <Typography marginLeft={"5px"} variant="body1">
             {forklaring}
           </Typography>
@@ -146,10 +146,10 @@ const SkrivLapper = ({
             <form onSubmit={submitBra}>
               <Grid
                 container
-                spacing={6}
+                spacing={4}
                 justifyContent="center"
                 alignItems="center"
-                sx={{ marginTop: "50px" }}
+                sx={{ marginTop: "15px" }}
               >
                 <Grid item>
                   <TextField
@@ -159,10 +159,10 @@ const SkrivLapper = ({
                     autoFocus
                     value={input}
                     onChange={handleInputChange}
-                    inputProps={{ maxLength: 26 }}
-                    error={input.length > 25}
+                    inputProps={{ maxLength: 41 }}
+                    error={input.length > 40}
                     label={
-                      input.length > 25 ? "Maks 25 karakterer" : "Skriv her"
+                      input.length > 40 ? "Maks 40 karakterer" : "Skriv her"
                     }
                   />
                 </Grid>
