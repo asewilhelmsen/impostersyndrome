@@ -40,6 +40,9 @@ const PositivTenkingStatistikk = ({}) => {
         top3Answers[2],
       ];
       return reorderedTop3Answers;
+    } else if (top3Answers.length === 2) {
+      const reorderedTop3Answers = [top3Answers[1], top3Answers[0]];
+      return reorderedTop3Answers;
     } else {
       return top3Answers;
     }
