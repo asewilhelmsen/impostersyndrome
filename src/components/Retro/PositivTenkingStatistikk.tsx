@@ -1,7 +1,7 @@
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
-import { Box, Grid } from "@mui/material";
+import { Box, Grid, List, ListItem } from "@mui/material";
 import { countStrings, sortMostVoted } from "../../constants";
 import { useEffect, useState } from "react";
 import { useTeamContext } from "../../TeamContext";
@@ -30,16 +30,31 @@ const PositivTenkingStatistikk = ({}) => {
     }
   }, [teamBruker]);
 
+  const rearrangeTop3Answers = (
+    top3Answers: [string, number][]
+  ): [string, number][] => {
+    if (top3Answers.length === 3) {
+      const reorderedTop3Answers = [
+        top3Answers[1],
+        top3Answers[0],
+        top3Answers[2],
+      ];
+      return reorderedTop3Answers;
+    } else if (top3Answers.length === 2) {
+      const reorderedTop3Answers = [top3Answers[1], top3Answers[0]];
+      return reorderedTop3Answers;
+    } else {
+      return top3Answers;
+    }
+  };
+
   //Telle stemmer
   const countedStrings = countStrings(svarListe);
   const sortedmostVoted = sortMostVoted(countedStrings);
 
   // Plukke ut de 5 mest stemte
   const topp3svar = sortedmostVoted.slice(0, 3);
-  const reorderedTopp3svar = [];
-  //reorderedTopp3svar.push(topp3svar[1]);
-  //reorderedTopp3svar.push(topp3svar[0]);
-  //reorderedTopp3svar.push(topp3svar[2]);
+  const reorderedTopp3svar = rearrangeTop3Answers(topp3svar);
 
   return (
     <>
@@ -52,7 +67,7 @@ const PositivTenkingStatistikk = ({}) => {
           marginBottom={"2%"}
           marginTop={"2%"}
         >
-          {topp3svar.map(([tekst, count], index) => (
+          {reorderedTopp3svar.map(([tekst, count], index) => (
             <Grid item key={index}>
               <Card
                 style={{
@@ -123,20 +138,29 @@ const PositivTenkingStatistikk = ({}) => {
           }}
         />
         <Typography variant="h5" style={{ textAlign: "center" }}>
-          Imposter Syndrome og positiv tenking
+          Visste du at?
         </Typography>
-
-        <Typography variant="body2" marginBottom={0}>
-          Når alle har svart vil kortet med flest stemmer vises over. Teamet
-          oppmuntres til å støtte og annerkjenne de mest motiverende utsagene,
-          og dermed styrke følelsen av positivitet og fellesskap. Positiv
-          tenking er en teknikk som tar sikte på å utfordre negative tanker. Når
-          man gjentar slike bekreftelser regelmessig, begynner hjernen å
-          internalisere dem, og de blir gradvis en del av ens tro og
-          selvoppfatning. Dette verktøyet kan hjelpe med å endre tankemønstre og
-          bryte den negative tankespiralen som ofte oppstår ved Imposter
-          Syndrome. Dette kan fremme bedre mental helse og trivsel.
-        </Typography>
+        <List sx={{ listStyleType: "disc", pl: 4 }}>
+          <ListItem sx={{ display: "list-item", color: "text.primary" }}>
+            <Typography variant="body1">
+              Positiv tenking er en teknikk som tar sikte på å utfordre negative
+              tanker.
+            </Typography>
+          </ListItem>
+          <ListItem sx={{ display: "list-item", color: "text.primary" }}>
+            <Typography variant="body1">
+              Når man gjentar slike bekreftelser regelmessig, begynner hjernen å
+              internalisere dem, og de blir gradvis en del av ens tro og
+              selvoppfatning.
+            </Typography>
+          </ListItem>
+          <ListItem sx={{ display: "list-item", color: "text.primary" }}>
+            <Typography variant="body1">
+              Dette verktøyet kan hjelpe med å endre tankemønstre og bryte den
+              negative tankespiralen som ofte oppstår ved Imposter Syndrome.
+            </Typography>
+          </ListItem>
+        </List>
       </Box>
     </>
   );

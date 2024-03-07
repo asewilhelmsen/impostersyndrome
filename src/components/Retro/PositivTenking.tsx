@@ -105,7 +105,14 @@ const PositivTenking = ({
           </Button>
         </div>
       )}
-      {showStatistics && <PositivTenkingStatistikk />}
+      {showStatistics && (
+        <>
+          <Typography marginLeft={"5px"} variant="body1">
+            Når alle har svart vil kortet med flest stemmer vises under.
+          </Typography>
+          <PositivTenkingStatistikk />
+        </>
+      )}
     </>
   );
 };
