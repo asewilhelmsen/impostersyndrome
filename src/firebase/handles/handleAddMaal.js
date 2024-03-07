@@ -1,7 +1,7 @@
 import { collection, doc, setDoc } from "@firebase/firestore";
 import { firestore, auth } from "../firebase_setup/firebase";
 
-const handleAddMaal = (maalene, aktivitet) => {
+const handleAddMaal = (maalene, aktivitet, retroRef) => {
   const teamId = auth.currentUser?.uid;
   const teamRef = collection(firestore, teamId);
   const forventningerRef = doc(teamRef, "forventninger");
@@ -10,11 +10,7 @@ const handleAddMaal = (maalene, aktivitet) => {
   let aktivitetRef = doc(maalRef, "startAktMaal");
 
   if (aktivitet === "retro") {
-    aktivitetRef = doc(maalRef, "retroMaal");
-  }
-
-  if (aktivitet === "retroMaalStatus") {
-    aktivitetRef = doc(maalRef, "retroMaalStatus");
+    aktivitetRef = doc(maalRef, retroRef);
   }
 
   const maalObject = maalene.reduce((acc, goal, index) => {

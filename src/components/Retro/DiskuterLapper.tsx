@@ -1,4 +1,12 @@
-import { Typography, Grid, Button, Tooltip } from "@mui/material";
+import {
+  Typography,
+  Grid,
+  Button,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+} from "@mui/material";
 import { useEffect, useState } from "react";
 import { useTeamContext } from "../../TeamContext";
 
@@ -6,7 +14,7 @@ import { collection, doc, onSnapshot } from "@firebase/firestore";
 import { firestore } from "../../firebase/firebase_setup/firebase";
 
 import TavlePostIt from "./TavlePostIt";
-import handleLeggTilRetroSvar from "../../firebase/handles/handleLeggTilRetroSvar";
+import handleFjernPostIt from "../../firebase/handles/handleFjernPostIt";
 
 const DiskuterLapper = ({
   overskrift,
@@ -22,7 +30,8 @@ const DiskuterLapper = ({
   onOppdatertListe: (liste: string[]) => void;
 }) => {
   const [liste, setListe] = useState<string[]>([]);
-  const [lapperErFjernet, setLapperErFjernet] = useState<boolean>(false);
+  const [sletteAlert, setSletteAlert] = useState(false);
+  const [slettIndex, setSlettIndex] = useState<number | null>(null);
 
   //Brukeren som er logget inn på og antall team medlemmer
   const { teamBruker, retroNummer } = useTeamContext();
@@ -31,42 +40,73 @@ const DiskuterLapper = ({
     if (teamBruker) {
       const teamRef = collection(firestore, teamBruker.uid);
       const retroRef = doc(teamRef, "retrospektiv" + retroNummer);
-      let svarRef = collection(retroRef, "braPostIts");
-
-      //Er på "Hva kunne gått bedre" steg - gjort så man kan bruke komponentet på begge stegene
       if (filtrer) {
-        svarRef = collection(retroRef, "bedrePostIts");
+        const unsubscribe = onSnapshot(retroRef, (querySnapshot) => {
+          const data = querySnapshot.data();
+          if (data && data.bedrePostIts) {
+            setListe(data.bedrePostIts);
+          }
+        });
+        return unsubscribe;
+      } else {
+        const unsubscribe = onSnapshot(retroRef, (querySnapshot) => {
+          const data = querySnapshot.data();
+          if (data && data.braPostIts) {
+            setListe(data.braPostIts);
+          }
+        });
+        return unsubscribe;
       }
-
-      const unsubscribe = onSnapshot(svarRef, (querySnapshot) => {
-        const nyBraListe = querySnapshot.docs.flatMap((doc) =>
-          Object.values(doc.data())
-        );
-        setListe(nyBraListe);
-      });
-
-      return unsubscribe;
     }
   }, [teamBruker]);
 
+  //Kommer fra postit som blir trykket på og viser alert
   const handleDelete = (index: number) => {
-    const updatedList = [...liste];
-    updatedList.splice(index, 1);
-    setListe(updatedList);
-  };
-  const handleLapperFjernet = () => {
-    onDiskuterFerdig(false);
-    handleLeggTilRetroSvar(retroNummer, liste, "filtrertBedrePostIts");
-    setLapperErFjernet(true);
+    setSlettIndex(index);
+    setSletteAlert(true);
   };
 
+  const handleSletteAlert = () => {
+    if (slettIndex !== null) {
+      const updatedList = [...liste];
+      updatedList.splice(slettIndex, 1);
+      setListe(updatedList);
+      handleFjernPostIt(retroNummer, updatedList);
+    }
+    setSletteAlert(false);
+  };
+  const handleCancelDelete = () => {
+    setSletteAlert(false);
+  };
+
+  //vet ikke helt hva denne gjør nå
   useEffect(() => {
     onOppdatertListe(liste);
-    //for å ta bort at knappen er disabled når man ikke er på filtrer steget
-    onDiskuterFerdig(filtrer);
   }, [liste]);
+
   return (
     <>
+      {sletteAlert && (
+        <Dialog
+          open={sletteAlert}
+          onClose={handleCancelDelete}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">{"Slett lapp"}</DialogTitle>
+          <DialogContent>
+            <Typography variant="body1" gutterBottom>
+              Er du sikker på at du vil slette lappen?
+            </Typography>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleCancelDelete}>Avbryt</Button>
+            <Button onClick={handleSletteAlert} autoFocus>
+              Slett
+            </Button>
+          </DialogActions>
+        </Dialog>
+      )}
       <Typography variant="h2" sx={{ marginBottom: "20px" }}>
         {overskrift}
       </Typography>
@@ -75,44 +115,13 @@ const DiskuterLapper = ({
           <Typography marginLeft={"5px"} variant="body1">
             {forklaring}
           </Typography>
-          {filtrer && (
-            <Grid
-              item
-              sx={{
-                marginTop: "50px",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              {lapperErFjernet ? (
-                <Typography>Gå videre til neste steg</Typography>
-              ) : (
-                <Tooltip
-                  title={
-                    <Typography
-                      style={{
-                        fontSize: "12px",
-                        color: "white",
-                        display: "flex",
-                        alignItems: "center",
-                      }}
-                    >
-                      Klikk på denne hvis det er du som har fjernet lapper på
-                      vegne av gruppen
-                    </Typography>
-                  }
-                >
-                  <Button variant="contained" onClick={handleLapperFjernet}>
-                    Lapper fjernet
-                  </Button>
-                </Tooltip>
-              )}
-            </Grid>
-          )}
         </Grid>
         {filtrer ? (
-          <TavlePostIt liste={liste} onDelete={handleDelete} />
+          <TavlePostIt
+            key={JSON.stringify(liste)}
+            liste={liste}
+            onDelete={handleDelete}
+          />
         ) : (
           <TavlePostIt liste={liste} />
         )}

@@ -21,27 +21,34 @@ const StepsRetro = ({
   content,
   nesteDisabled,
   oppdatertListe,
+  onRetroStart,
 }: {
   nameList: string[];
   content: JSX.Element[];
   nesteDisabled: boolean;
   oppdatertListe: string[];
+  onRetroStart: (started: boolean) => void;
 }) => {
-  const [aktivtSteg, setAktivtSteg] = useState(0);
+  const [aktivtSteg, setAktivtSteg] = useState(1);
   const [nyListe, setNyListe] = useState<string[]>();
 
   const navigate = useNavigate();
-  const { teamBruker } = useTeamContext();
+  const { teamBruker, retroNummer } = useTeamContext();
 
   const handleNext = () => {
     if (aktivtSteg === 5) {
       //Gjøres nå i komponentet
       handleNextStep("retroSteg");
-    } else if (aktivtSteg === 7) {
+    } else if (aktivtSteg === 8) {
       //Håndtere at retro er ferdig
-      handleNextStep("retroSteg", 8);
-      handleUpdateLevel(2);
-      handleOppdaterRetroNummer(2);
+      handleNextStep("retroSteg", 9);
+      if (retroNummer === 1) {
+        handleOppdaterRetroNummer(1, "antallRetroerGjennomfort");
+        handleUpdateLevel(2);
+      } else if (retroNummer === 2) {
+        handleOppdaterRetroNummer(2, "antallRetroerGjennomfort");
+        handleUpdateLevel(3);
+      }
     } else {
       handleNextStep("retroSteg");
     }
@@ -58,10 +65,14 @@ const StepsRetro = ({
         setAktivtSteg(querySnapshot.data()?.steg);
         if (
           //Oppdater til antall steg vi får
-          querySnapshot.data()?.steg === 8 ||
+          querySnapshot.data()?.steg === 9 ||
           querySnapshot.data()?.steg === -1
+          //eller -1 her, var det før
         ) {
           navigate("/");
+        } else if (querySnapshot.data()?.steg === 0) {
+          navigate("/retrospektiv");
+          onRetroStart(false);
         }
       });
 
@@ -87,11 +98,11 @@ const StepsRetro = ({
       <Grid container sx={{ backgroundColor: "white", padding: 3 }}>
         <Grid item xs={12}>
           <Typography variant="h6">
-            <b>Steg {aktivtSteg + 1}:</b> {nameList[aktivtSteg]}
+            <b>Steg {aktivtSteg}:</b> {nameList[aktivtSteg - 1]}
           </Typography>
         </Grid>
         <Grid item xs={12}>
-          <Stepper activeStep={aktivtSteg} sx={{ width: "40%", mt: 0 }}>
+          <Stepper activeStep={aktivtSteg - 1} sx={{ width: "40%", mt: 0 }}>
             {nameList.map((label) => (
               <Step key={label}>
                 <StepLabel>{/*{label}*/}</StepLabel>
@@ -109,7 +120,7 @@ const StepsRetro = ({
         }}
       >
         <Grid item xs={12}>
-          <Box sx={{ pb: 5 }}>{content[aktivtSteg]}</Box>
+          <Box sx={{ pb: 5 }}>{content[aktivtSteg - 1]}</Box>
         </Grid>
 
         <Grid
@@ -139,7 +150,7 @@ const StepsRetro = ({
             onClick={handleNext}
             disabled={nesteDisabled}
           >
-            {aktivtSteg === nameList.length - 1 ? "Ferdig" : "Neste"}
+            {aktivtSteg === nameList.length ? "Ferdig" : "Neste"}
           </Button>
         </Grid>
       </Grid>

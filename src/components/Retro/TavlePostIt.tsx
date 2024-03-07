@@ -25,16 +25,17 @@ const TavlePostIt = ({
         }}
       >
         <Grid container spacing={4}>
-          {liste.map((tekst: string, index: number) => (
-            <Grid item xs={4} md={2} key={index}>
-              <PostIt
-                tekst={tekst}
-                onClick={onClick ? () => onClick(tekst) : undefined}
-                selected={selectedPostIts?.includes(tekst)}
-                onDelete={onDelete ? () => onDelete(index) : undefined}
-              />
-            </Grid>
-          ))}
+          {liste &&
+            liste.map((tekst: string, index: number) => (
+              <Grid item xs={4} md={2} key={index}>
+                <PostIt
+                  tekst={tekst}
+                  onClick={onClick ? () => onClick(tekst) : undefined}
+                  selected={selectedPostIts?.includes(tekst)}
+                  onDelete={onDelete ? () => onDelete(index) : undefined}
+                />
+              </Grid>
+            ))}
         </Grid>
       </div>
     </Grid>

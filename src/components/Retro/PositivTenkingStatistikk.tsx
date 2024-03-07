@@ -37,9 +37,9 @@ const PositivTenkingStatistikk = ({}) => {
   // Plukke ut de 5 mest stemte
   const topp3svar = sortedmostVoted.slice(0, 3);
   const reorderedTopp3svar = [];
-  reorderedTopp3svar.push(topp3svar[1]);
-  reorderedTopp3svar.push(topp3svar[0]);
-  reorderedTopp3svar.push(topp3svar[2]);
+  //reorderedTopp3svar.push(topp3svar[1]);
+  //reorderedTopp3svar.push(topp3svar[0]);
+  //reorderedTopp3svar.push(topp3svar[2]);
 
   return (
     <>
@@ -52,7 +52,7 @@ const PositivTenkingStatistikk = ({}) => {
           marginBottom={"2%"}
           marginTop={"2%"}
         >
-          {reorderedTopp3svar.map(([tekst, count], index) => (
+          {topp3svar.map(([tekst, count], index) => (
             <Grid item key={index}>
               <Card
                 style={{

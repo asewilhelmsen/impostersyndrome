@@ -1,26 +1,21 @@
 import { Typography, Button, Grid } from "@mui/material";
 import { useState, useEffect } from "react";
 import { useTeamContext } from "../../TeamContext";
-import handleLeggTilRetroSvar from "../../firebase/handles/handleLeggTilRetroSvar";
 import PositivTenkingStatistikk from "./PositivTenkingStatistikk";
+import handleLeggTilObjekt from "../../firebase/handles/handleLeggTilObjekt";
 
 const PositivTenking = ({
   onSendInn,
 }: {
   onSendInn: (disabled: boolean) => void;
 }) => {
-  const { teamBruker, retroNummer } = useTeamContext();
+  const { retroNummer } = useTeamContext();
   const [selectedCards, setSelectedCards] = useState<string[]>([]);
   const [showStatistics, setShowStatistics] = useState(false);
-  const [statistics, setStatistics] = useState<{ [key: string]: number }>({});
 
   useEffect(() => {
     onSendInn(true);
   }, []);
-
-  useEffect(() => {
-    //fetch statistics
-  }, [showStatistics]);
 
   const affirmations: string[] = [
     "Vi kommuniserer godt",
@@ -44,18 +39,18 @@ const PositivTenking = ({
   };
 
   const handleSendInn = async () => {
-    handleLeggTilRetroSvar(retroNummer, selectedCards, "positivTenking");
+    handleLeggTilObjekt(retroNummer, selectedCards, "positivTenking");
     setShowStatistics(true);
     onSendInn(false);
   };
 
   return (
     <>
-      <Typography variant="h2">Positiv tenking</Typography>
+      <Typography variant="h2">Styrke selvtillit og motivasjon</Typography>
       {!showStatistics && (
         <Typography marginLeft={"5px"} variant="body1">
-          Velg individuelt inntil 3 kort som motiverer deg til å prestere i et
-          team.
+          Velg individuelt opptil 3 kort som du tror vil være inspirerende for
+          deg og teamet ditt i prosjektarbeidet.
         </Typography>
       )}
       {!showStatistics && (
@@ -110,7 +105,7 @@ const PositivTenking = ({
           </Button>
         </div>
       )}
-      {showStatistics && <PositivTenkingStatistikk></PositivTenkingStatistikk>}
+      {showStatistics && <PositivTenkingStatistikk />}
     </>
   );
 };

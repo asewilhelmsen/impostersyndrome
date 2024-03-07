@@ -69,9 +69,9 @@ const SkrivLapper = ({
     if (tidIgjen === 0 && liste.length > 0) {
       handleLeggTilRetroSvar(retroNummer, liste, aktivitet);
       if (aktivitet === "braPostIts") {
-        handleNextStep("retroSteg", 3);
+        handleNextStep("retroSteg", 4);
       } else if (aktivitet === "bedrePostIts") {
-        handleNextStep("retroSteg", 5);
+        handleNextStep("retroSteg", 6);
       }
     }
     return () => clearInterval(intervalId);
@@ -111,8 +111,7 @@ const SkrivLapper = ({
           </Typography>
           <br></br>
           <Typography marginLeft={"5px"} variant="body2">
-            Svarene vil deles anonymt og du kan ikke legge inn flere når tiden
-            er ute.
+            I neste steg vil svarene deles anonymt.
           </Typography>
           <Grid
             item
@@ -139,7 +138,7 @@ const SkrivLapper = ({
                 variant="contained"
                 disabled={tidStartet}
               >
-                Start timer
+                Start tiden - 5 min
               </Button>
             )}
           </Grid>

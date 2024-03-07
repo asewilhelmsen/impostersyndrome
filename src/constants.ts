@@ -42,3 +42,25 @@ export const countStrings = (stringList: string[]): PostItCount => {
 export const sortMostVoted = (postItCount: PostItCount): [string, number][] => {
   return Object.entries(postItCount).sort((a, b) => b[1] - a[1]);
 };
+
+export const hentOppdatertPostItListe = (
+  sortedmostVoted: [string, number][]
+) => {
+  // Plukke ut de 5 mest stemte
+  const topp5postIts = sortedmostVoted.slice(0, 5);
+
+  //Finner counten til postiten med 5. mest stemmer
+  const fifthPostItCount = topp5postIts[4]?.[1] || 0;
+
+  //Finner alle postits med like mange stemmer som den 5. mest
+  const postItsOfInterest = sortedmostVoted.filter(
+    ([_, count]) => count === fifthPostItCount
+  );
+
+  //Legger til de siste postitsene
+  const extendedTop5PostIts = [
+    ...topp5postIts,
+    ...postItsOfInterest.filter((postIt) => !topp5postIts.includes(postIt)),
+  ];
+  return extendedTop5PostIts;
+};

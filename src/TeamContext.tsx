@@ -21,7 +21,7 @@ type TeamProviderProps = {
 export const TeamProvider: React.FC<TeamProviderProps> = ({ children }) => {
   const [teamBruker, setTeamBruker] = useState<TeamBruker | null>(null);
   const [teamAntall, setTeamAntall] = useState<number>(7);
-  const [retroNummer, setRetroNummer] = useState<number>(0);
+  const [retroNummer, setRetroNummer] = useState<number>(1);
 
   return (
     <TeamContext.Provider
