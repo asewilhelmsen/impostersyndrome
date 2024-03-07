@@ -4,7 +4,7 @@ import { useTeamContext } from "../../TeamContext";
 import { collection, doc, onSnapshot } from "@firebase/firestore";
 import { firestore } from "../../firebase/firebase_setup/firebase";
 import TavlePostIt from "./TavlePostIt";
-import handleLeggTilDotvotingStemmer from "../../firebase/handles/handleLeggTilDotvotingStemmer";
+import handleLeggTilObjekt from "../../firebase/handles/handleLeggTilObjekt";
 
 const DotVoting = ({
   onOppdatertListe,
@@ -50,7 +50,7 @@ const DotVoting = ({
   };
 
   const handleSendInn = () => {
-    handleLeggTilDotvotingStemmer(retroNummer, valgtePostIts);
+    handleLeggTilObjekt(retroNummer, valgtePostIts, "dotVotingStemmer");
     setSendtInn(true);
     onVotingFerdig(false);
   };
@@ -63,21 +63,21 @@ const DotVoting = ({
   return (
     <>
       <Typography variant="h2" sx={{ marginBottom: "20px" }}>
-        Dot voting
+        Individuell avstemning
       </Typography>
       <Grid container direction="row" spacing={4}>
         <Grid item xs={4}>
           <Typography marginLeft={"5px"} variant="body1">
-            Hva synes du er viktigst at dere skal fokusere på sammen som et team
-            framover?
+            Hva er viktigst for deg å forbedre framover?
           </Typography>
-          <Typography marginLeft={"5px"} variant="body1">
-            Klikk på de 3 lappene du vil fokusere på.
+          <Typography marginLeft={"5px"} marginTop={"10px"} variant="body1">
+            Klikk på de 3 lappene du vil at teamet skal fokusere på når dere
+            setter nye mål.
           </Typography>
-          <Box marginTop="50px">
+          <Box marginTop="50px" textAlign={"center"}>
             {sendtInn ? (
               <Typography>
-                Pass på at alle har sendt inn før dere trykker neste
+                !! Pass på at alle har sendt inn før dere trykker neste
               </Typography>
             ) : (
               <Button variant="contained" onClick={handleSendInn}>

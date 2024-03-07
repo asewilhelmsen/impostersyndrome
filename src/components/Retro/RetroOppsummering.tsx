@@ -93,7 +93,7 @@ const RetroOppsummering = ({
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <Typography variant="h5" sx={{ textDecoration: "underline" }}>
-                Målene
+                Teamet's mål
               </Typography>
               <List sx={{ textAlign: "center" }}>
                 {maal.map((maal, maalIndex) => (

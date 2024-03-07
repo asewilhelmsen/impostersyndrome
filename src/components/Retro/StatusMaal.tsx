@@ -71,11 +71,11 @@ const StatusMaal = ({ onLagre }: { onLagre: (disabled: boolean) => void }) => {
   return (
     <Grid container spacing={3}>
       <Grid item xs={12}>
-        <Typography variant="h2">Status av målsetting</Typography>
+        <Typography variant="h2">Tidligere mål</Typography>
         <Typography marginLeft={"5px"} variant="body1" width={"40%"}>
-          Diskuter og bli enige om målene dere har fokusert på og klart å
-          gjennomføre frem til nå. Velg én person som huker av målene dere har
-          fått til.
+          Diskuter og bli enige om hvilke mål dere har fått til fram til nå.
+          Velg én person som huker av disse målene. Målene som ikke blir huket
+          av vil bli videreført til neste sprint.
         </Typography>
       </Grid>
       <Grid item xs={8} sx={{ paddingLeft: "10%" }}>
@@ -113,7 +113,7 @@ const StatusMaal = ({ onLagre }: { onLagre: (disabled: boolean) => void }) => {
           onClick={handleClick}
           sx={{ marginLeft: "28px" }}
         >
-          Lagre
+          Oppdater mål
         </Button>
       </Grid>
       <Grid item xs={4}>

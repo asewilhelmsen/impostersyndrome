@@ -2,12 +2,12 @@ import { collection, doc, setDoc } from "@firebase/firestore";
 import { firestore, auth } from "../firebase_setup/firebase";
 import { v4 as uuidv4 } from "uuid";
 
-const handleLeggTilDotvotingStemmer = (retroNummer, liste) => {
+const handleLeggTilObjekt = (retroNummer, liste, steg) => {
   const teamId = auth.currentUser?.uid;
   const teamRef = collection(firestore, teamId);
   const retroRef = doc(teamRef, "retrospektiv" + retroNummer);
 
-  const stegRef = collection(retroRef, "dotVotingStemmer");
+  const stegRef = collection(retroRef, steg);
 
   const nyId = uuidv4();
   const svarRef = doc(stegRef, nyId);
@@ -20,8 +20,8 @@ const handleLeggTilDotvotingStemmer = (retroNummer, liste) => {
   try {
     setDoc(svarRef, stemmerObj);
   } catch (err) {
-    console.log("Kunne ikke legge til dot voting stemmer!", err);
+    console.log("Kunne ikke legge til objekt!", err);
   }
 };
 
-export default handleLeggTilDotvotingStemmer;
+export default handleLeggTilObjekt;

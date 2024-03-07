@@ -13,7 +13,11 @@ import { useTeamContext } from "../../TeamContext";
 import { collection, doc, onSnapshot } from "@firebase/firestore";
 import { firestore } from "../../firebase/firebase_setup/firebase";
 import MaalRetro from "../MaalRetro";
-import { countStrings, sortMostVoted } from "../../constants";
+import {
+  countStrings,
+  hentOppdatertPostItListe,
+  sortMostVoted,
+} from "../../constants";
 
 const NyeMaal = ({
   onMaalFerdig,
@@ -75,29 +79,17 @@ const NyeMaal = ({
   }, [lagredeMaalene]);
 
   //Telle stemmer
-  const countedStrings = countStrings(dotVotingPostIts);
-  const sortedmostVoted = sortMostVoted(countedStrings);
-
-  // const thirdHighestCount = sortedWordCounts[2][1];
-
-  // Plukke ut de 5 mest stemte
-  const topp5postIts = sortedmostVoted.slice(0, 5);
-
-  const fifthPostItCount = topp5postIts[4]?.[1] || 0; // Get the count of the 5th post-it, or 0 if it doesn't exist
-  const postItsOfInterest = sortedWordCounts.filter(
-    ([_, count]) => count === fifthPostItCount
+  const tellerAntallStemmer = countStrings(dotVotingPostIts);
+  const sorterBasertPaStemmer = sortMostVoted(tellerAntallStemmer);
+  const postItsMedFlestStemmer = hentOppdatertPostItListe(
+    sorterBasertPaStemmer
   );
-  // const postItsOfInterest = sortedWordCounts.filter( ([_, count]) => count >= thirdHighestCount );
-  const extendedTop5PostIts = [
-    ...topp5postIts,
-    ...postItsOfInterest.filter((postIt) => !topp5postIts.includes(postIt)),
-  ];
+
   return (
     <>
-      <Typography variant="h2">Ny målsetting</Typography>
+      <Typography variant="h2">Nye mål</Typography>
       <Typography variant="body1">
-        Se på de målene dere tar med fra forrige sprint og lag noen ny mål
-        basert på de postItene som fikk flest stemmer
+        Basert på lappene med flest stemmer, sett nye mål for neste sprint.
       </Typography>
       <Grid container spacing={2} direction={isSmallScreen ? "column" : "row"}>
         <Grid item xs={4}>
@@ -113,10 +105,10 @@ const NyeMaal = ({
           >
             <CardContent sx={{ marginTop: "15px" }}>
               <Typography variant="h5" sx={{ textDecoration: "underline" }}>
-                De mest stemte postItsene
+                Lappene med flest stemmer
               </Typography>
               <Grid container spacing={2} justifyContent="center">
-                {extendedTop5PostIts.map(([tekst, count], index) => (
+                {postItsMedFlestStemmer.map(([tekst, count], index) => (
                   <Grid item key={index}>
                     <Card
                       style={{

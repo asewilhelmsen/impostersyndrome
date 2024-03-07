@@ -325,7 +325,7 @@ const Hjem = ({ handleSignOut }: { handleSignOut: () => Promise<void> }) => {
             onClose={handleClosePopUp}
             level={2}
             message={
-              "Målene dere satt i retrospektiven finner du ved å klikke på Nivå2-ikonet på hjem-siden!"
+              "En oppsummering av retrospektiven finner du i listen over retrospektiver!"
             }
           />
         )}
@@ -334,7 +334,7 @@ const Hjem = ({ handleSignOut }: { handleSignOut: () => Promise<void> }) => {
             onClose={handleClosePopUp}
             level={3}
             message={
-              "Målene dere satt i retrospektiven finner du ved å klikke på Nivå3-ikonet på hjem-siden!"
+              "En oppsummering av retrospektiven finner du i listen over retrospektiver!"
             }
           />
         )}

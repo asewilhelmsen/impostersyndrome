@@ -93,10 +93,10 @@ const DiskuterLapper = ({
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
         >
-          <DialogTitle id="alert-dialog-title">{"Slett Post-it?"}</DialogTitle>
+          <DialogTitle id="alert-dialog-title">{"Slett lapp"}</DialogTitle>
           <DialogContent>
             <Typography variant="body1" gutterBottom>
-              Er du sikker på at du vil slette denne
+              Er du sikker på at du vil slette lappen?
             </Typography>
           </DialogContent>
           <DialogActions>

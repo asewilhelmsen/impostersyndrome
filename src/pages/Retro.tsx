@@ -9,21 +9,15 @@ import PositivTenking from "../components/Retro/PositivTenking";
 import RetroStart from "../components/Retro/RetroStart";
 
 const Retro = () => {
-  /* "Mål siden sist",
-    "Positive",  "Hva kunne gått bedre? - Skriv",
-    "Hva kunne gått bedre? - Diskuter",
-    "Kategoriser",
-    "Tiltak",
-    "Mål framover",*/
   const steps = [
-    "Mål",
-    "Positiv tenking",
-    "Hva gikk bra? - Skriv",
-    "Hva gikk bra? - Diskuter",
-    "Hva kunne gått bedre? - Skriv",
-    "Hva kunne gått bedre? - Diskuter",
-    "Dot voting",
-    "Ny målsetting",
+    "Status",
+    "Positiv bekreftelse",
+    "Hva gikk bra?",
+    "Diskuter det som gikk bra",
+    "Hva kunne gått bedre?",
+    "Diskuter hva som kunne gått bedre",
+    "Dot-voting",
+    "Målsetting",
   ];
 
   const [nesteDisabled, setNesteDisabled] = useState<boolean>(false);
@@ -37,8 +31,6 @@ const Retro = () => {
   const handleOppdatertListe = (liste: string[]) => {
     setOppdatertListe(liste);
   };
-  //Tror ikke vi trenger denne men må se litt nærmere på dette
-  const handleMaalSubmit = () => {};
 
   const handleRetroStart = (started: boolean) => {
     setStartetRetro(started);
@@ -49,34 +41,36 @@ const Retro = () => {
     <PositivTenking onSendInn={handleNesteDisabled} />,
     <SkrivLapper
       onSkrivFerdig={handleNesteDisabled}
-      overskrift="Hva gikk bra? - Skriv"
-      forklaring="Start tiden når alle er klare og skriv individuelt hva som har
-      gått bra i denne sprinten. Legg til så mange lapper du ønsker."
+      overskrift="Skriv individuelt hva som har gått bra"
+      forklaring="Start nedtellingen på 5 minutter når alle er klare og skriv individuelt hva som har
+      gått bra i denne sprinten. Legg til så mange lapper du ønsker. Du kan ikke legge inn
+      flere når tiden er ute."
       aktivitet="braPostIts"
     />,
     <DiskuterLapper
       onDiskuterFerdig={handleNesteDisabled}
-      overskrift="Hva gikk bra? -Diskuter"
-      forklaring="Gå gjennom lappene og diskuter hva som gikk bra"
+      overskrift="Del tanker og erfaringer"
+      forklaring="Gå gjennom lappene og diskuter hva dere mener har gått bra. Pass på at alle får delt sitt synspunkt."
       filtrer={false}
       onOppdatertListe={handleOppdatertListe}
     />,
     <SkrivLapper
       onSkrivFerdig={handleNesteDisabled}
-      overskrift={"Hva kunne gått bedre? - Skriv"}
+      overskrift={"Skriv individuelt hva som kunne gått bedre"}
       forklaring={
-        "Start tiden når alle er klare og skriv individuelt ned hva som kunne gått bedre i denne sprinten. "
+        "Start nedtellingen på 5 minutter når alle er klare og skriv individuelt hva som kunne gått bedre i denne sprinten. Legg til så mange lapper du ønsker. Du kan ikke legge inn flere når tiden er ute."
       }
       aktivitet="bedrePostIts"
     />,
     <DiskuterLapper
       onDiskuterFerdig={handleNesteDisabled}
-      overskrift="Hva kunne gått bedre? -Diskuter"
+      overskrift="Del tanker og erfaringer"
       forklaring={
         <>
-          Gå gjennom lappene og diskuter hva som gikk bra. <br />
-          <br /> Velg en person som fjerner de lappene som er like og klikker
-          neste når alle er enig.
+          Gå gjennom lappene og diskuter hva dere mener kunne gått bedre. Pass
+          på at alle får delt sitt synspunkt. <br />
+          <br /> Slett lapper dere mener har samme innhold slik at det bare er
+          én lapp per tanke/erfaring.
         </>
       }
       filtrer={true}
