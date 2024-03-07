@@ -88,7 +88,7 @@ const DotVoting = ({
         </Grid>
         <TavlePostIt
           liste={liste}
-          onClick={handlePostItClick}
+          onClick={sendtInn ? undefined : handlePostItClick}
           selectedPostIts={valgtePostIts}
         />
       </Grid>
