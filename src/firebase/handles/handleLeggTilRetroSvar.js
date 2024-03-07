@@ -9,8 +9,7 @@ const handleLeggTilRetroSvar = (retroNummer, liste, steg) => {
   let fieldName = "braPostIts";
 
   if (steg === "bedrePostIts") {
-    fieldName = "bedrePostIts";
-  }
+    fieldName = "bedrePostIts";}
 
   try {
     updateDoc(retroRef, { [fieldName]: arrayUnion(...liste) });

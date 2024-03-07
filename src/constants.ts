@@ -25,3 +25,20 @@ export const teamInfo: Record<string, { email: string; password: string }> = {
     password: process.env.REACT_APP_T6_PASSWORD as string,
   },
 };
+
+interface PostItCount {
+  [tekst: string]: number;
+}
+
+// For å telle hvilke hva som er mest stemt på
+export const countStrings = (stringList: string[]): PostItCount => {
+  const postItCount: PostItCount = {};
+  stringList.forEach((tekst) => {
+    postItCount[tekst] = (postItCount[tekst] || 0) + 1;
+  });
+  return postItCount;
+};
+
+export const sortMostVoted = (postItCount: PostItCount): [string, number][] => {
+  return Object.entries(postItCount).sort((a, b) => b[1] - a[1]);
+};

@@ -46,7 +46,7 @@ const Retro = () => {
 
   const stepComponents = [
     <StatusMaal onLagre={handleNesteDisabled} />,
-    <PositivTenking />,
+    <PositivTenking onSendInn={handleNesteDisabled} />,
     <SkrivLapper
       onSkrivFerdig={handleNesteDisabled}
       overskrift="Hva gikk bra? - Skriv"
