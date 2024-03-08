@@ -53,10 +53,24 @@ const Forventninger = ({
       const unsubscribe = onSnapshot(startAktRef, (querySnapshot) => {
         const data = querySnapshot.data();
         const maalene: Maalene[] = [];
+        if (data && data.maalList) {
+          data.maalList.forEach((maal: Maalene, index: number) => {
+            maalene.push({
+              id: index.toString(),
+              tekst: maal.tekst,
+              checked: maal.checked,
+            });
+          });
+        }
+        setLagredeMaalene(maalene);
         if (data) {
           for (let i = 1; i <= Object.keys(data).length; i++) {
             const key = i.toString();
-            maalene.push({ id: key, tekst: data[key] });
+            maalene.push({
+              id: key,
+              tekst: data[key].tekst,
+              checked: data[key].checked,
+            });
           }
         }
         setLagredeMaalene(maalene);

@@ -8,6 +8,7 @@ import StatusMaal from "../components/Retro/StatusMaal";
 import PositivTenking from "../components/Retro/PositivTenking";
 import RetroStart from "../components/Retro/RetroStart";
 import handleLeggTilPA from "../firebase/handles/handleLeggTilPA";
+import { Maalene } from "../interfaces";
 
 const Retro = () => {
   const steps = [
@@ -24,6 +25,7 @@ const Retro = () => {
   const [nesteDisabled, setNesteDisabled] = useState<boolean>(false);
   const [oppdatertListe, setOppdatertListe] = useState<string[]>([]);
   const [startetRetro, setStartetRetro] = useState<boolean>(false);
+  const [listeUncheckedMaal, setListeUncheckedMaal] = useState<Maalene[]>([]);
 
   const handleNesteDisabled = (disabled: boolean) => {
     setNesteDisabled(disabled);
@@ -36,13 +38,19 @@ const Retro = () => {
   const handleRetroStart = (started: boolean) => {
     setStartetRetro(started);
   };
-  //Oppdaterer firebase med den positive setningen som fikk flest stemmer
+  //Oppdaterer firebase med den positive setningen som fikk flest
   const onLeggTilPA = (tekst: string) => {
     handleLeggTilPA(tekst);
   };
 
+  const handleLeggTilUnCheckedMaal = (maalListe: Maalene[]) => {
+    setListeUncheckedMaal(maalListe);
+  };
   const stepComponents = [
-    <StatusMaal onLagre={handleNesteDisabled} />,
+    <StatusMaal
+      onLagre={handleNesteDisabled}
+      leggTilMaal={handleLeggTilUnCheckedMaal}
+    />,
     <PositivTenking onSendInn={handleNesteDisabled} leggTilPA={onLeggTilPA} />,
     <SkrivLapper
       onSkrivFerdig={handleNesteDisabled}
@@ -97,6 +105,7 @@ const Retro = () => {
           nesteDisabled={nesteDisabled}
           oppdatertListe={oppdatertListe}
           onRetroStart={handleRetroStart}
+          nyeMaal={listeUncheckedMaal}
         />
       ) : (
         <RetroStart onRetroStart={handleRetroStart} />

@@ -12,18 +12,30 @@ import { Maalene } from "../../interfaces";
 import { collection, doc, onSnapshot } from "@firebase/firestore";
 import styles from "../StartAktivitet/Forventninger.module.css";
 import { firestore } from "../../firebase/firebase_setup/firebase";
-import handleAddMaal from "../../firebase/handles/handleAddMaal";
 import ExpectationImg from "../../images/Expectations.svg";
+import handleOppdaterMaalChecked from "../../firebase/handles/handleOppdaterMaalChecked";
+import handleAddMaal from "../../firebase/handles/handleAddMaal";
+import Confetti from "react-confetti";
 
-const StatusMaal = ({ onLagre }: { onLagre: (disabled: boolean) => void }) => {
+const StatusMaal = ({
+  onLagre,
+  leggTilMaal,
+}: {
+  onLagre: (disabled: boolean) => void;
+  leggTilMaal: (maalListe: Maalene[]) => void;
+}) => {
   const { teamBruker, retroNummer } = useTeamContext();
   const [maalene, setMaalene] = useState<Maalene[]>([]);
-  const [checkedItems, setCheckedItems] = useState<{ [key: string]: boolean }>(
-    {}
-  );
+  // const [checkedItems, setCheckedItems] = useState<{ [key: string]: boolean }>( {} );
+  const [showConfetti, setShowConfetti] = useState(false);
 
   useEffect(() => {
-    onLagre(true);
+    const uncheckedMaalene = maalene.filter((maal) => !maal.checked);
+    leggTilMaal(uncheckedMaalene);
+  }, [maalene]);
+
+  useEffect(() => {
+    onLagre(false);
     if (teamBruker) {
       const teamRef = collection(firestore, teamBruker.uid);
       const forventningerRef = doc(teamRef, "forventninger");
@@ -44,8 +56,12 @@ const StatusMaal = ({ onLagre }: { onLagre: (disabled: boolean) => void }) => {
           if (data) {
             for (let i = 1; i <= Object.keys(data).length; i++) {
               const key = i.toString();
-              maalene.push({ id: key, tekst: data[key] });
-              setCheckedItems((prev) => ({ ...prev, [key]: false }));
+              maalene.push({
+                id: key,
+                tekst: data[key].tekst,
+                checked: data[key].checked,
+              });
+              // setCheckedItems((prev) => ({ ...prev, [key]: false }));
             }
           }
           setMaalene(maalene);
@@ -58,14 +74,23 @@ const StatusMaal = ({ onLagre }: { onLagre: (disabled: boolean) => void }) => {
     }
   }, [teamBruker]);
 
-  const handleCheckboxChange = (id: string) => {
-    setCheckedItems((prev) => ({ ...prev, [id]: !prev[id] }));
-  };
+  const handleCheckboxChange = (id: string, checked: boolean) => {
+    setMaalene((prevMaalene) =>
+      prevMaalene.map((maal) =>
+        maal.id === id ? { ...maal, checked: !maal.checked } : maal
+      )
+    );
+    handleOppdaterMaalChecked(
+      "retro",
+      retroNummer === 1 ? "startAktMaal" : `retroMaal${retroNummer}`,
+      id,
+      !checked
+    );
 
-  const handleClick = () => {
-    const uncheckedMaalene = maalene.filter((maal) => !checkedItems[maal.id]);
-    handleAddMaal(uncheckedMaalene, "retro", "retroMaal" + retroNummer);
-    onLagre(false);
+    if (checked === false) {
+      setShowConfetti(true);
+      setTimeout(() => setShowConfetti(false), 4000); //
+    }
   };
 
   return (
@@ -99,8 +124,8 @@ const StatusMaal = ({ onLagre }: { onLagre: (disabled: boolean) => void }) => {
                     color: "text.primary",
                   },
                 }}
-                checked={checkedItems[maal.id]}
-                onChange={() => handleCheckboxChange(maal.id)}
+                checked={maal.checked}
+                onChange={() => handleCheckboxChange(maal.id, maal.checked)}
               />
               <Typography sx={{ margin: "auto", marginLeft: 0 }}>
                 {maal.tekst}
@@ -108,13 +133,7 @@ const StatusMaal = ({ onLagre }: { onLagre: (disabled: boolean) => void }) => {
             </ListItem>
           ))}
         </List>
-        <Button
-          variant="contained"
-          onClick={handleClick}
-          sx={{ marginLeft: "28px" }}
-        >
-          Oppdater mål
-        </Button>
+        {showConfetti && <Confetti />}
       </Grid>
       <Grid item xs={4}>
         <img

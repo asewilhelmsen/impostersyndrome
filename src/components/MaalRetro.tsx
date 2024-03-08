@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Box, TextField, Button } from "@mui/material";
 import { v4 as uuidv4 } from "uuid";
 import { Maalene } from "../interfaces";
-import handleAddMaal from "../firebase/handles/handleAddMaal";
 import { useTeamContext } from "../TeamContext";
+import handleAddMaal from "../firebase/handles/handleAddMaal";
 
 const MaalRetro = ({
   onMaalSubmit,
@@ -22,7 +22,10 @@ const MaalRetro = ({
   const addMaal = () => {
     const nyMaalId = uuidv4();
     console.log("i addMaal", maalene);
-    setMaalene([...maalene, { id: nyMaalId, tekst: maalInput }]);
+    setMaalene([
+      ...maalene,
+      { id: nyMaalId, tekst: maalInput, checked: false },
+    ]);
     handleAddMaal(
       [...maalene, { id: nyMaalId, tekst: maalInput }],
       "retro",

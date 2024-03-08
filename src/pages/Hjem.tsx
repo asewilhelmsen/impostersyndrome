@@ -59,7 +59,7 @@ const Hjem = ({ handleSignOut }: { handleSignOut: () => Promise<void> }) => {
         setTeamAntall(teamInfo.antallMedlemmer);
         setRetroNummer(teamInfo.retroNummer);
         if (teamInfo.positivTenking.length > 0) {
-          setPopupOverskrift("Daglig påminnelse:");
+          setPopupOverskrift("Daglig påminnelse");
           setPopupTekst(teamInfo.positivTenking);
         }
       }
@@ -87,7 +87,11 @@ const Hjem = ({ handleSignOut }: { handleSignOut: () => Promise<void> }) => {
         const maalene: Maalene[] = [];
         for (let i = 1; i <= Object.keys(maal).length; i++) {
           const key = i.toString();
-          maalene.push({ id: key, tekst: maal[key] });
+          maalene.push({
+            id: key,
+            tekst: maal[key],
+            checked: maal[key].checked,
+          });
         }
         setStartAktMaal(maalene);
       }
@@ -139,7 +143,7 @@ const Hjem = ({ handleSignOut }: { handleSignOut: () => Promise<void> }) => {
       const teamDocRef = doc(firestore, teamBruker.uid, "teamInfo");
       const teamUnsubscribe = onSnapshot(teamDocRef, (querySnapshot) => {
         if (querySnapshot.data()?.positivTenking.length > 0) {
-          setPopupOverskrift("Daglig påminnelse:");
+          setPopupOverskrift("Daglig påminnelse");
           setPopupTekst(querySnapshot.data()?.positivTenking);
         }
       });

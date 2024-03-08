@@ -15,6 +15,8 @@ import handleNextStep from "../firebase/handles/handleNextStep";
 import handleBackStep from "../firebase/handles/handleBackStep";
 import handleUpdateLevel from "../firebase/handles/handleUpdateLevel";
 import handleOppdaterRetroNummer from "../firebase/handles/handleOppdaterRetroNummer";
+import handleAddMaal from "../firebase/handles/handleAddMaal";
+import { Maalene } from "../interfaces";
 
 const StepsRetro = ({
   nameList,
@@ -22,12 +24,14 @@ const StepsRetro = ({
   nesteDisabled,
   oppdatertListe,
   onRetroStart,
+  nyeMaal,
 }: {
   nameList: string[];
   content: JSX.Element[];
   nesteDisabled: boolean;
   oppdatertListe: string[];
   onRetroStart: (started: boolean) => void;
+  nyeMaal: Maalene[];
 }) => {
   const [aktivtSteg, setAktivtSteg] = useState(1);
   const [nyListe, setNyListe] = useState<string[]>();
@@ -36,8 +40,9 @@ const StepsRetro = ({
   const { teamBruker, retroNummer } = useTeamContext();
 
   const handleNext = () => {
-    if (aktivtSteg === 5) {
-      //Gjøres nå i komponentet
+    if (aktivtSteg === 1) {
+      //tatt bort oppdater mål knappen og lagt til denne istede
+      handleAddMaal(nyeMaal, "retro", "retroMaal" + retroNummer);
       handleNextStep("retroSteg");
     } else if (aktivtSteg === 8) {
       //Håndtere at retro er ferdig

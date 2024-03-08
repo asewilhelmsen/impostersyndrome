@@ -18,6 +18,7 @@ import {
   hentOppdatertPostItListe,
   sortMostVoted,
 } from "../../constants";
+import handleAddMaal from "../../firebase/handles/handleAddMaal";
 
 const NyeMaal = ({
   onMaalFerdig,
@@ -52,7 +53,11 @@ const NyeMaal = ({
           if (data) {
             for (let i = 1; i <= Object.keys(data).length; i++) {
               const key = i.toString();
-              maalene.push({ id: key, tekst: data[key] });
+              maalene.push({
+                id: key,
+                tekst: data[key].tekst,
+                checked: data[key].checked,
+              });
             }
           }
           setLagredeMaalene(maalene);
@@ -76,6 +81,7 @@ const NyeMaal = ({
   useEffect(() => {
     //Oppdatere til når vi vil at man skal kunne klikke ferdig, evt min antall mål
     // onMaalFerdig(lagredeMaalene.length <2 );
+    handleAddMaal(lagredeMaalene, "retro", "retroMaal" + (retroNummer + 1));
   }, [lagredeMaalene]);
 
   //Telle stemmer
