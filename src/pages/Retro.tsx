@@ -7,6 +7,7 @@ import NyeMaal from "../components/Retro/NyeMaal";
 import StatusMaal from "../components/Retro/StatusMaal";
 import PositivTenking from "../components/Retro/PositivTenking";
 import RetroStart from "../components/Retro/RetroStart";
+import handleLeggTilPA from "../firebase/handles/handleLeggTilPA";
 
 const Retro = () => {
   const steps = [
@@ -35,10 +36,14 @@ const Retro = () => {
   const handleRetroStart = (started: boolean) => {
     setStartetRetro(started);
   };
+  //Oppdaterer firebase med den positive setningen som fikk flest stemmer
+  const onLeggTilPA = (tekst: string) => {
+    handleLeggTilPA(tekst);
+  };
 
   const stepComponents = [
     <StatusMaal onLagre={handleNesteDisabled} />,
-    <PositivTenking onSendInn={handleNesteDisabled} />,
+    <PositivTenking onSendInn={handleNesteDisabled} leggTilPA={onLeggTilPA} />,
     <SkrivLapper
       onSkrivFerdig={handleNesteDisabled}
       overskrift="Skriv individuelt hva som har gått bra"

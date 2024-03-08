@@ -6,8 +6,10 @@ import handleLeggTilObjekt from "../../firebase/handles/handleLeggTilObjekt";
 
 const PositivTenking = ({
   onSendInn,
+  leggTilPA,
 }: {
   onSendInn: (disabled: boolean) => void;
+  leggTilPA: (tekst: string) => void;
 }) => {
   const { retroNummer } = useTeamContext();
   const [selectedCards, setSelectedCards] = useState<string[]>([]);
@@ -18,14 +20,14 @@ const PositivTenking = ({
   }, []);
 
   const affirmations: string[] = [
-    "Vi kommuniserer godt",
-    "Vi støtter og oppmuntrer hverandre",
-    "Alle meninger blir hørt",
-    "Vi er åpne for konstruktiv tilbakemelding",
-    "Vi er gode til å stille spørsmål",
-    "Gjennom godt samarbeid overvinner vi utfordringer",
-    "Vi søker mot å skape et miljø med tillit",
-    "Vi er flinke til å gi hverandre komplimenter for arbeidet",
+    "Sammen har vi mye kunnskap",
+    "I dag er vi positive og engasjerte",
+    "Vi alle bringer verdi til teamet",
+    "Gode team holder ingen tilbake",
+    "Vårt team har integritet og lidenskap",
+    "Vi gir hverandre styrke til å lykkes",
+    "Vi aksepterer utfordringer som muligheter",
+    "Vi verdsetter og respekterer alles meninger",
   ];
 
   const handleCardClick = (cardName: string) => {
@@ -110,7 +112,7 @@ const PositivTenking = ({
           <Typography marginLeft={"5px"} variant="body1">
             Når alle har svart vil kortet med flest stemmer vises under.
           </Typography>
-          <PositivTenkingStatistikk />
+          <PositivTenkingStatistikk leggTilPA={leggTilPA} />
         </>
       )}
     </>
