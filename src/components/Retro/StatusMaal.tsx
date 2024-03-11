@@ -16,6 +16,7 @@ import ExpectationImg from "../../images/Expectations.svg";
 import handleOppdaterMaalChecked from "../../firebase/handles/handleOppdaterMaalChecked";
 import handleAddMaal from "../../firebase/handles/handleAddMaal";
 import Confetti from "react-confetti";
+import ConfettiExplosion from "react-confetti-explosion";
 
 const StatusMaal = ({
   onLagre,
@@ -64,6 +65,8 @@ const StatusMaal = ({
               // setCheckedItems((prev) => ({ ...prev, [key]: false }));
             }
           }
+          // setIsExploding(false);
+
           setMaalene(maalene);
         }
       );
@@ -75,6 +78,12 @@ const StatusMaal = ({
   }, [teamBruker]);
 
   const handleCheckboxChange = (id: string, checked: boolean) => {
+    //Hvis noe sjekkes av og ikke uncheckes
+    if (checked === false) {
+      setShowConfetti(true);
+      setTimeout(() => setShowConfetti(false), 2000);
+    }
+
     setMaalene((prevMaalene) =>
       prevMaalene.map((maal) =>
         maal.id === id ? { ...maal, checked: !maal.checked } : maal
@@ -86,17 +95,14 @@ const StatusMaal = ({
       id,
       !checked
     );
-
-    if (checked === false) {
-      setShowConfetti(true);
-      setTimeout(() => setShowConfetti(false), 4000); //
-    }
   };
 
   return (
     <Grid container spacing={3}>
       <Grid item xs={12}>
-        <Typography variant="h2">Tidligere mål</Typography>
+        <Typography variant="h2" marginBottom={"10px"}>
+          Tidligere mål
+        </Typography>
         <Typography marginLeft={"5px"} variant="body1" width={"40%"}>
           Diskuter og bli enige om hvilke mål dere har fått til fram til nå.
           Velg én person som huker av disse målene. Målene som ikke blir huket
@@ -104,6 +110,7 @@ const StatusMaal = ({
         </Typography>
       </Grid>
       <Grid item xs={8} sx={{ paddingLeft: "10%" }}>
+        {showConfetti && <ConfettiExplosion />}
         <Typography
           variant="h5"
           sx={{
@@ -133,7 +140,6 @@ const StatusMaal = ({
             </ListItem>
           ))}
         </List>
-        {showConfetti && <Confetti />}
       </Grid>
       <Grid item xs={4}>
         <img

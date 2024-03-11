@@ -61,7 +61,7 @@ const PositivTenkingStatistikk = ({
   const reorderedTopp3svar = rearrangeTop3Answers(topp3svar);
 
   useEffect(() => {
-    if (svarListe.length > 1) {
+    if (svarListe.length > 0) {
       leggTilPA(topp3svar[0][0]);
     }
   }, [svarListe]);

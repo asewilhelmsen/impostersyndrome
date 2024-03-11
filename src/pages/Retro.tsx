@@ -55,9 +55,15 @@ const Retro = () => {
     <SkrivLapper
       onSkrivFerdig={handleNesteDisabled}
       overskrift="Skriv individuelt hva som har gått bra"
-      forklaring="Start nedtellingen på 5 minutter når alle er klare og skriv individuelt hva som har
-      gått bra i denne sprinten. Legg til så mange lapper du ønsker. Du kan ikke legge inn
-      flere når tiden er ute."
+      forklaring={
+        <>
+          <b>Start nedtellingen </b> på 5 minutter når alle er klare og
+          <b> skriv individuelt</b> hva som gikk bra i denne sprinten.
+          <br /> <br />
+          Legg til så mange lapper du ønsker. Du kan ikke legge inn flere når
+          tiden er ute.
+        </>
+      }
       aktivitet="braPostIts"
     />,
     <DiskuterLapper
@@ -71,7 +77,13 @@ const Retro = () => {
       onSkrivFerdig={handleNesteDisabled}
       overskrift={"Skriv individuelt hva som kunne gått bedre"}
       forklaring={
-        "Start nedtellingen på 5 minutter når alle er klare og skriv individuelt hva som kunne gått bedre i denne sprinten. Legg til så mange lapper du ønsker. Du kan ikke legge inn flere når tiden er ute."
+        <>
+          <b>Start nedtellingen </b> på 5 minutter når alle er klare og
+          <b> skriv individuelt</b> hva som kunne gått bedre i denne sprinten.
+          <br /> <br />
+          Legg til så mange lapper du ønsker. Du kan ikke legge inn flere når
+          tiden er ute.
+        </>
       }
       aktivitet="bedrePostIts"
     />,
@@ -80,10 +92,10 @@ const Retro = () => {
       overskrift="Del tanker og erfaringer"
       forklaring={
         <>
-          Gå gjennom lappene og diskuter hva dere mener kunne gått bedre. Pass
-          på at alle får delt sitt synspunkt. <br />
-          <br /> Slett lapper dere mener har samme innhold slik at det bare er
-          én lapp per tanke/erfaring.
+          <b>1.</b> Gå gjennom lappene og diskuter hva dere mener kunne gått
+          bedre. Pass på at alle får delt sitt synspunkt. <br />
+          <br /> <b>2.</b> Slett lapper dere mener har samme innhold slik at det
+          bare er én lapp per tanke/erfaring.
         </>
       }
       filtrer={true}

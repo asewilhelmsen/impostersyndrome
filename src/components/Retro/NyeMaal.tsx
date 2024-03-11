@@ -93,9 +93,12 @@ const NyeMaal = ({
 
   return (
     <>
-      <Typography variant="h2">Nye mål</Typography>
+      <Typography variant="h2" marginBottom={"10px"}>
+        Nye mål
+      </Typography>
       <Typography variant="body1">
-        Basert på lappene med flest stemmer, sett nye mål for neste sprint.
+        Basert på lappene med flest stemmer fra hva som kunne gått bedre, sett
+        nye mål i felleskap for neste sprint.
       </Typography>
       <Grid container spacing={2} direction={isSmallScreen ? "column" : "row"}>
         <Grid item xs={4}>
