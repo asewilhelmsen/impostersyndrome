@@ -58,6 +58,7 @@ const Hjem = ({ handleSignOut }: { handleSignOut: () => Promise<void> }) => {
         setTeamNavn(teamInfo.teamNavn);
         setTeamAntall(teamInfo.antallMedlemmer);
         setRetroNummer(teamInfo.retroNummer);
+
         if (teamInfo.positivTenking.length > 0) {
           setPopupOverskrift("Daglig påminnelse");
           setPopupTekst(teamInfo.positivTenking);

@@ -1,7 +1,7 @@
 import { collection, doc, setDoc } from "@firebase/firestore";
 import { firestore, auth } from "../firebase_setup/firebase";
 
-const handleAddMaal = async (maalene, aktivitet, retroRef) => {
+const handleAddMaal = (maalene, aktivitet, retroRef) => {
   const teamId = auth.currentUser?.uid;
   const teamRef = collection(firestore, teamId);
   const forventningerRef = doc(teamRef, "forventninger");
@@ -19,7 +19,8 @@ const handleAddMaal = async (maalene, aktivitet, retroRef) => {
   }, {});
 
   try {
-    await setDoc(aktivitetRef, updatedMaalene);
+ setDoc(aktivitetRef, updatedMaalene);
+
   } catch (err) {
     console.error("Kunne ikke legge til mål!", err);
   }

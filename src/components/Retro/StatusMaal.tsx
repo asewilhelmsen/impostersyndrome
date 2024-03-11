@@ -66,7 +66,6 @@ const StatusMaal = ({
             }
           }
           // setIsExploding(false);
-
           setMaalene(maalene);
         }
       );
