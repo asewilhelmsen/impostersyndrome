@@ -187,9 +187,9 @@ const StepsRetro = ({
             fontSize={"14px"}
             color={"#708090"}
             margin={"auto"}
-            marginTop={"40px"}
+            marginTop={"50px"}
           >
-            Klikk utenfor Pop-Up for å komme til Teamets hjemmeside
+            Klikk her for å komme til Teamet's hjemmeside
           </Typography>
         </Box>
       )}
