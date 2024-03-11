@@ -51,8 +51,8 @@ const PositivTenking = ({
       <Typography variant="h2">Styrke selvtillit og motivasjon</Typography>
       {!showStatistics && (
         <Typography marginLeft={"5px"} variant="body1">
-          Velg individuelt opptil 3 kort som du tror vil være inspirerende for
-          deg og teamet ditt i prosjektarbeidet.
+          Velg individuelt opptil 3 positive bekreftelser som du tror vil være
+          inspirerende for deg og teamet ditt i prosjektarbeidet.
         </Typography>
       )}
       {!showStatistics && (
