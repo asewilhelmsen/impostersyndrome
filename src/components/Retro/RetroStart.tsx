@@ -185,10 +185,10 @@ const RetroStart = ({
                   kontinuerlige forbedringer for hver sprint. Målet er at alle
                   på teamet kan dele tanker og sine synspunkter, får innsikt i
                   hva de andre tenker og at dere utvikler målrettede tiltak for
-                  fremtidig forbedring. Vi vil at dere skaper et rom for å
-                  sammenligne perspektiver innad i teamet som kan føre til økt
-                  tillit og bedre teamutvikling. Dette kan være avgjørende for
-                  teamets langsiktige suksess.
+                  fremtidig forbedring. Skap et rom for å sammenligne
+                  perspektiver innad i teamet, dette kan føre til økt tillit og
+                  bedre teamutvikling, som kan være avgjørende for teamets
+                  langsiktige suksess.
                 </Typography>
 
                 {retroer.length > 1 && (
