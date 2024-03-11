@@ -15,6 +15,7 @@ import { firestore } from "../../firebase/firebase_setup/firebase";
 
 import TavlePostIt from "./TavlePostIt";
 import handleFjernPostIt from "../../firebase/handles/handleFjernPostIt";
+import { shuffleArray } from "../../constants";
 
 const DiskuterLapper = ({
   overskrift,
@@ -44,7 +45,7 @@ const DiskuterLapper = ({
         const unsubscribe = onSnapshot(retroRef, (querySnapshot) => {
           const data = querySnapshot.data();
           if (data && data.bedrePostIts) {
-            setListe(data.bedrePostIts);
+            setListe(shuffleArray(data.bedrePostIts));
           }
         });
         return unsubscribe;
@@ -52,7 +53,7 @@ const DiskuterLapper = ({
         const unsubscribe = onSnapshot(retroRef, (querySnapshot) => {
           const data = querySnapshot.data();
           if (data && data.braPostIts) {
-            setListe(data.braPostIts);
+            setListe(shuffleArray(data.braPostIts));
           }
         });
         return unsubscribe;
