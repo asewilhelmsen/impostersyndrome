@@ -54,8 +54,6 @@ const StepsRetro = ({
   };
 
   const handleClosePopUp = () => {
-    setShowPopUpLevel2(false);
-    handleNextStep("retroSteg", -1);
     if (retroNummer === 1) {
       handleOppdaterRetroNummer(1, "antallRetroerGjennomfort");
       handleUpdateLevel(2);
@@ -63,6 +61,8 @@ const StepsRetro = ({
       handleOppdaterRetroNummer(2, "antallRetroerGjennomfort");
       handleUpdateLevel(3);
     }
+    setShowPopUpLevel2(false);
+    handleNextStep("retroSteg", -1);
   };
 
   useEffect(() => {
