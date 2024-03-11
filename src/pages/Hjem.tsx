@@ -89,7 +89,7 @@ const Hjem = ({ handleSignOut }: { handleSignOut: () => Promise<void> }) => {
           const key = i.toString();
           maalene.push({
             id: key,
-            tekst: maal[key],
+            tekst: maal[key].tekst,
             checked: maal[key].checked,
           });
         }
