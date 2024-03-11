@@ -16,7 +16,7 @@ const SkrivLapper = ({
   onSkrivFerdig,
 }: {
   overskrift: string;
-  forklaring: string;
+  forklaring: any;
   aktivitet: string;
   onSkrivFerdig: (disabled: boolean) => void;
 }) => {
@@ -101,7 +101,7 @@ const SkrivLapper = ({
 
   return (
     <>
-      <Typography variant="h2" sx={{ marginBottom: "20px" }}>
+      <Typography variant="h2" sx={{ marginBottom: "30px" }}>
         {overskrift}
       </Typography>
       <Grid container direction="row" spacing={4}>
@@ -138,7 +138,7 @@ const SkrivLapper = ({
                 variant="contained"
                 disabled={tidStartet}
               >
-                Start tiden - 5 min
+                Start tiden
               </Button>
             )}
           </Grid>

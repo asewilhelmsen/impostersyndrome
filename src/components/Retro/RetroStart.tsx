@@ -191,7 +191,13 @@ const RetroStart = ({
                   teamets langsiktige suksess.
                 </Typography>
 
-                <Typography variant="body1"></Typography>
+                {retroer.length > 1 && (
+                  <Typography variant="body2">
+                    <br></br>
+                    Klikk på en tidligere retrospektiv for å se en oppsummering
+                    av retroen!
+                  </Typography>
+                )}
               </Grid>
               {retroer.map((tekst, index) => (
                 <Grid item xs={12} key={index}>

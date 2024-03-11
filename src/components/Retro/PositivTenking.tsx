@@ -48,7 +48,9 @@ const PositivTenking = ({
 
   return (
     <>
-      <Typography variant="h2">Styrke selvtillit og motivasjon</Typography>
+      <Typography variant="h2" marginBottom={"10px"}>
+        Styrke selvtillit og motivasjon
+      </Typography>
       {!showStatistics && (
         <Typography marginLeft={"5px"} variant="body1">
           Velg individuelt opptil 3 kort som du tror vil være inspirerende for

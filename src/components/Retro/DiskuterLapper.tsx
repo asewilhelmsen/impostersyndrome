@@ -107,7 +107,7 @@ const DiskuterLapper = ({
           </DialogActions>
         </Dialog>
       )}
-      <Typography variant="h2" sx={{ marginBottom: "20px" }}>
+      <Typography variant="h2" sx={{ marginBottom: "30px" }}>
         {overskrift}
       </Typography>
       <Grid container direction="row" spacing={4}>
