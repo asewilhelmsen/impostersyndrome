@@ -7,6 +7,8 @@ import NyeMaal from "../components/Retro/NyeMaal";
 import StatusMaal from "../components/Retro/StatusMaal";
 import PositivTenking from "../components/Retro/PositivTenking";
 import RetroStart from "../components/Retro/RetroStart";
+import handleLeggTilPA from "../firebase/handles/handleLeggTilPA";
+import { Maalene } from "../interfaces";
 
 const Retro = () => {
   const steps = [
@@ -23,6 +25,7 @@ const Retro = () => {
   const [nesteDisabled, setNesteDisabled] = useState<boolean>(false);
   const [oppdatertListe, setOppdatertListe] = useState<string[]>([]);
   const [startetRetro, setStartetRetro] = useState<boolean>(false);
+  const [listeUncheckedMaal, setListeUncheckedMaal] = useState<Maalene[]>([]);
 
   const handleNesteDisabled = (disabled: boolean) => {
     setNesteDisabled(disabled);
@@ -35,16 +38,32 @@ const Retro = () => {
   const handleRetroStart = (started: boolean) => {
     setStartetRetro(started);
   };
+  //Oppdaterer firebase med den positive setningen som fikk flest
+  const onLeggTilPA = (tekst: string) => {
+    handleLeggTilPA(tekst);
+  };
 
+  const handleLeggTilUnCheckedMaal = (maalListe: Maalene[]) => {
+    setListeUncheckedMaal(maalListe);
+  };
   const stepComponents = [
-    <StatusMaal onLagre={handleNesteDisabled} />,
-    <PositivTenking onSendInn={handleNesteDisabled} />,
+    <StatusMaal
+      onLagre={handleNesteDisabled}
+      leggTilMaal={handleLeggTilUnCheckedMaal}
+    />,
+    <PositivTenking onSendInn={handleNesteDisabled} leggTilPA={onLeggTilPA} />,
     <SkrivLapper
       onSkrivFerdig={handleNesteDisabled}
       overskrift="Skriv individuelt hva som har gått bra"
-      forklaring="Start nedtellingen på 5 minutter når alle er klare og skriv individuelt hva som har
-      gått bra i denne sprinten. Legg til så mange lapper du ønsker. Du kan ikke legge inn
-      flere når tiden er ute."
+      forklaring={
+        <>
+          <b>Start nedtellingen </b> på 5 minutter når alle er klare og
+          <b> skriv individuelt</b> hva som gikk bra i denne sprinten.
+          <br /> <br />
+          Legg til så mange lapper du ønsker. Du kan ikke legge inn flere når
+          tiden er ute.
+        </>
+      }
       aktivitet="braPostIts"
     />,
     <DiskuterLapper
@@ -58,7 +77,13 @@ const Retro = () => {
       onSkrivFerdig={handleNesteDisabled}
       overskrift={"Skriv individuelt hva som kunne gått bedre"}
       forklaring={
-        "Start nedtellingen på 5 minutter når alle er klare og skriv individuelt hva som kunne gått bedre i denne sprinten. Legg til så mange lapper du ønsker. Du kan ikke legge inn flere når tiden er ute."
+        <>
+          <b>Start nedtellingen </b> på 5 minutter når alle er klare og
+          <b> skriv individuelt</b> hva som kunne gått bedre i denne sprinten.
+          <br /> <br />
+          Legg til så mange lapper du ønsker. Du kan ikke legge inn flere når
+          tiden er ute.
+        </>
       }
       aktivitet="bedrePostIts"
     />,
@@ -67,10 +92,10 @@ const Retro = () => {
       overskrift="Del tanker og erfaringer"
       forklaring={
         <>
-          Gå gjennom lappene og diskuter hva dere mener kunne gått bedre. Pass
-          på at alle får delt sitt synspunkt. <br />
-          <br /> Slett lapper dere mener har samme innhold slik at det bare er
-          én lapp per tanke/erfaring.
+          <b>1.</b> Gå gjennom lappene og diskuter hva dere mener kunne gått
+          bedre. Pass på at alle får delt sitt synspunkt. <br />
+          <br /> <b>2.</b> Slett lapper dere mener har samme innhold slik at det
+          bare er én lapp per tanke/erfaring.
         </>
       }
       filtrer={true}
@@ -92,6 +117,7 @@ const Retro = () => {
           nesteDisabled={nesteDisabled}
           oppdatertListe={oppdatertListe}
           onRetroStart={handleRetroStart}
+          nyeMaal={listeUncheckedMaal}
         />
       ) : (
         <RetroStart onRetroStart={handleRetroStart} />

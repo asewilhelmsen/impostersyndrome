@@ -34,7 +34,11 @@ const LevelPopUp: React.FC<{
   });
 
   return (
-    <Modal open={true} onClose={onClose}>
+    <Modal
+      open={true}
+      onClose={onClose}
+      sx={{ "& .MuiBackdrop-root": { backgroundColor: "transparent" } }}
+    >
       <Box
         sx={{
           position: "absolute",
@@ -43,7 +47,7 @@ const LevelPopUp: React.FC<{
           transform: "translate(-50%, -50%)",
           width: "30%",
           bgcolor: "white",
-          border: "2px solid #0E056E",
+          border: "2px solid #7D97F4",
           borderRadius: 2,
           boxShadow: 24,
           p: 4,

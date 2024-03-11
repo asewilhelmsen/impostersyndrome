@@ -15,7 +15,7 @@ const Maal = ({
   aktivitet: string;
 }) => {
   const [maalene, setMaalene] = useState<Maalene[]>([
-    { id: uuidv4(), tekst: "" },
+    { id: uuidv4(), tekst: "", checked: false },
   ]);
   const [showTooltip, setShowTooltip] = useState(false);
 
@@ -29,7 +29,7 @@ const Maal = ({
 
   const addMaal = () => {
     const nyMaalId = uuidv4();
-    setMaalene([...maalene, { id: nyMaalId, tekst: "" }]);
+    setMaalene([...maalene, { id: nyMaalId, tekst: "", checked: false }]);
   };
 
   const removeMaal = (maalId: string) => {
@@ -39,7 +39,8 @@ const Maal = ({
   useEffect(() => {
     onMaalSubmit(maalene);
     if (!(maalene.length === 1 && maalene[0].tekst.length < 1)) {
-      handleAddMaal(maalene, aktivitet);
+      //fikk problemer med dette når jeg lagde den nye så fra nå kan man bare ikke legge til i startaktiviteten
+      // handleAddMaal(maalene, aktivitet);
     }
   }, [maalene]);
 

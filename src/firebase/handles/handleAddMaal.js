@@ -13,15 +13,16 @@ const handleAddMaal = (maalene, aktivitet, retroRef) => {
     aktivitetRef = doc(maalRef, retroRef);
   }
 
-  const maalObject = maalene.reduce((acc, goal, index) => {
-    acc[`${index + 1}`] = goal.tekst;
+  const updatedMaalene = maalene.reduce((acc, maal, index) => {
+    acc[`${index + 1}`] = { tekst: maal.tekst, checked: false };
     return acc;
   }, {});
 
   try {
-    setDoc(aktivitetRef, maalObject);
+ setDoc(aktivitetRef, updatedMaalene);
+
   } catch (err) {
-    console.log("Kunne ikke legge til mål!", err);
+    console.error("Kunne ikke legge til mål!", err);
   }
 };
 

@@ -77,7 +77,7 @@ const DotVoting = ({
           <Box marginTop="50px" textAlign={"center"}>
             {sendtInn ? (
               <Typography>
-                !! Pass på at alle har sendt inn før dere trykker neste
+                Pass på at alle har sendt inn før dere trykker "Neste"!!
               </Typography>
             ) : (
               <Button variant="contained" onClick={handleSendInn}>
@@ -88,7 +88,7 @@ const DotVoting = ({
         </Grid>
         <TavlePostIt
           liste={liste}
-          onClick={handlePostItClick}
+          onClick={sendtInn ? undefined : handlePostItClick}
           selectedPostIts={valgtePostIts}
         />
       </Grid>

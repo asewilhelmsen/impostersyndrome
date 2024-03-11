@@ -37,7 +37,11 @@ const RetroOppsummering = ({
         const maalene: Maalene[] = [];
         for (let i = 1; i <= Object.keys(maal).length; i++) {
           const key = i.toString();
-          maalene.push({ id: key, tekst: maal[key] });
+          maalene.push({
+            id: key,
+            tekst: maal[key].tekst,
+            checked: maal[key].checked,
+          });
         }
         setMaal(maalene);
       }

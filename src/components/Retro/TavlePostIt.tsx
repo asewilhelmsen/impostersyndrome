@@ -17,7 +17,7 @@ const TavlePostIt = ({
       <div
         style={{
           border: "5px solid ",
-          borderColor: "lightgrey",
+          borderColor: "#7D97F4",
           borderRadius: "20px",
           padding: "20px",
           backgroundColor: "white",

@@ -9,7 +9,11 @@ import { collection, doc, onSnapshot } from "@firebase/firestore";
 import { firestore } from "../../firebase/firebase_setup/firebase";
 import ImposterSyndromePicture from "../../images/Information.svg";
 
-const PositivTenkingStatistikk = ({}) => {
+const PositivTenkingStatistikk = ({
+  leggTilPA,
+}: {
+  leggTilPA: (tekst: string) => void;
+}) => {
   const { teamBruker, retroNummer } = useTeamContext();
   const [svarListe, setSvarListe] = useState<string[]>([]);
 
@@ -55,6 +59,12 @@ const PositivTenkingStatistikk = ({}) => {
   // Plukke ut de 5 mest stemte
   const topp3svar = sortedmostVoted.slice(0, 3);
   const reorderedTopp3svar = rearrangeTop3Answers(topp3svar);
+
+  useEffect(() => {
+    if (svarListe.length > 0) {
+      leggTilPA(topp3svar[0][0]);
+    }
+  }, [svarListe]);
 
   return (
     <>

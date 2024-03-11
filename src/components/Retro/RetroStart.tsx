@@ -185,13 +185,19 @@ const RetroStart = ({
                   kontinuerlige forbedringer for hver sprint. Målet er at alle
                   på teamet kan dele tanker og sine synspunkter, får innsikt i
                   hva de andre tenker og at dere utvikler målrettede tiltak for
-                  fremtidig forbedring. Vi vil at dere skaper et rom for å
-                  sammenligne perspektiver innad i teamet som kan føre til økt
-                  tillit og bedre teamutvikling. Dette kan være avgjørende for
-                  teamets langsiktige suksess.
+                  fremtidig forbedring. Skap et rom for å sammenligne
+                  perspektiver innad i teamet, dette kan føre til økt tillit og
+                  bedre teamutvikling, som kan være avgjørende for teamets
+                  langsiktige suksess.
                 </Typography>
 
-                <Typography variant="body1"></Typography>
+                {retroer.length > 1 && (
+                  <Typography variant="body2">
+                    <br></br>
+                    Klikk på en tidligere retrospektiv for å se en oppsummering
+                    av retroen!
+                  </Typography>
+                )}
               </Grid>
               {retroer.map((tekst, index) => (
                 <Grid item xs={12} key={index}>

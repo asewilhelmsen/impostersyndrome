@@ -31,9 +31,11 @@ const Hjem = ({ handleSignOut }: { handleSignOut: () => Promise<void> }) => {
   const [teamLevel, setTeamLevel] = useState(0);
   const [teamNavn, setTeamNavn] = useState("Bachelorgruppe");
   const [startAktMaal, setStartAktMaal] = useState<Maalene[]>([]);
-  const [popupOverskrift, setPopupOverskrift] = useState("Velkommen!");
+  const [popupOverskrift, setPopupOverskrift] = useState(
+    "Husk å holde retrospektiver i slutten av hver sprint"
+  );
   const [popupTekst, setPopupTekst] = useState(
-    "Samle teamet ditt og kom i gang med Start-aktiviteten"
+    "Retroer er viktig får at alle på teamet får delt sine tanker og for å sette målrettede tiltak for fremtidig forbedring!"
   );
 
   const [showPopUpLevel1, setShowPopUpLevel1] = useState(false);
@@ -56,6 +58,11 @@ const Hjem = ({ handleSignOut }: { handleSignOut: () => Promise<void> }) => {
         setTeamNavn(teamInfo.teamNavn);
         setTeamAntall(teamInfo.antallMedlemmer);
         setRetroNummer(teamInfo.retroNummer);
+
+        if (teamInfo.positivTenking.length > 0) {
+          setPopupOverskrift("Daglig påminnelse");
+          setPopupTekst(teamInfo.positivTenking);
+        }
       }
     } catch (error) {
       console.error("Kan ikke hente level", error);
@@ -81,7 +88,11 @@ const Hjem = ({ handleSignOut }: { handleSignOut: () => Promise<void> }) => {
         const maalene: Maalene[] = [];
         for (let i = 1; i <= Object.keys(maal).length; i++) {
           const key = i.toString();
-          maalene.push({ id: key, tekst: maal[key] });
+          maalene.push({
+            id: key,
+            tekst: maal[key].tekst,
+            checked: maal[key].checked,
+          });
         }
         setStartAktMaal(maalene);
       }
@@ -92,7 +103,7 @@ const Hjem = ({ handleSignOut }: { handleSignOut: () => Promise<void> }) => {
 
   useEffect(() => {
     setTeamInfo();
-    setPopupInnhold("velkommen");
+    // setPopupInnhold("velkommen");
     setMaal();
   }, []);
 
@@ -130,9 +141,17 @@ const Hjem = ({ handleSignOut }: { handleSignOut: () => Promise<void> }) => {
           }
         }
       );
+      const teamDocRef = doc(firestore, teamBruker.uid, "teamInfo");
+      const teamUnsubscribe = onSnapshot(teamDocRef, (querySnapshot) => {
+        if (querySnapshot.data()?.positivTenking.length > 0) {
+          setPopupOverskrift("Daglig påminnelse");
+          setPopupTekst(querySnapshot.data()?.positivTenking);
+        }
+      });
       return () => {
         startAktivitetUnsubscribe();
         retroStegUnsubscribe();
+        teamUnsubscribe();
       };
     }
   }, [teamBruker]);

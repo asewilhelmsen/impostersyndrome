@@ -15,6 +15,9 @@ import handleNextStep from "../firebase/handles/handleNextStep";
 import handleBackStep from "../firebase/handles/handleBackStep";
 import handleUpdateLevel from "../firebase/handles/handleUpdateLevel";
 import handleOppdaterRetroNummer from "../firebase/handles/handleOppdaterRetroNummer";
+import handleAddMaal from "../firebase/handles/handleAddMaal";
+import { Maalene } from "../interfaces";
+import LevelPopUp from "./LevelPopUp";
 
 const StepsRetro = ({
   nameList,
@@ -22,33 +25,25 @@ const StepsRetro = ({
   nesteDisabled,
   oppdatertListe,
   onRetroStart,
+  nyeMaal,
 }: {
   nameList: string[];
   content: JSX.Element[];
   nesteDisabled: boolean;
   oppdatertListe: string[];
   onRetroStart: (started: boolean) => void;
+  nyeMaal: Maalene[];
 }) => {
   const [aktivtSteg, setAktivtSteg] = useState(1);
   const [nyListe, setNyListe] = useState<string[]>();
-
+  const [showPopUpLevel2, setShowPopUpLevel2] = useState(false);
   const navigate = useNavigate();
   const { teamBruker, retroNummer } = useTeamContext();
 
   const handleNext = () => {
-    if (aktivtSteg === 5) {
-      //Gjøres nå i komponentet
+    if (aktivtSteg === 1) {
+      handleAddMaal(nyeMaal, "retro", "retroMaal" + retroNummer);
       handleNextStep("retroSteg");
-    } else if (aktivtSteg === 8) {
-      //Håndtere at retro er ferdig
-      handleNextStep("retroSteg", 9);
-      if (retroNummer === 1) {
-        handleOppdaterRetroNummer(1, "antallRetroerGjennomfort");
-        handleUpdateLevel(2);
-      } else if (retroNummer === 2) {
-        handleOppdaterRetroNummer(2, "antallRetroerGjennomfort");
-        handleUpdateLevel(3);
-      }
     } else {
       handleNextStep("retroSteg");
     }
@@ -58,18 +53,31 @@ const StepsRetro = ({
     handleBackStep("retroSteg");
   };
 
+  const handleClosePopUp = () => {
+    if (retroNummer === 1) {
+      handleOppdaterRetroNummer(1, "antallRetroerGjennomfort");
+      handleUpdateLevel(2);
+    } else if (retroNummer === 2) {
+      handleOppdaterRetroNummer(2, "antallRetroerGjennomfort");
+      handleUpdateLevel(3);
+    }
+    setShowPopUpLevel2(false);
+    handleNextStep("retroSteg", -1);
+  };
+
   useEffect(() => {
     if (teamBruker) {
       const docRef = doc(firestore, teamBruker.uid, "retroSteg");
       const unsubscribe = onSnapshot(docRef, (querySnapshot) => {
         setAktivtSteg(querySnapshot.data()?.steg);
-        if (
-          //Oppdater til antall steg vi får
-          querySnapshot.data()?.steg === 9 ||
-          querySnapshot.data()?.steg === -1
-          //eller -1 her, var det før
-        ) {
+        if (querySnapshot.data()?.steg === -1) {
           navigate("/");
+        } else if (querySnapshot.data()?.steg === 9) {
+          if (retroNummer === 1) {
+            setShowPopUpLevel2(true);
+          } else if (retroNummer === 2) {
+            //setShowPopUpLevel3(true);
+          }
         } else if (querySnapshot.data()?.steg === 0) {
           navigate("/retrospektiv");
           onRetroStart(false);
@@ -85,76 +93,106 @@ const StepsRetro = ({
   }, [oppdatertListe]);
 
   return (
-    <Box
-      sx={{
-        height: "100vh",
-        overflow: "auto",
-        display: "flex",
-        flexDirection: "column",
-        backgroundColor: "secondary.main",
-      }}
-    >
-      {/* Grid with the stepper header */}
-      <Grid container sx={{ backgroundColor: "white", padding: 3 }}>
-        <Grid item xs={12}>
-          <Typography variant="h6">
-            <b>Steg {aktivtSteg}:</b> {nameList[aktivtSteg - 1]}
-          </Typography>
-        </Grid>
-        <Grid item xs={12}>
-          <Stepper activeStep={aktivtSteg - 1} sx={{ width: "50%", mt: 0 }}>
-            {nameList.map((label) => (
-              <Step key={label}>
-                <StepLabel>{/*{label}*/}</StepLabel>
-              </Step>
-            ))}
-          </Stepper>
-        </Grid>
-      </Grid>
-
-      <Grid
-        container
-        sx={{
-          padding: 3,
-          flex: 1,
-        }}
-      >
-        <Grid item xs={12}>
-          <Box sx={{ pb: 5 }}>{content[aktivtSteg - 1]}</Box>
-        </Grid>
-
-        <Grid
-          item
-          xs={6}
+    <>
+      {!showPopUpLevel2 && (
+        <Box
           sx={{
+            height: "100vh",
+            overflow: "auto",
             display: "flex",
-            justifyContent: "flex-end",
-            alignSelf: "flex-end",
+            flexDirection: "column",
+            backgroundColor: "secondary.main",
           }}
         >
-          <Button variant="contained" onClick={handleBack} sx={{ mr: 1 }}>
-            Tilbake
-          </Button>
-        </Grid>
-        <Grid
-          item
-          xs={6}
-          sx={{
-            display: "flex",
-            justifyContent: "flex-start",
-            alignSelf: "flex-end",
-          }}
-        >
-          <Button
-            variant="contained"
-            onClick={handleNext}
-            disabled={nesteDisabled}
+          <Grid container sx={{ backgroundColor: "white", padding: 3 }}>
+            <Grid item xs={12}>
+              <Typography variant="h6">
+                <b>Steg {aktivtSteg}:</b> {nameList[aktivtSteg - 1]}
+              </Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <Stepper activeStep={aktivtSteg - 1} sx={{ width: "50%", mt: 0 }}>
+                {nameList.map((label) => (
+                  <Step key={label}>
+                    <StepLabel>{/*{label}*/}</StepLabel>
+                  </Step>
+                ))}
+              </Stepper>
+            </Grid>
+          </Grid>
+
+          <Grid
+            container
+            sx={{
+              padding: 3,
+              flex: 1,
+            }}
           >
-            {aktivtSteg === nameList.length ? "Ferdig" : "Neste"}
-          </Button>
-        </Grid>
-      </Grid>
-    </Box>
+            <Grid item xs={12}>
+              <Box sx={{ pb: 5 }}>{content[aktivtSteg - 1]}</Box>
+            </Grid>
+
+            <Grid
+              item
+              xs={6}
+              sx={{
+                display: "flex",
+                justifyContent: "flex-end",
+                alignSelf: "flex-end",
+              }}
+            >
+              <Button variant="contained" onClick={handleBack} sx={{ mr: 1 }}>
+                Tilbake
+              </Button>
+            </Grid>
+            <Grid
+              item
+              xs={6}
+              sx={{
+                display: "flex",
+                justifyContent: "flex-start",
+                alignSelf: "flex-end",
+              }}
+            >
+              <Button
+                variant="contained"
+                onClick={handleNext}
+                disabled={nesteDisabled}
+              >
+                {aktivtSteg === nameList.length ? "Ferdig" : "Neste"}
+              </Button>
+            </Grid>
+          </Grid>
+        </Box>
+      )}
+      {showPopUpLevel2 && (
+        <Box
+          sx={{
+            height: "100vh",
+            overflow: "auto",
+            display: "flex",
+            flexDirection: "column",
+            backgroundColor: "secondary.main",
+          }}
+        >
+          <LevelPopUp
+            onClose={handleClosePopUp}
+            level={2}
+            message={
+              "En oppsummering av retrospektiven finner du i listen over retrospektiver!"
+            }
+          />
+          <Typography
+            fontSize={"14px"}
+            color={"#708090"}
+            margin={"auto"}
+            marginTop={"50px"}
+          >
+            Klikk her for å komme til Teamet's hjemmeside
+          </Typography>
+        </Box>
+      )}
+    </>
   );
 };
 
