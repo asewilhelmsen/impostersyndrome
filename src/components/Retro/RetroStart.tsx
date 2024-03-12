@@ -29,7 +29,10 @@ const RetroStart = ({
 
   const isSmallScreen = useMediaQuery("(max-width: 1000px)");
 
-  const [retroer, setRetroer] = useState<string[]>(["Retrospektiv 1"]);
+  const [retroer, setRetroer] = useState<string[]>([
+    "Retrospektiv 1",
+    "Retrospektiv 2",
+  ]);
   const [antallRetroerGjennomfort, setAntallRetroerGjennomfort] =
     useState<number>(0);
 
@@ -58,6 +61,7 @@ const RetroStart = ({
   const handleOppsummeringLukk = () => {
     setVisOppsummering(false);
   };
+
   const setAntallRetroer = async () => {
     try {
       const teamInfo = await getTeamInfo();
@@ -65,7 +69,7 @@ const RetroStart = ({
         setAntallRetroerGjennomfort(teamInfo.antallRetroerGjennomfort);
       }
     } catch (error) {
-      console.error("Kan ikke hente målene", error);
+      console.error("Kan ikke sette antall", error);
     }
   };
 
@@ -78,7 +82,7 @@ const RetroStart = ({
     for (let i = 1; i <= antallRetroerGjennomfort + 1; i++) {
       newRetroer.push("Retrospektiv " + i);
     }
-    setRetroer(newRetroer);
+    // setRetroer(newRetroer);
   }, [antallRetroerGjennomfort]);
 
   useEffect(() => {
