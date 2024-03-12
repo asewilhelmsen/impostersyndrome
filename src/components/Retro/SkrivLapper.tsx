@@ -88,7 +88,7 @@ const SkrivLapper = ({
       const unsubscribe = onSnapshot(retroRef, (querySnapshot) => {
         if (querySnapshot.data()?.timerStartet) {
           setTidStartet(true);
-          setTidIgjen(10); // 5 min (5 * 60), 5 sek for test nå
+          setTidIgjen(300); // 5 min (5 * 60), 5 sek for test nå
         }
       });
       return unsubscribe;

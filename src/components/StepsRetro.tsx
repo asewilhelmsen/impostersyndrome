@@ -38,6 +38,7 @@ const StepsRetro = ({
   const [nyListe, setNyListe] = useState<string[]>();
   const [showPopUpLevel2, setShowPopUpLevel2] = useState(false);
   const [showPopUpLevel3, setShowPopUpLevel3] = useState(false);
+
   const navigate = useNavigate();
   const { teamBruker, retroNummer } = useTeamContext();
 
@@ -64,7 +65,6 @@ const StepsRetro = ({
       handleUpdateLevel(3);
       setShowPopUpLevel3(false);
     }
-
     handleNextStep("retroSteg", -1);
   };
 
