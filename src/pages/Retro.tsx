@@ -63,7 +63,7 @@ const Retro = () => {
           <b>2. </b> Skriv individuelt hva som gikk bra i denne sprinten. Legg
           til så mange lapper du ønsker.
           <br /> <br />
-          <b>3. </b> Gå videre når alle føler seg ferdig eller tiden er ut.
+          <b>3. </b> Gå videre når alle føler seg ferdig eller tiden er ute.
         </>
       }
       aktivitet="braPostIts"
@@ -86,7 +86,7 @@ const Retro = () => {
           <b>2. </b> Skriv individuelt hva som kunne gått bedre i denne
           sprinten. Legg til så mange lapper du ønsker.
           <br /> <br />
-          <b>3. </b> Gå videre når alle føler seg ferdig eller tiden er ut.
+          <b>3. </b> Gå videre når alle føler seg ferdig eller tiden er ute.
         </>
       }
       aktivitet="bedrePostIts"
