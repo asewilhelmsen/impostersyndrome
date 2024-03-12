@@ -57,11 +57,13 @@ const Retro = () => {
       overskrift="Skriv individuelt hva som har gått bra"
       forklaring={
         <>
-          <b>Start nedtellingen </b> på 5 minutter når alle er klare og
-          <b> skriv individuelt</b> hva som gikk bra i denne sprinten.
+          <b>1.</b> Sett en timer på 5 minutter når alle er klare.
+          <br />
+          <br />
+          <b>2. </b> Skriv individuelt hva som gikk bra i denne sprinten. Legg
+          til så mange lapper du ønsker.
           <br /> <br />
-          Legg til så mange lapper du ønsker. Du kan ikke legge inn flere når
-          tiden er ute.
+          <b>3. </b> Gå videre når alle føler seg ferdig eller tiden er ut.
         </>
       }
       aktivitet="braPostIts"
@@ -78,11 +80,13 @@ const Retro = () => {
       overskrift={"Skriv individuelt hva som kunne gått bedre"}
       forklaring={
         <>
-          <b>Start nedtellingen </b> på 5 minutter når alle er klare og
-          <b> skriv individuelt</b> hva som kunne gått bedre i denne sprinten.
+          <b>1.</b> Sett en timer på 5 minutter når alle er klare.
+          <br />
+          <br />
+          <b>2. </b> Skriv individuelt hva som kunne gått bedre i denne
+          sprinten. Legg til så mange lapper du ønsker.
           <br /> <br />
-          Legg til så mange lapper du ønsker. Du kan ikke legge inn flere når
-          tiden er ute.
+          <b>3. </b> Gå videre når alle føler seg ferdig eller tiden er ut.
         </>
       }
       aktivitet="bedrePostIts"
