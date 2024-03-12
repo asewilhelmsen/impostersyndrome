@@ -37,6 +37,7 @@ const StepsRetro = ({
   const [aktivtSteg, setAktivtSteg] = useState(1);
   const [nyListe, setNyListe] = useState<string[]>();
   const [showPopUpLevel2, setShowPopUpLevel2] = useState(false);
+  const [showPopUpLevel3, setShowPopUpLevel3] = useState(false);
   const navigate = useNavigate();
   const { teamBruker, retroNummer } = useTeamContext();
 
@@ -57,11 +58,13 @@ const StepsRetro = ({
     if (retroNummer === 1) {
       handleOppdaterRetroNummer(1, "antallRetroerGjennomfort");
       handleUpdateLevel(2);
+      setShowPopUpLevel2(false);
     } else if (retroNummer === 2) {
       handleOppdaterRetroNummer(2, "antallRetroerGjennomfort");
       handleUpdateLevel(3);
+      setShowPopUpLevel3(false);
     }
-    setShowPopUpLevel2(false);
+
     handleNextStep("retroSteg", -1);
   };
 
@@ -76,7 +79,7 @@ const StepsRetro = ({
           if (retroNummer === 1) {
             setShowPopUpLevel2(true);
           } else if (retroNummer === 2) {
-            //setShowPopUpLevel3(true);
+            setShowPopUpLevel3(true);
           }
         } else if (querySnapshot.data()?.steg === 0) {
           navigate("/retrospektiv");
@@ -94,7 +97,7 @@ const StepsRetro = ({
 
   return (
     <>
-      {!showPopUpLevel2 && (
+      {!showPopUpLevel2 && !showPopUpLevel3 && (
         <Box
           sx={{
             height: "100vh",
@@ -165,7 +168,7 @@ const StepsRetro = ({
           </Grid>
         </Box>
       )}
-      {showPopUpLevel2 && (
+      {(showPopUpLevel2 || showPopUpLevel3) && (
         <Box
           sx={{
             height: "100vh",
@@ -177,7 +180,7 @@ const StepsRetro = ({
         >
           <LevelPopUp
             onClose={handleClosePopUp}
-            level={2}
+            level={showPopUpLevel2 ? 2 : 3}
             message={
               "En oppsummering av retrospektiven finner du i listen over retrospektiver!"
             }

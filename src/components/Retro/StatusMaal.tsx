@@ -1,12 +1,5 @@
 import { useState, useEffect } from "react";
-import {
-  List,
-  ListItem,
-  Typography,
-  Checkbox,
-  Button,
-  Grid,
-} from "@mui/material";
+import { List, ListItem, Typography, Checkbox, Grid } from "@mui/material";
 import { useTeamContext } from "../../TeamContext";
 import { Maalene } from "../../interfaces";
 import { collection, doc, onSnapshot } from "@firebase/firestore";
@@ -14,8 +7,6 @@ import styles from "../StartAktivitet/Forventninger.module.css";
 import { firestore } from "../../firebase/firebase_setup/firebase";
 import ExpectationImg from "../../images/Expectations.svg";
 import handleOppdaterMaalChecked from "../../firebase/handles/handleOppdaterMaalChecked";
-import handleAddMaal from "../../firebase/handles/handleAddMaal";
-import Confetti from "react-confetti";
 import ConfettiExplosion from "react-confetti-explosion";
 
 const StatusMaal = ({
@@ -27,7 +18,6 @@ const StatusMaal = ({
 }) => {
   const { teamBruker, retroNummer } = useTeamContext();
   const [maalene, setMaalene] = useState<Maalene[]>([]);
-  // const [checkedItems, setCheckedItems] = useState<{ [key: string]: boolean }>( {} );
   const [showConfetti, setShowConfetti] = useState(false);
 
   useEffect(() => {
@@ -42,7 +32,7 @@ const StatusMaal = ({
       const forventningerRef = doc(teamRef, "forventninger");
       const maalRef = collection(forventningerRef, "maal");
 
-      const refString = "retroMaal" + (retroNummer - 1).toString();
+      const refString = "retroMaal" + retroNummer;
 
       let tidligereMaalRef = doc(maalRef, refString);
       if (retroNummer === 1) {
@@ -62,10 +52,8 @@ const StatusMaal = ({
                 tekst: data[key].tekst,
                 checked: data[key].checked,
               });
-              // setCheckedItems((prev) => ({ ...prev, [key]: false }));
             }
           }
-          // setIsExploding(false);
           setMaalene(maalene);
         }
       );

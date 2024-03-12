@@ -39,9 +39,6 @@ const Hjem = ({ handleSignOut }: { handleSignOut: () => Promise<void> }) => {
   );
 
   const [showPopUpLevel1, setShowPopUpLevel1] = useState(false);
-  const [showPopUpLevel2, setShowPopUpLevel2] = useState(false);
-  const [showPopUpLevel3, setShowPopUpLevel3] = useState(false);
-
   const [showMaalPopUp, setShowMaalPopUp] = useState(false);
 
   const { teamBruker, retroNummer, setTeamAntall, setRetroNummer } =
@@ -132,12 +129,6 @@ const Hjem = ({ handleSignOut }: { handleSignOut: () => Promise<void> }) => {
         (querySnapshot) => {
           if (querySnapshot.data()?.steg === 0) {
             navigate("/retrospektiv");
-          } else if (querySnapshot.data()?.steg === 9 && retroNummer === 1) {
-            setShowPopUpLevel2(true);
-            handleNextStep("retroSteg", -1);
-          } else if (querySnapshot.data()?.steg === 9 && retroNummer === 2) {
-            setShowPopUpLevel3(true);
-            handleNextStep("retroSteg", -1);
           }
         }
       );
@@ -158,8 +149,6 @@ const Hjem = ({ handleSignOut }: { handleSignOut: () => Promise<void> }) => {
 
   const handleClosePopUp = () => {
     setShowPopUpLevel1(false);
-    setShowPopUpLevel2(false);
-    setShowPopUpLevel3(false);
   };
   const handleCloseMaalPopUp = () => {
     setShowMaalPopUp(false);
@@ -338,24 +327,6 @@ const Hjem = ({ handleSignOut }: { handleSignOut: () => Promise<void> }) => {
         )}
         {showMaalPopUp && teamLevel > 0 && (
           <MaalPopUp onClose={handleCloseMaalPopUp} maalene={startAktMaal} />
-        )}
-        {showPopUpLevel2 && (
-          <LevelPopUp
-            onClose={handleClosePopUp}
-            level={2}
-            message={
-              "En oppsummering av retrospektiven finner du i listen over retrospektiver!"
-            }
-          />
-        )}
-        {showPopUpLevel3 && (
-          <LevelPopUp
-            onClose={handleClosePopUp}
-            level={3}
-            message={
-              "En oppsummering av retrospektiven finner du i listen over retrospektiver!"
-            }
-          />
         )}
       </div>
     </div>
