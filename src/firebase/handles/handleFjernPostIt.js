@@ -11,7 +11,7 @@ const handleFjernPostIt = (retroNummer, liste) => {
       bedrePostIts: null,
     });
 
-    setDoc(retroRef, {
+    updateDoc(retroRef, {
       bedrePostIts: liste,
     });
   } catch (err) {
