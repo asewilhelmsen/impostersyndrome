@@ -36,7 +36,9 @@ const SkrivLapper = ({
 
   //Til å sende liste over alle bra ting
   const submitBra = (e: FormEvent) => {
+    onSkrivFerdig(false);
     e.preventDefault();
+    handleLeggTilRetroSvar(retroNummer, input, aktivitet);
     setListe([...liste, input]);
     setInput("");
   };
@@ -55,7 +57,7 @@ const SkrivLapper = ({
   };
 
   // Timer funksjonalitet
-  useEffect(() => {
+  /* useEffect(() => {
     onSkrivFerdig(!tidStartet || tidIgjen > 0);
     let intervalId: NodeJS.Timeout;
     if (tidStartet && tidIgjen > 0) {
@@ -65,18 +67,19 @@ const SkrivLapper = ({
     } else if (tidIgjen === 0) {
       handleSettRetroTimer(retroNummer, false);
       // clearInterval(intervalId);
-    }
-    if (tidIgjen === 0 && liste.length > 0) {
-      handleLeggTilRetroSvar(retroNummer, liste, aktivitet);
+    }*/
+  /* if (tidIgjen === 0 && liste.length > 0) {
+      console.log("liste og retroNummer", liste, retroNummer, aktivitet);
       if (aktivitet === "braPostIts") {
         handleNextStep("retroSteg", 4);
       } else if (aktivitet === "bedrePostIts") {
         handleNextStep("retroSteg", 6);
       }
-    }
+    }*/
+  /*
     return () => clearInterval(intervalId);
-  }, [tidStartet, tidIgjen]);
-
+  }, [tidStartet, tidIgjen]);*/
+  /*
   useEffect(() => {
     if (teamBruker) {
       const teamRef = collection(firestore, teamBruker.uid);
@@ -99,6 +102,11 @@ const SkrivLapper = ({
     //setTidIgjen(5); // 5 minutes in seconds (5 * 60)
   };
 
+  const sendRetroSvar = () => {
+    console.log("liste og retroNummer", liste, retroNummer, aktivitet);
+    handleLeggTilRetroSvar(retroNummer, liste, aktivitet);
+  };*/
+
   return (
     <>
       <Typography variant="h2" sx={{ marginBottom: "30px" }}>
@@ -113,36 +121,7 @@ const SkrivLapper = ({
           <Typography marginLeft={"5px"} variant="body2">
             I neste steg vil svarene deles anonymt.
           </Typography>
-          <Grid
-            item
-            sx={{
-              marginTop: "50px",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            {tidStartet ? (
-              <div style={{ display: "flex", alignItems: "center" }}>
-                <AccessTimeIcon color="primary" fontSize="large" />
-                <Typography
-                  variant="h5"
-                  sx={{ marginLeft: "10px", marginTop: "5px" }}
-                >
-                  {minutes}:{seconds < 10 ? `0${seconds}` : seconds} igjen
-                </Typography>
-              </div>
-            ) : (
-              <Button
-                onClick={startTimer}
-                variant="contained"
-                disabled={tidStartet}
-              >
-                Start tiden
-              </Button>
-            )}
-          </Grid>
-          {tidStartet ? (
+          <Grid item>
             <form onSubmit={submitBra}>
               <Grid
                 container
@@ -173,9 +152,7 @@ const SkrivLapper = ({
                 </Grid>
               </Grid>
             </form>
-          ) : (
-            <div></div>
-          )}
+          </Grid>
         </Grid>
         <TavlePostIt liste={liste} />
       </Grid>
