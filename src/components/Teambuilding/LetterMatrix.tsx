@@ -1,4 +1,4 @@
-import { Box, Button, Grid } from "@mui/material";
+import { Box, Button, Grid, Typography } from "@mui/material";
 import React, { useState } from "react";
 import fasit from "../../images/letterMatrixFasit.png";
 
@@ -393,58 +393,27 @@ const LetterMatrix: React.FC = () => {
   };
 
   return (
-    <Box
-      sx={{
-        display: "flex",
-        justifyContent: showFasit ? "space-between" : "center",
-      }}
-    >
-      <Grid container spacing={2}>
-        <Grid item>
-          <Box
-            sx={{
-              backgroundColor: "white",
-              padding: "5px",
-              borderRadius: "10px",
-            }}
-          >
-            <table>
-              <tbody>
-                {matrix.map((row, rowIndex) => (
-                  <tr key={rowIndex}>
-                    {row.map((letter, colIndex) => (
-                      <td
-                        key={colIndex}
-                        onClick={() => handleCellSelect(rowIndex, colIndex)}
-                        style={{
-                          color: isCellSelected(rowIndex, colIndex)
-                            ? "#A5D79C"
-                            : "",
-                          textAlign: "center",
-                          verticalAlign: "middle",
-                          width: "20px",
-                          height: "20px",
-                          padding: "2px",
-                          outline: isCellSelected(rowIndex, colIndex)
-                            ? "1px solid grey"
-                            : "",
-                          borderRadius: "5px",
-                        }}
-                      >
-                        {letter}
-                      </td>
-                    ))}
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </Box>
-          <Button onClick={checkAnswers}>
-            {!showFasit ? "Sjekk fasit" : "Skjul fasit"}
-          </Button>
-        </Grid>
-        <Grid item>
-          {showFasit && (
+    <>
+      <Typography variant="h2" sx={{ marginBottom: "10px" }}>
+        Ordspill
+      </Typography>
+      <Typography
+        marginLeft={"5px"}
+        variant="body1"
+        sx={{ marginBottom: "30px" }}
+      >
+        Samarbeid og finn så mange ord dere klarer! Klikk på bokstavene for å
+        markere ordene dere finner.
+      </Typography>
+
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: showFasit ? "space-between" : "center",
+        }}
+      >
+        <Grid container spacing={2}>
+          <Grid item>
             <Box
               sx={{
                 backgroundColor: "white",
@@ -452,12 +421,57 @@ const LetterMatrix: React.FC = () => {
                 borderRadius: "10px",
               }}
             >
-              <img src={fasit} style={{ width: "70%" }}></img>
+              <table>
+                <tbody>
+                  {matrix.map((row, rowIndex) => (
+                    <tr key={rowIndex}>
+                      {row.map((letter, colIndex) => (
+                        <td
+                          key={colIndex}
+                          onClick={() => handleCellSelect(rowIndex, colIndex)}
+                          style={{
+                            color: isCellSelected(rowIndex, colIndex)
+                              ? "#A5D79C"
+                              : "",
+                            textAlign: "center",
+                            verticalAlign: "middle",
+                            width: "20px",
+                            height: "20px",
+                            padding: "2px",
+                            outline: isCellSelected(rowIndex, colIndex)
+                              ? "1px solid grey"
+                              : "",
+                            borderRadius: "5px",
+                          }}
+                        >
+                          {letter}
+                        </td>
+                      ))}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </Box>
-          )}
+            <Button onClick={checkAnswers}>
+              {!showFasit ? "Sjekk fasit" : "Skjul fasit"}
+            </Button>
+          </Grid>
+          <Grid item>
+            {showFasit && (
+              <Box
+                sx={{
+                  backgroundColor: "white",
+                  padding: "5px",
+                  borderRadius: "10px",
+                }}
+              >
+                <img src={fasit} style={{ width: "70%" }}></img>
+              </Box>
+            )}
+          </Grid>
         </Grid>
-      </Grid>
-    </Box>
+      </Box>
+    </>
   );
 };
 
