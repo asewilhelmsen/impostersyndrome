@@ -127,6 +127,7 @@ const Teambuilding = () => {
               </Button>
             </Card>
           </Grid>
+          <Grid></Grid>
         </div>
       </div>
       {(showPopUpLevel3 || showPopUpLevel4) && (
