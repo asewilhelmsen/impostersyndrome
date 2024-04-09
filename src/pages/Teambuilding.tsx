@@ -2,6 +2,8 @@ import {
   Box,
   Button,
   Card,
+  CardContent,
+  CardMedia,
   Grid,
   Typography,
   useMediaQuery,
@@ -15,9 +17,13 @@ import { firestore } from "../firebase/firebase_setup/firebase";
 import LevelPopUp from "../components/LevelPopUp";
 import handleUpdateLevel from "../firebase/handles/handleUpdateLevel";
 import handleUpdateAntallTeambuilding from "../firebase/handles/handleUpdateAntallTeambuilding";
+import DilemmaImg from "../images/DilemmaImg.svg";
+import VisBildeImg from "../images/VisBildeImg.svg";
+import Ordspill_Img from "../images/Ordspill_Img.svg";
 
 const Teambuilding = () => {
-  const [tb1Done, setTb1Done] = useState<boolean>(false);
+  //const [tb1Done, setTb1Done] = useState<boolean>(false); Fikse denne hvis vi trenger å disable knapp etter fullført
+  const [selectedBox, setSelectedBox] = useState<number | null>(null);
 
   const [showPopUpLevel3, setShowPopUpLevel3] = useState(false);
   const [showPopUpLevel4, setShowPopUpLevel4] = useState(false);
@@ -40,8 +46,13 @@ const Teambuilding = () => {
     setShowPopUpLevel4(false);
   };
 
+  const handleClickBox = (boxNumber: number) => {
+    setSelectedBox(boxNumber);
+  };
+
   const handleTeambuildingDone = () => {
-    setTb1Done(true);
+    //setTb1Done(true);
+    setSelectedBox(null);
     handleUpdateAntallTeambuilding(antallTeambuildingGjennomfort + 1);
     //Hvis man har gjort 2 retroer
     if (antallRetroerGjennomfort > 1) {
@@ -77,6 +88,27 @@ const Teambuilding = () => {
       return unsubscribe;
     }
   }, [teamBruker]);
+
+  const cardData = [
+    {
+      image: DilemmaImg,
+      title: "Dilemma",
+      description: "Beskrivelse av Box 1",
+      handleClick: () => handleClickBox(1),
+    },
+    {
+      image: VisBildeImg,
+      title: "Vis bilde",
+      description: "Beskrivelse av Box 2",
+      handleClick: () => handleClickBox(2),
+    },
+    {
+      image: Ordspill_Img,
+      title: "Ordspill",
+      description: "Beskrivelse av Box 3",
+      handleClick: () => handleClickBox(3),
+    },
+  ];
 
   return (
     <>
@@ -116,16 +148,40 @@ const Teambuilding = () => {
           }}
         >
           <Grid container spacing={2} textAlign="center">
-            <Card>
-              Teambuilding 1
-              <Button
-                variant="contained"
-                onClick={handleTeambuildingDone}
-                disabled={tb1Done}
-              >
-                Fullført
-              </Button>
-            </Card>
+            {selectedBox === null ? (
+              cardData.map((card, index) => (
+                <Grid item xs={4} key={index}>
+                  <Card style={{ borderRadius: 6 }}>
+                    <CardMedia
+                      component="img"
+                      image={card.image}
+                      alt={card.title}
+                      style={{
+                        width: "60%",
+                        margin: "auto",
+                        marginBottom: "10px",
+                      }}
+                    />
+                    <CardContent>
+                      <Typography variant="h5">{card.title}</Typography>
+                      <Typography variant="body2">
+                        {card.description}
+                      </Typography>
+                      <Button variant="contained" onClick={card.handleClick}>
+                        Start øvelsen
+                      </Button>
+                    </CardContent>
+                  </Card>
+                </Grid>
+              ))
+            ) : (
+              <div>
+                <button onClick={handleTeambuildingDone}>Fullført</button>
+                {selectedBox === 1 && <div>TB1</div>}
+                {selectedBox === 2 && <div>TB2</div>}
+                {selectedBox === 3 && <div>TB3</div>}
+              </div>
+            )}
           </Grid>
           <Grid></Grid>
         </div>
