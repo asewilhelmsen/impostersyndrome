@@ -32,7 +32,7 @@ const LetterMatrix: React.FC = () => {
       "S",
       "O",
       "S",
-      "A",
+      "P",
       "M",
     ],
     [
@@ -93,7 +93,7 @@ const LetterMatrix: React.FC = () => {
       "S",
       "D",
       "T",
-      "O",
+      "K",
       "D",
       "E",
       "K",
@@ -103,7 +103,7 @@ const LetterMatrix: React.FC = () => {
     ],
     [
       "I",
-      "S",
+      "L",
       "R",
       "L",
       "D",
@@ -160,7 +160,7 @@ const LetterMatrix: React.FC = () => {
       "V",
       "E",
       "A",
-      "R",
+      "K",
       "I",
       "S",
       "A",
@@ -168,8 +168,8 @@ const LetterMatrix: React.FC = () => {
       "K",
     ],
     [
-      "E",
       "K",
+      "E",
       "A",
       "O",
       "N",
@@ -193,7 +193,7 @@ const LetterMatrix: React.FC = () => {
       "B",
       "D",
       "L",
-      "R",
+      "A",
       "G",
       "G",
       "N",
@@ -285,7 +285,7 @@ const LetterMatrix: React.FC = () => {
       "O",
       "M",
       "J",
-      "S",
+      "P",
       "Å",
       "P",
       "E",
@@ -418,13 +418,17 @@ const LetterMatrix: React.FC = () => {
                         onClick={() => handleCellSelect(rowIndex, colIndex)}
                         style={{
                           color: isCellSelected(rowIndex, colIndex)
-                            ? "#7D97F4"
+                            ? "#A5D79C"
                             : "",
                           textAlign: "center",
                           verticalAlign: "middle",
                           width: "20px",
                           height: "20px",
-                          border: "1px ",
+                          padding: "2px",
+                          outline: isCellSelected(rowIndex, colIndex)
+                            ? "1px solid grey"
+                            : "",
+                          borderRadius: "5px",
                         }}
                       >
                         {letter}
@@ -448,7 +452,7 @@ const LetterMatrix: React.FC = () => {
                 borderRadius: "10px",
               }}
             >
-              <img src={fasit}></img>
+              <img src={fasit} style={{ width: "70%" }}></img>
             </Box>
           )}
         </Grid>
