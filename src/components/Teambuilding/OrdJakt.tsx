@@ -1,8 +1,19 @@
-import { Box, Button, Grid, Typography } from "@mui/material";
+import { Box, Button, Grid, Typography, useMediaQuery } from "@mui/material";
 import React, { useState } from "react";
-import fasit from "../../images/letterMatrixFasit.png";
+import fasit from "../../images/ordJaktFasit.png";
 
-const LetterMatrix: React.FC = () => {
+const OrdJakt = ({
+  onLukk,
+  onFullfor,
+}: {
+  onLukk: () => void;
+  onFullfor: () => void;
+}) => {
+  const isSmallScreen = useMediaQuery("(max-width: 1000px)");
+  const handleBackToHomePage = () => {
+    onLukk();
+  };
+
   const isCellSelected = (row: number, col: number): boolean => {
     return selectedCells.some(
       (cell: any) => cell[0] === row && cell[1] === col
@@ -30,7 +41,7 @@ const LetterMatrix: React.FC = () => {
       "F",
       "S",
       "S",
-      "O",
+      "I",
       "S",
       "P",
       "M",
@@ -102,7 +113,7 @@ const LetterMatrix: React.FC = () => {
       "P",
     ],
     [
-      "I",
+      "Q",
       "L",
       "R",
       "L",
@@ -206,7 +217,7 @@ const LetterMatrix: React.FC = () => {
       "S",
       "L",
       "M",
-      "L",
+      "Å",
       "I",
       "N",
       "O",
@@ -297,7 +308,7 @@ const LetterMatrix: React.FC = () => {
       "N",
       "A",
       "A",
-      "R",
+      "G",
     ],
     [
       "I",
@@ -305,7 +316,7 @@ const LetterMatrix: React.FC = () => {
       "A",
       "S",
       "K",
-      "I",
+      "Ø",
       "K",
       "S",
       "T",
@@ -317,7 +328,7 @@ const LetterMatrix: React.FC = () => {
       "F",
       "E",
       "E",
-      "T",
+      "K",
       "S",
       "O",
     ],
@@ -394,70 +405,62 @@ const LetterMatrix: React.FC = () => {
 
   return (
     <>
-      <Typography variant="h2" sx={{ marginBottom: "10px" }}>
-        Ordspill
-      </Typography>
-      <Typography
-        marginLeft={"5px"}
-        variant="body1"
-        sx={{ marginBottom: "30px" }}
-      >
-        Samarbeid og finn så mange ord dere klarer! Klikk på bokstavene for å
-        markere ordene dere finner.
-      </Typography>
-
-      <Box
-        sx={{
+      <div
+        style={{
+          height: "100vh",
+          overflow: "auto",
           display: "flex",
-          justifyContent: showFasit ? "space-between" : "center",
+          flexDirection: "column",
+          padding: 5,
         }}
       >
-        <Grid container spacing={2}>
-          <Grid item>
-            <Box
-              sx={{
-                backgroundColor: "white",
-                padding: "5px",
-                borderRadius: "10px",
-              }}
+        <Grid
+          container
+          sx={{ alignItems: "center", marginTop: "2%", marginBottom: "2%" }}
+        >
+          <Grid item xs={10}>
+            <Typography
+              variant="h2"
+              style={{ marginBottom: "1%", marginLeft: "5%" }}
             >
-              <table>
-                <tbody>
-                  {matrix.map((row, rowIndex) => (
-                    <tr key={rowIndex}>
-                      {row.map((letter, colIndex) => (
-                        <td
-                          key={colIndex}
-                          onClick={() => handleCellSelect(rowIndex, colIndex)}
-                          style={{
-                            color: isCellSelected(rowIndex, colIndex)
-                              ? "#A5D79C"
-                              : "",
-                            textAlign: "center",
-                            verticalAlign: "middle",
-                            width: "20px",
-                            height: "20px",
-                            padding: "2px",
-                            outline: isCellSelected(rowIndex, colIndex)
-                              ? "1px solid grey"
-                              : "",
-                            borderRadius: "5px",
-                          }}
-                        >
-                          {letter}
-                        </td>
-                      ))}
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </Box>
-            <Button onClick={checkAnswers}>
-              {!showFasit ? "Sjekk fasit" : "Skjul fasit"}
+              Ord-jakten
+            </Typography>
+          </Grid>
+          <Grid item xs={2} style={{ textAlign: "right", paddingRight: "2%" }}>
+            <Button variant="contained" onClick={handleBackToHomePage}>
+              Tilbake
             </Button>
           </Grid>
-          <Grid item>
-            {showFasit && (
+        </Grid>
+        <div
+          style={{
+            flex: 1,
+            backgroundColor: "#E3EAFD",
+            display: "flex",
+            flexDirection: "column",
+            paddingTop: "2%",
+            paddingLeft: "5%",
+            paddingRight: "5%",
+          }}
+        >
+          <Typography
+            marginLeft={"5px"}
+            variant="body1"
+            sx={{ marginBottom: "20px" }}
+          >
+            Samarbeid og finn så mange ord dere klarer! Klikk på bokstavene for
+            å markere ordene dere finner. Ord kan finnes både horisontalt,
+            vertikalt og diagonalt.
+          </Typography>
+
+          <Grid
+            container
+            spacing={1}
+            sx={{
+              justifyContent: "center",
+            }}
+          >
+            <Grid item xs={5}>
               <Box
                 sx={{
                   backgroundColor: "white",
@@ -465,14 +468,74 @@ const LetterMatrix: React.FC = () => {
                   borderRadius: "10px",
                 }}
               >
-                <img src={fasit} style={{ width: "70%" }}></img>
+                <table>
+                  <tbody>
+                    {matrix.map((row, rowIndex) => (
+                      <tr key={rowIndex}>
+                        {row.map((letter, colIndex) => (
+                          <td
+                            key={colIndex}
+                            onClick={() => handleCellSelect(rowIndex, colIndex)}
+                            style={{
+                              color: isCellSelected(rowIndex, colIndex)
+                                ? "#7D97F4"
+                                : "",
+                              textAlign: "center",
+                              verticalAlign: "middle",
+                              width: "18px",
+                              height: "18px",
+                              padding: "2px",
+                              outline: isCellSelected(rowIndex, colIndex)
+                                ? "0.5px solid grey"
+                                : "",
+                              borderRadius: "5px",
+                            }}
+                          >
+                            {letter}
+                          </td>
+                        ))}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </Box>
+              <Button onClick={checkAnswers}>
+                {!showFasit ? "Sjekk fasit" : "Skjul fasit"}
+              </Button>
+            </Grid>
+            {showFasit && (
+              <Grid item xs={5} sx={{ textAlign: "center" }}>
+                <Box
+                  sx={{
+                    backgroundColor: "white",
+                    padding: "5px",
+                    borderRadius: "10px",
+                  }}
+                >
+                  <img src={fasit} style={{ width: "100%" }}></img>
+                </Box>
+                <Typography variant="body2">
+                  Fant dere noen ord som ikke var i fasiten? Bra jobba!
+                </Typography>
+              </Grid>
             )}
           </Grid>
-        </Grid>
-      </Box>
+          <Box sx={{ display: "flex", justifyContent: "center" }}>
+            <Button
+              variant="contained"
+              style={{
+                width: "140px",
+                marginTop: "10px",
+              }}
+              onClick={onFullfor}
+            >
+              Øvelse ferdig
+            </Button>
+          </Box>
+        </div>
+      </div>
     </>
   );
 };
 
-export default LetterMatrix;
+export default OrdJakt;

@@ -20,6 +20,9 @@ import handleUpdateAntallTeambuilding from "../firebase/handles/handleUpdateAnta
 import DilemmaImg from "../images/DilemmaImg.svg";
 import VisBildeImg from "../images/VisBildeImg.svg";
 import Ordspill_Img from "../images/Ordspill_Img.svg";
+import Dilemma from "../components/Teambuilding/Dilemma";
+import VisBilder from "../components/Teambuilding/VisBilder";
+import OrdJakt from "../components/Teambuilding/OrdJakt";
 
 const Teambuilding = () => {
   //const [tb1Done, setTb1Done] = useState<boolean>(false); Fikse denne hvis vi trenger å disable knapp etter fullført
@@ -41,6 +44,9 @@ const Teambuilding = () => {
     navigator("/");
   };
 
+  const handleLukkAktivitet = () => {
+    setSelectedBox(null);
+  };
   const handleClosePopUp = () => {
     setShowPopUpLevel3(false);
     setShowPopUpLevel4(false);
@@ -55,13 +61,15 @@ const Teambuilding = () => {
     setSelectedBox(null);
     handleUpdateAntallTeambuilding(antallTeambuildingGjennomfort + 1);
     //Hvis man har gjort 2 retroer
-    if (antallRetroerGjennomfort > 1) {
+    if (antallRetroerGjennomfort >= 1 && antallTeambuildingGjennomfort > 1) {
+      console.log("Nivå 4 er allerede nådd");
+    } else if (antallRetroerGjennomfort > 1) {
       setShowPopUpLevel4(true);
       handleUpdateLevel(4);
     }
     //hvis man har gjort 1 retro men flere teambuildingsøvelser
     else if (
-      antallRetroerGjennomfort == 1 &&
+      antallRetroerGjennomfort === 1 &&
       antallTeambuildingGjennomfort > 0
     ) {
       setShowPopUpLevel4(true);
@@ -92,64 +100,71 @@ const Teambuilding = () => {
   const cardData = [
     {
       image: DilemmaImg,
-      title: "Dilemma",
-      description: "Beskrivelse av Box 1",
+      title: "Dilemmaer",
+      description:
+        "Bli enda bedre kjent ved å se hvilke valg dere tar i useriøse dilemmaer.",
       handleClick: () => handleClickBox(1),
     },
     {
       image: VisBildeImg,
-      title: "Vis bilde",
-      description: "Beskrivelse av Box 2",
+      title: "Finn et bilde",
+      description:
+        "Bruk ett bilde til å beskrive noe fra den siste uken! Del med hverandre. ",
       handleClick: () => handleClickBox(2),
     },
     {
       image: Ordspill_Img,
-      title: "Ordspill",
-      description: "Beskrivelse av Box 3",
+      title: "Ord-jakten",
+      description:
+        "Samarbeid om å finne flest mulige ord. Hvor mange finner dere sammen?",
       handleClick: () => handleClickBox(3),
     },
   ];
 
   return (
     <>
-      <div
-        style={{
-          height: "100vh",
-          overflow: "auto",
-          display: "flex",
-          flexDirection: "column",
-        }}
-      >
-        <Grid container alignItems="center" marginTop={"1%"}>
-          <Grid item xs={10}>
-            <Typography
-              variant="h2"
-              style={{ marginBottom: "1%", marginLeft: "5%" }}
-            >
-              Teambuilding
-            </Typography>
-          </Grid>
-          <Grid item xs={2} style={{ textAlign: "right", paddingRight: "2%" }}>
-            <Button variant="contained" onClick={handleBackToHomePage}>
-              Tilbake
-            </Button>
-          </Grid>
-        </Grid>
+      {selectedBox === null ? (
         <div
           style={{
-            flex: 1,
-            backgroundImage: `url(${wave})`,
-            backgroundSize: "cover",
+            height: "100vh",
+            overflow: "auto",
             display: "flex",
             flexDirection: "column",
-            paddingTop: isSmallScreen ? "10%" : "6%",
-            paddingLeft: "5%",
-            paddingRight: "5%",
           }}
         >
-          <Grid container spacing={2} textAlign="center">
-            {selectedBox === null ? (
-              cardData.map((card, index) => (
+          <Grid container alignItems="center" marginTop={"1%"}>
+            <Grid item xs={10}>
+              <Typography
+                variant="h2"
+                style={{ marginBottom: "1%", marginLeft: "5%" }}
+              >
+                Teambuilding
+              </Typography>
+            </Grid>
+            <Grid
+              item
+              xs={2}
+              style={{ textAlign: "right", paddingRight: "2%" }}
+            >
+              <Button variant="contained" onClick={handleBackToHomePage}>
+                Tilbake
+              </Button>
+            </Grid>
+          </Grid>
+          <div
+            style={{
+              flex: 1,
+              backgroundImage: `url(${wave})`,
+              backgroundSize: "cover",
+              display: "flex",
+              flexDirection: "column",
+              paddingTop: isSmallScreen ? "10%" : "8%",
+              paddingLeft: "5%",
+              paddingRight: "5%",
+            }}
+          >
+            <Grid container spacing={2} textAlign="center">
+              {cardData.map((card, index) => (
                 <Grid item xs={4} key={index}>
                   <Card style={{ borderRadius: 6 }}>
                     <CardMedia
@@ -167,25 +182,33 @@ const Teambuilding = () => {
                       <Typography variant="body2">
                         {card.description}
                       </Typography>
+                      <br></br>
                       <Button variant="contained" onClick={card.handleClick}>
                         Start øvelsen
                       </Button>
                     </CardContent>
                   </Card>
                 </Grid>
-              ))
-            ) : (
-              <div>
-                <button onClick={handleTeambuildingDone}>Fullført</button>
-                {selectedBox === 1 && <div>TB1</div>}
-                {selectedBox === 2 && <div>TB2</div>}
-                {selectedBox === 3 && <div>TB3</div>}
-              </div>
-            )}
-          </Grid>
-          <Grid></Grid>
+              ))}
+            </Grid>
+          </div>
         </div>
-      </div>
+      ) : selectedBox === 1 ? (
+        <Dilemma
+          onLukk={handleLukkAktivitet}
+          onFullfor={handleTeambuildingDone}
+        />
+      ) : selectedBox === 2 ? (
+        <VisBilder
+          onLukk={handleLukkAktivitet}
+          onFullfor={handleTeambuildingDone}
+        />
+      ) : (
+        <OrdJakt
+          onLukk={handleLukkAktivitet}
+          onFullfor={handleTeambuildingDone}
+        />
+      )}
       {(showPopUpLevel3 || showPopUpLevel4) && (
         <Box
           sx={{
