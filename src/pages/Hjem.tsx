@@ -31,11 +31,9 @@ const Hjem = ({ handleSignOut }: { handleSignOut: () => Promise<void> }) => {
   const [teamLevel, setTeamLevel] = useState(0);
   const [teamNavn, setTeamNavn] = useState("Bachelorgruppe");
   const [startAktMaal, setStartAktMaal] = useState<Maalene[]>([]);
-  const [popupOverskrift, setPopupOverskrift] = useState(
-    "Husk å holde retrospektiver i slutten av hver sprint"
-  );
+  const [popupOverskrift, setPopupOverskrift] = useState("Ikke glem at:");
   const [popupTekst, setPopupTekst] = useState(
-    "Retroer er viktig får at alle på teamet får delt sine tanker og for å sette målrettede tiltak for fremtidig forbedring!"
+    "ca 58% av IT-studenter møter kriteriene for Imposter Syndrome!  "
   );
 
   const [showPopUpLevel1, setShowPopUpLevel1] = useState(false);
@@ -56,10 +54,10 @@ const Hjem = ({ handleSignOut }: { handleSignOut: () => Promise<void> }) => {
         setTeamAntall(teamInfo.antallMedlemmer);
         setRetroNummer(teamInfo.retroNummer);
 
-        if (teamInfo.positivTenking.length > 0) {
+        /*if (teamInfo.positivTenking.length > 0) {
           setPopupOverskrift("Daglig påminnelse");
           setPopupTekst(teamInfo.positivTenking);
-        }
+        }*/
       }
     } catch (error) {
       console.error("Kan ikke hente level", error);
@@ -135,8 +133,8 @@ const Hjem = ({ handleSignOut }: { handleSignOut: () => Promise<void> }) => {
       const teamDocRef = doc(firestore, teamBruker.uid, "teamInfo");
       const teamUnsubscribe = onSnapshot(teamDocRef, (querySnapshot) => {
         if (querySnapshot.data()?.positivTenking.length > 0) {
-          setPopupOverskrift("Daglig påminnelse");
-          setPopupTekst(querySnapshot.data()?.positivTenking);
+          //setPopupOverskrift("Daglig påminnelse");
+          //setPopupTekst(querySnapshot.data()?.positivTenking);
         }
       });
       return () => {
@@ -204,7 +202,7 @@ const Hjem = ({ handleSignOut }: { handleSignOut: () => Promise<void> }) => {
             <RetroButton />
           </Grid>
           <Grid item xs={12}>
-            <TeambuildingButton disabled={true} />
+            <TeambuildingButton />
           </Grid>
         </Grid>
 

@@ -1,11 +1,17 @@
-import { Button, Grid } from "@mui/material";
+import { Button } from "@mui/material";
 import img from "../images/teambuilding.svg";
-import img_disabled from "../images/teambuilding_disabled.svg";
+import { useNavigate } from "react-router-dom";
 
-const TeambuildingButton = ({ disabled }: { disabled: boolean }) => {
+const TeambuildingButton = () => {
   const imageStyle = {
     width: "30%",
     marginBottom: "3%",
+  };
+
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate("/teambuilding");
   };
 
   return (
@@ -23,13 +29,9 @@ const TeambuildingButton = ({ disabled }: { disabled: boolean }) => {
         alt="Button illustration"
         style={imageStyle}
       ></img>
-      {disabled ? (
-        <Button variant="contained" disabled>
-          TEAMBUILDING
-        </Button>
-      ) : (
-        <Button variant="contained">TEAMBUILDING</Button>
-      )}
+      <Button variant="contained" onClick={handleClick}>
+        TEAMBUILDING
+      </Button>
     </div>
   );
 };
