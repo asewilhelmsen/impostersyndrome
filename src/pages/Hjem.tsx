@@ -204,7 +204,7 @@ const Hjem = ({ handleSignOut }: { handleSignOut: () => Promise<void> }) => {
             <RetroButton />
           </Grid>
           <Grid item xs={12}>
-            <TeambuildingButton disabled={true} />
+            <TeambuildingButton />
           </Grid>
         </Grid>
 
