@@ -34,11 +34,7 @@ const LevelPopUp: React.FC<{
   });
 
   return (
-    <Modal
-      open={true}
-      onClose={onClose}
-      sx={{ "& .MuiBackdrop-root": { backgroundColor: "transparent" } }}
-    >
+    <Modal open={true} onClose={onClose}>
       <Box
         sx={{
           position: "absolute",
@@ -58,7 +54,7 @@ const LevelPopUp: React.FC<{
         }}
       >
         <Typography variant="h5">Gratulerer!</Typography>
-        <Typography variant="h5">Teamet har nådd et nytt nivå 🎉</Typography>
+        <Typography variant="h5">Teamet har nådd Nivå {level} 🎉</Typography>
         {levelImage && (
           <img width={"60%"} src={levelImage} alt={`Level ${level} image`} />
         )}

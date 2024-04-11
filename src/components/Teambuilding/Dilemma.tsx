@@ -5,7 +5,6 @@ import {
   CardContent,
   CardActions,
   Grid,
-  useMediaQuery,
   Box,
 } from "@mui/material";
 import { useEffect, useState } from "react";
@@ -36,7 +35,7 @@ const Dilemma = ({
       ["Gi opp alt av sosiale medier resten av livet "],
       ["Spise samme middag resten av livet"],
     ],
-    [["Leve 1000 tilbake i tid "], ["Leve 1000 år fram i tid "]],
+    [["Leve 1000 år tilbake i tid "], ["Leve 1000 år fram i tid "]],
   ];
 
   useEffect(() => {
@@ -72,7 +71,7 @@ const Dilemma = ({
               variant="h2"
               style={{ marginBottom: "1%", marginLeft: "5%" }}
             >
-              Dilemma
+              Dilemmaer
             </Typography>
           </Grid>
           <Grid item xs={2} style={{ textAlign: "right", paddingRight: "2%" }}>
@@ -136,7 +135,9 @@ const Dilemma = ({
                     onClick={handleNesteDilemma}
                     disabled={dilemmaIndex === dilemmaArray.length - 1}
                   >
-                    Neste
+                    {dilemmaIndex === dilemmaArray.length - 1
+                      ? "Ferdig"
+                      : "Neste"}
                   </Button>
                 </CardActions>
               </Card>

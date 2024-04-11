@@ -51,7 +51,7 @@ const OrdJakt = ({
       "V",
       "U",
       "A",
-      "L",
+      "F",
       "B",
       "P",
       "U",
@@ -250,7 +250,7 @@ const OrdJakt = ({
       "K",
       "J",
       "E",
-      "N",
+      "F",
       "N",
       "R",
       "S",
@@ -271,7 +271,7 @@ const OrdJakt = ({
       "N",
       "S",
       "O",
-      "F",
+      "X",
       "A",
       "T",
       "F",
@@ -307,7 +307,7 @@ const OrdJakt = ({
       "R",
       "N",
       "A",
-      "A",
+      "Y",
       "G",
     ],
     [
@@ -333,7 +333,7 @@ const OrdJakt = ({
       "O",
     ],
     [
-      "R",
+      "K",
       "E",
       "M",
       "F",
@@ -466,6 +466,8 @@ const OrdJakt = ({
                   backgroundColor: "white",
                   padding: "5px",
                   borderRadius: "10px",
+                  display: "flex",
+                  justifyContent: "center",
                 }}
               >
                 <table>

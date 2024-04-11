@@ -16,13 +16,13 @@ import { doc, onSnapshot } from "@firebase/firestore";
 import { firestore } from "../firebase/firebase_setup/firebase";
 import LevelPopUp from "../components/LevelPopUp";
 import handleUpdateLevel from "../firebase/handles/handleUpdateLevel";
-import handleUpdateAntallTeambuilding from "../firebase/handles/handleUpdateAntallTeambuilding";
 import DilemmaImg from "../images/DilemmaImg.svg";
 import VisBildeImg from "../images/VisBildeImg.svg";
 import Ordspill_Img from "../images/Ordspill_Img.svg";
 import Dilemma from "../components/Teambuilding/Dilemma";
 import VisBilder from "../components/Teambuilding/VisBilder";
 import OrdJakt from "../components/Teambuilding/OrdJakt";
+import handleUpdateAntallTeambuilding from "../firebase/handles/handleUpdateAntallTeambuilding";
 
 const Teambuilding = () => {
   //const [tb1Done, setTb1Done] = useState<boolean>(false); Fikse denne hvis vi trenger å disable knapp etter fullført
@@ -60,23 +60,24 @@ const Teambuilding = () => {
     //setTb1Done(true);
     setSelectedBox(null);
     handleUpdateAntallTeambuilding(antallTeambuildingGjennomfort + 1);
-    //Hvis man har gjort 2 retroer
-    if (antallRetroerGjennomfort >= 1 && antallTeambuildingGjennomfort > 1) {
-      console.log("Nivå 4 er allerede nådd");
-    } else if (antallRetroerGjennomfort > 1) {
+
+    if (antallRetroerGjennomfort === 1 && antallTeambuildingGjennomfort === 0) {
+      setShowPopUpLevel3(true);
+      handleUpdateLevel(3);
+    } else if (
+      antallRetroerGjennomfort > 1 &&
+      antallTeambuildingGjennomfort === 0
+    ) {
       setShowPopUpLevel4(true);
       handleUpdateLevel(4);
-    }
-    //hvis man har gjort 1 retro men flere teambuildingsøvelser
-    else if (
+    } else if (
       antallRetroerGjennomfort === 1 &&
-      antallTeambuildingGjennomfort > 0
+      antallTeambuildingGjennomfort === 1
     ) {
       setShowPopUpLevel4(true);
       handleUpdateLevel(4);
     } else {
-      setShowPopUpLevel3(true);
-      handleUpdateLevel(3);
+      console.log("Nivå 4 er allerede nådd!");
     }
   };
 
@@ -222,7 +223,9 @@ const Teambuilding = () => {
           <LevelPopUp
             onClose={handleClosePopUp}
             level={showPopUpLevel3 ? 3 : 4}
-            message={"Bra jobba!"}
+            message={
+              showPopUpLevel3 ? "Bra jobba!" : "Dere har fullført alle nivåene!"
+            }
           />
           <Typography
             fontSize={"14px"}
